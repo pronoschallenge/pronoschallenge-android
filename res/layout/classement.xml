@@ -9,7 +9,7 @@
 	  android:layout_height="wrap_content"
 	  android:gravity="center_horizontal"
 	  android:textSize="12pt"
-	  android:text="Classement mixte"/>
+	  android:text="Classement"/>
 	<ListView android:layout_width="fill_parent"
 	    android:id="@+id/classementList"
 	    android:layout_height="wrap_content"

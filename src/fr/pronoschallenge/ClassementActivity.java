@@ -21,18 +21,27 @@ public class ClassementActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.classement);
-
+		
 		// Obtain handles to UI objects
 		classementList = (ListView) findViewById(R.id.classementList);
 
-		classementList.setAdapter(new ClassementAdapter(this,
-				R.layout.classement_item, getClassement()));
+		//classementList.setAdapter(new ClassementAdapter(this,
+		//		R.layout.classement_item, getClassement()));
 	}
 	
-	private List<ClassementEntry> getClassement() {
+	
+	@Override
+	protected void onStart() {
+		classementList.setAdapter(new ClassementAdapter(this,
+				R.layout.classement_item, getClassement((String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType"))));
+		
+		super.onStart();
+	}
+	
+	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 		
-		String strClassement = RestClient.exec("http://www.pronoschallenge.fr/rest/classement/mixte");
+		String strClassement = RestClient.exec("http://www.pronoschallenge.fr/rest/classement/" + type);
         
 		try {
 			// A Simple JSONObject Creation
