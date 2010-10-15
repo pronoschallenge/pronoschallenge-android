@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">PronosChallenge</string>
+    <string name="app_name">PronosChallenge</string>
+    <string name="button_pronos">Pronos</string>
+    <string name="button_classements">Classements</string>
+    <string name="button_options">Options</string>
+    <string name="button_gazouillis">Gazouillis</string>
+</resources>
