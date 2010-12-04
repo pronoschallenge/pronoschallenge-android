@@ -1,5 +1,6 @@
 package fr.pronoschallenge;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.content.Context;
@@ -36,7 +37,16 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
             classementEntryPseudo.setText(classementEntry.getPseudo());
             
             TextView classementEntryPoints = (TextView)view.findViewById(R.id.classementEntryPoints);  
-            classementEntryPoints.setText(String.valueOf(classementEntry.getPoints()));
+            String points = null;
+            if(((ClassementActivity)this.getContext()).getClassementType().equals("mixte"))
+            {
+            	points = String.valueOf(new DecimalFormat("0.00").format(classementEntry.getPoints()));
+            }
+            else
+            {
+            	points = String.valueOf((int)(classementEntry.getPoints()));
+            }
+            classementEntryPoints.setText(points);
         }
         
      return view;

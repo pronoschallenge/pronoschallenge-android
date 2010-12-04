@@ -4,14 +4,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<TextView   
+	<TextView android:id="@+id/classementTitle"
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:gravity="center_horizontal"
 	  android:textSize="12pt"
 	  android:text="Classement"/>
-	<ListView android:layout_width="fill_parent"
-	    android:id="@+id/classementList"
+	<ListView android:id="@+id/classementList" 
+		android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"/>
 </LinearLayout>

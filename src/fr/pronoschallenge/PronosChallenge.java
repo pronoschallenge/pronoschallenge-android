@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class PronosChallenge extends Activity {
 
@@ -27,15 +26,16 @@ public class PronosChallenge extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		final CharSequence[] classementItems = {"Général", "Hourra", "Mixte"};
-		final String[] classementTypes = {"general", "hourra", "mixte"};
+		final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Classements");
+		builder.setTitle(getString(R.string.title_select_classement));
 		builder.setItems(classementItems, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
 		    	Intent classementIntent = new Intent();
 		    	classementIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.ClassementActivity");
 		    	classementIntent.putExtra("fr.pronoschallenge.ClassementType", classementTypes[item]);
+		    	classementIntent.putExtra("fr.pronoschallenge.ClassementTitle", classementItems[item]);
 		        startActivity(classementIntent);
 		    }
 		});

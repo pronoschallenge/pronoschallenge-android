@@ -10,11 +10,18 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 import fr.pronoschallenge.rest.RestClient;
 
 public class ClassementActivity extends Activity {
 
-	private ListView classementList;
+	final static String CLASSEMENT_TYPE_GENERAL = "general";
+	final static String CLASSEMENT_TYPE_HOURRA = "hourra";
+	final static String CLASSEMENT_TYPE_MIXTE = "mixte";
+	
+	private String classementType;
+	private TextView classementTitleTextView;
+	private ListView classementListView;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -23,17 +30,19 @@ public class ClassementActivity extends Activity {
 		setContentView(R.layout.classement);
 		
 		// Obtain handles to UI objects
-		classementList = (ListView) findViewById(R.id.classementList);
-
-		//classementList.setAdapter(new ClassementAdapter(this,
-		//		R.layout.classement_item, getClassement()));
+		classementTitleTextView = (TextView) findViewById(R.id.classementTitle);
+		classementListView = (ListView) findViewById(R.id.classementList);
 	}
 	
 	
 	@Override
 	protected void onStart() {
-		classementList.setAdapter(new ClassementAdapter(this,
-				R.layout.classement_item, getClassement((String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType"))));
+		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
+
+		classementTitleTextView.setText(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
+		
+		classementListView.setAdapter(new ClassementAdapter(this,
+				R.layout.classement_item, getClassement(classementType)));
 		
 		super.onStart();
 	}
@@ -56,7 +65,7 @@ public class ClassementActivity extends Activity {
 	        	ClassementEntry classementEntry = new ClassementEntry();
 	        	classementEntry.setPlace(jsonClassementEntry.getInt("place"));
 	        	classementEntry.setPseudo(jsonClassementEntry.getString("pseudo"));
-	        	classementEntry.setPoints(jsonClassementEntry.getInt("points"));
+	        	classementEntry.setPoints(jsonClassementEntry.getDouble("points"));
 	        	classementEntries.add(classementEntry);
 	        }
 	
@@ -66,5 +75,13 @@ public class ClassementActivity extends Activity {
         }
 		
 		return classementEntries;
+	}
+	
+	public String getClassementType() {
+		return classementType;
+	}
+
+	public void setClassementType(String classementType) {
+		this.classementType = classementType;
 	}
 }
