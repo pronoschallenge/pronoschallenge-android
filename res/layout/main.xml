@@ -5,27 +5,26 @@
     android:layout_height="fill_parent"
     >
 	<ImageView   
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:paddingTop="10px"
-		android:paddingBottom="10px"
+        android:layout_centerHorizontal="true"
 		android:src="@drawable/logo"/>
-	<Button
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent"
-	    android:id="@+id/button_pronos"
-	    android:text="@string/button_pronos" />
-	<Button
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent"
-	    android:id="@+id/button_classements"
-	    android:text="@string/button_classements" />
-	<Button
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent"
-	    android:text="@string/button_options" />
-	<Button
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent"
-	    android:text="@string/button_gazouillis" />
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/button_pronos"
+        android:text="@string/button_pronos" />
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/button_classements"
+        android:text="@string/button_classements" />
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:text="@string/button_options" />
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:text="@string/button_gazouillis" />
 </LinearLayout>
