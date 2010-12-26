@@ -3,6 +3,8 @@ package fr.pronoschallenge;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.pronoschallenge.rest.QueryBuilder;
+import fr.pronoschallenge.util.SecurityUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +51,9 @@ public class ClassementActivity extends Activity {
 	
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
-		
-		String strClassement = RestClient.exec("http://www.pronoschallenge.fr/rest/classement/" + type);
-        
+
+		String strClassement = RestClient.exec(new QueryBuilder(this.getAssets(), "/rest/classement/" + type).getUri());
+
 		try {
 			// A Simple JSONObject Creation
 	        JSONObject json = new JSONObject(strClassement);

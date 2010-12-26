@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import fr.pronoschallenge.util.AppUtil;
 
 public class PronosChallenge extends Activity {
 
@@ -43,6 +46,26 @@ public class PronosChallenge extends Activity {
 		
 		return alert;
 	}
-	
-	
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem accountMenu = menu.add(Menu.NONE, 1, Menu.NONE, "Compte");
+        accountMenu.setIcon(AppUtil.resizeImage(this, R.drawable.account_menu_icon, 32, 32));
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case 1 :
+                Intent loginIntent = new Intent();
+                loginIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.auth.LoginActivity");
+                startActivity(loginIntent);
+
+            default :
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
 }
