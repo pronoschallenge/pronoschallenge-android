@@ -1,7 +1,9 @@
 package fr.pronoschallenge;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.util.SecurityUtil;
