@@ -12,9 +12,15 @@ import android.widget.TextView;
 
 public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
 
+    public int pointsPrecedents;
+    public double pointsMixtePrecedents;
+
 	public ClassementAdapter(Context context, int textViewResourceId,
 			List<ClassementEntry> objects) {
 		super(context, textViewResourceId, objects);
+
+        pointsPrecedents = 0;
+        pointsMixtePrecedents = 0;
 	}
 
 	@Override
@@ -30,23 +36,35 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
         ClassementEntry classementEntry = getItem(position);
         if (classementEntry != null)
         {
-            TextView classementEntryPlace = (TextView)view.findViewById(R.id.classementEntryPlace);  
-            classementEntryPlace.setText(String.valueOf(classementEntry.getPlace()));
-            
             TextView classementEntryPseudo = (TextView)view.findViewById(R.id.classementEntryPseudo);  
             classementEntryPseudo.setText(classementEntry.getPseudo());
-            
+
+            int place = classementEntry.getPlace();
+            String placeAffichee = "";
+
             TextView classementEntryPoints = (TextView)view.findViewById(R.id.classementEntryPoints);  
-            String points = null;
+            String pointsAffiches = null;
+
+            double points = classementEntry.getPoints();
+            if(points != pointsMixtePrecedents)
+            {
+                placeAffichee = String.valueOf(place);
+                pointsMixtePrecedents = points;
+            }
+
             if(((ClassementActivity)this.getContext()).getClassementType().equals("mixte"))
             {
-            	points = String.valueOf(new DecimalFormat("0.00").format(classementEntry.getPoints()));
+
+                pointsAffiches = String.valueOf(new DecimalFormat("0.00").format(points));
             }
             else
             {
-            	points = String.valueOf((int)(classementEntry.getPoints()));
+                pointsAffiches = String.valueOf((int)(points));
             }
-            classementEntryPoints.setText(points);
+            classementEntryPoints.setText(pointsAffiches);
+
+            TextView classementEntryPlace = (TextView)view.findViewById(R.id.classementEntryPlace);
+            classementEntryPlace.setText(placeAffichee);
         }
         
      return view;
