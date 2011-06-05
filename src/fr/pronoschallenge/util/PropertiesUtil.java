@@ -1,12 +1,16 @@
 package fr.pronoschallenge.util;
 
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.util.Log;
-import fr.pronoschallenge.PronosChallenge;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Properties;
+
+import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * Created by IntelliJ IDEA.

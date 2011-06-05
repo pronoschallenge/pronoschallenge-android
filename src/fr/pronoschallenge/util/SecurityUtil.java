@@ -1,6 +1,5 @@
 package fr.pronoschallenge.util;
 
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 /**

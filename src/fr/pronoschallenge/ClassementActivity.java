@@ -1,12 +1,8 @@
 package fr.pronoschallenge;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import fr.pronoschallenge.rest.QueryBuilder;
-import fr.pronoschallenge.util.SecurityUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +11,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 
 public class ClassementActivity extends Activity {

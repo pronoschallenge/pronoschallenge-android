@@ -1,8 +1,9 @@
 package fr.pronoschallenge.auth;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,8 +18,6 @@ import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.SecurityUtil;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by IntelliJ IDEA.
