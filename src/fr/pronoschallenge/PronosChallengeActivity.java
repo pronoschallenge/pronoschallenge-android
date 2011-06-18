@@ -1,5 +1,8 @@
 package fr.pronoschallenge;
 
+import android.graphics.*;
+import android.view.*;
+import android.widget.*;
 import fr.pronoschallenge.util.AppUtil;
 import greendroid.app.GDActivity;
 import greendroid.widget.ActionBar.Type;
@@ -9,18 +12,17 @@ import greendroid.widget.QuickActionWidget;
 import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PronosChallengeActivity extends GDActivity {
 	
 	private QuickActionWidget classementQuickActionGrid;
+
+    private List icons = new ArrayList();
 	
 	public PronosChallengeActivity() {
 		super(Type.Normal);
@@ -31,15 +33,16 @@ public class PronosChallengeActivity extends GDActivity {
 		super.onCreate(savedInstanceState);
 		
 		//addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class));
-		
+
 		setActionBarContentView(R.layout.main);
 
-		findViewById(R.id.button_classements).setOnClickListener(
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						classementQuickActionGrid.show(v);
-					}
-				});
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+        gridView.setAdapter(new HomeMenuItemsAdapter());
+
+        icons.add(new HomeMenuItem(getString(R.string.button_pronos), BitmapFactory.decodeResource(getResources(), R.drawable.pronos)));
+        icons.add(new HomeMenuItem(getString(R.string.button_classements), BitmapFactory.decodeResource(getResources(), R.drawable.classements)));
+        icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));
+        icons.add(new HomeMenuItem(getString(R.string.button_options), BitmapFactory.decodeResource(getResources(), R.drawable.options)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
@@ -48,7 +51,51 @@ public class PronosChallengeActivity extends GDActivity {
 
         classementQuickActionGrid.setOnQuickActionClickListener(mActionListener);		
 	}
-	
+
+    public class HomeMenuItemsAdapter extends BaseAdapter {
+
+        public int getCount() {
+            return icons.size();
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View view, ViewGroup viewGroup) {
+            View menuItemView;
+
+            HomeMenuItem homeMenuItem = (HomeMenuItem) icons.get(position);
+
+            if(view == null) {
+                LayoutInflater li = getLayoutInflater();
+                menuItemView = li.inflate(R.layout.home_menu_item, null);
+            } else {
+                menuItemView = view;
+            }
+
+            ImageView imageView = (ImageView) menuItemView.findViewById(R.id.icon_image);
+            imageView.setImageBitmap(homeMenuItem.getImage());
+            TextView textView = (TextView) menuItemView.findViewById(R.id.icon_text);
+            textView.setText(homeMenuItem.getName());
+
+            if(homeMenuItem.getName().equals(getString(R.string.button_classements))) {
+                menuItemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            classementQuickActionGrid.show(v);
+                        }
+                    });
+            }
+
+            return menuItemView;
+        }
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem accountMenu = menu.add(Menu.NONE, 1, Menu.NONE, "Compte");
         accountMenu.setIcon(AppUtil.resizeImage(this, R.drawable.account_menu_icon, 32, 32));

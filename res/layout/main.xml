@@ -3,23 +3,15 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:paddingTop="15dip"
     >
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/button_pronos"
-        android:text="@string/button_pronos" />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/button_classements"
-        android:text="@string/button_classements" />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:text="@string/button_options" />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:text="@string/button_gazouillis" />
+    <GridView
+        android:id="@+id/gridView"
+		android:layout_marginTop="5dip"
+		android:layout_width="fill_parent"
+		android:layout_weight="1"
+		android:layout_height="fill_parent"
+		android:stretchMode="columnWidth"
+		android:columnWidth="90dip"
+		android:numColumns="2" />
 </LinearLayout>
