@@ -1,5 +1,8 @@
 package fr.pronoschallenge;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.app.GDActivity;
@@ -40,13 +43,12 @@ public class ClassementActivity extends GDActivity {
 
 		//classementTitleTextView.setText(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
 		setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
-		
-		classementListView.setAdapter(new ClassementAdapter(this,
-				R.layout.classement_item, getClassement(classementType)));
-		
+
+        AsyncTask task = new ClassementTask(this).execute(classementType);
+
 		super.onStart();
 	}
-	
+
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 
@@ -55,28 +57,28 @@ public class ClassementActivity extends GDActivity {
 		try {
 			// A Simple JSONObject Creation
 	        JSONObject json = new JSONObject(strClassement);
-	
+
 	        // A Simple JSONObject Parsing
 	        JSONArray classementArray = json.getJSONArray("classement");
 	        for(int i=0;i<classementArray.length();i++)
 	        {
 	        	JSONObject jsonClassementEntry = classementArray.getJSONObject(i);
-	        	
+
 	        	ClassementEntry classementEntry = new ClassementEntry();
 	        	classementEntry.setPlace(jsonClassementEntry.getInt("place"));
 	        	classementEntry.setPseudo(jsonClassementEntry.getString("pseudo"));
 	        	classementEntry.setPoints(jsonClassementEntry.getDouble("points"));
 	        	classementEntries.add(classementEntry);
 	        }
-	
+
 		} catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-		
+
 		return classementEntries;
 	}
-	
+
 	public String getClassementType() {
 		return classementType;
 	}
@@ -84,4 +86,41 @@ public class ClassementActivity extends GDActivity {
 	public void setClassementType(String classementType) {
 		this.classementType = classementType;
 	}
+
+    private class ClassementTask extends AsyncTask<String, Void, Boolean> {
+
+        final private ClassementActivity activity;
+        private List<ClassementEntry> classementEntries;
+        private ProgressDialog dialog;
+
+        private ClassementTask(ClassementActivity activity) {
+            this.activity = activity;
+            dialog = new ProgressDialog(activity);
+        }
+
+        protected void onPreExecute() {
+            this.dialog.setMessage("Chargement");
+            this.dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(final String... args) {
+
+            classementEntries = activity.getClassement(args[0]);
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries);
+            classementListView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            super.onPostExecute(success);
+        }
+    }
 }
