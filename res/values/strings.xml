@@ -12,4 +12,7 @@
     <string name="button_logout">Changer de compte</string>
     <string name="title_select_classement">Classements</string>
     <string name="title_classement">Classement</string>
+    <string name="type_classement_general">Général</string>
+    <string name="type_classement_hourra">Hourra</string>
+    <string name="type_classement_mixte">Mixte</string>
 </resources>

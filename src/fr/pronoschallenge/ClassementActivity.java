@@ -1,5 +1,9 @@
 package fr.pronoschallenge;
 
+import fr.pronoschallenge.rest.QueryBuilder;
+import fr.pronoschallenge.rest.RestClient;
+import greendroid.app.GDActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,31 +11,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
-import fr.pronoschallenge.rest.QueryBuilder;
-import fr.pronoschallenge.rest.RestClient;
 
-public class ClassementActivity extends Activity {
+public class ClassementActivity extends GDActivity {
 
 	final static String CLASSEMENT_TYPE_GENERAL = "general";
 	final static String CLASSEMENT_TYPE_HOURRA = "hourra";
 	final static String CLASSEMENT_TYPE_MIXTE = "mixte";
 	
 	private String classementType;
-	private TextView classementTitleTextView;
 	private ListView classementListView;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.classement);
+		setActionBarContentView(R.layout.classement);
 		
 		// Obtain handles to UI objects
-		classementTitleTextView = (TextView) findViewById(R.id.classementTitle);
 		classementListView = (ListView) findViewById(R.id.classementList);
 	}
 	
@@ -40,7 +38,8 @@ public class ClassementActivity extends Activity {
 	protected void onStart() {
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
 
-		classementTitleTextView.setText(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
+		//classementTitleTextView.setText(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
+		setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
 		
 		classementListView.setAdapter(new ClassementAdapter(this,
 				R.layout.classement_item, getClassement(classementType)));
