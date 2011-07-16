@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/pronoEntryEquipeDom"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+	    android:padding="7dp"
+	    android:textSize="16sp" >
+	</TextView>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:layout_centerHorizontal="true"
+              android:layout_centerVertical="true">
+        <Button
+            android:id="@+id/buttonProno1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="1"
+            android:background="@drawable/button_pronos"/>
+        <Button
+            android:id="@+id/buttonPronoN"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="N"
+            android:background="@drawable/button_pronos"
+            android:layout_marginLeft="1px"
+            android:layout_marginRight="1px"/>
+        <Button
+            android:id="@+id/buttonProno2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="2"
+            android:background="@drawable/button_pronos" />
+    </LinearLayout>
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/pronoEntryEquipeExt"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+	    android:padding="7dp"
+	    android:textSize="16sp"
+	    android:gravity="right" >
+	</TextView>
+</RelativeLayout>

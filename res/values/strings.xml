@@ -15,4 +15,5 @@
     <string name="type_classement_general">Général</string>
     <string name="type_classement_hourra">Hourra</string>
     <string name="type_classement_mixte">Mixte</string>
+    <string name="title_pronos">Pronos</string>
 </resources>

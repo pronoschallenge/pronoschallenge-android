@@ -90,6 +90,15 @@ public class PronosChallengeActivity extends GDActivity {
                             classementQuickActionGrid.show(v);
                         }
                     });
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_pronos))) {
+                menuItemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent pronosIntent = new Intent();
+                            pronosIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.PronosActivity");
+                            startActivity(pronosIntent);
+                        }
+                    });
             }
 
             return menuItemView;

@@ -12,6 +12,7 @@
 			</intent-filter>
 		</activity>
 
+        <activity android:name=".PronosActivity"></activity>
 	    <activity android:name=".ClassementActivity"></activity>
         <activity android:name=".auth.LoginActivity"></activity>
     </application>
