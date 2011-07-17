@@ -24,50 +24,48 @@ import java.util.*;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
-	public PronosAdapter(Context context, int textViewResourceId,
+    public PronosAdapter(Context context, int textViewResourceId,
                          List<PronoEntry> objects) {
-		super(context, textViewResourceId, objects);
-	}
+        super(context, textViewResourceId, objects);
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
-        
-        if (view == null)
-        {            
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+
+        if (view == null) {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //le layout représentant la ligne dans le listView
             view = li.inflate(R.layout.pronos_item, null);
-        }         
+        }
         PronoEntry pronoEntry = getItem(position);
-        if (pronoEntry != null)
-        {
-            TextView pronoEntryClubDom = (TextView)view.findViewById(R.id.pronoEntryEquipeDom);
+        if (pronoEntry != null) {
+            TextView pronoEntryClubDom = (TextView) view.findViewById(R.id.pronoEntryEquipeDom);
             pronoEntryClubDom.setText(pronoEntry.getEquipeDom());
 
             int id = pronoEntry.getId();
 
-            Button buttonProno1 = (Button)view.findViewById(R.id.buttonProno1);
+            Button buttonProno1 = (Button) view.findViewById(R.id.buttonProno1);
             buttonProno1.setTag(R.id.idProno, id);
             buttonProno1.setTag(R.id.valueProno, "1");
-            Button buttonPronoN = (Button)view.findViewById(R.id.buttonPronoN);
+            Button buttonPronoN = (Button) view.findViewById(R.id.buttonPronoN);
             buttonPronoN.setTag(R.id.idProno, id);
             buttonPronoN.setTag(R.id.valueProno, "N");
-            Button buttonProno2 = (Button)view.findViewById(R.id.buttonProno2);
+            Button buttonProno2 = (Button) view.findViewById(R.id.buttonProno2);
             buttonProno2.setTag(R.id.idProno, id);
             buttonProno2.setTag(R.id.valueProno, "2");
 
             // si le match a déjà été pronostiqué, on sélectionne le bouton correspondant
             String prono = pronoEntry.getProno();
-            if(prono.equals("1")) {
+            if (prono.equals("1")) {
                 buttonProno1.setSelected(true);
-            } else if(prono.equals("N")) {
+            } else if (prono.equals("N")) {
                 buttonPronoN.setSelected(true);
-            } else if(prono.equals("2")) {
+            } else if (prono.equals("2")) {
                 buttonProno2.setSelected(true);
             }
 
-            if(false && pronoEntry.getDate().before(new Date())) {
+            if (false && pronoEntry.getDate().before(new Date())) {
                 buttonProno1.setEnabled(false);
                 buttonPronoN.setEnabled(false);
                 buttonProno2.setEnabled(false);
@@ -77,13 +75,13 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                 buttonProno2.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
             }
 
-            TextView pronoEntryClubExt = (TextView)view.findViewById(R.id.pronoEntryEquipeExt);
+            TextView pronoEntryClubExt = (TextView) view.findViewById(R.id.pronoEntryEquipeExt);
             pronoEntryClubExt.setText(pronoEntry.getEquipeExt());
         }
-        
+
         return view;
 
-	}
+    }
 
     class PronosButtonsOnClickListener implements View.OnClickListener {
 
@@ -95,7 +93,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
         public void onClick(View button) {
             String valueProno = null;
-            if (button.isSelected()){
+            if (button.isSelected()) {
                 button.setSelected(false);
                 valueProno = "0";
             } else {
@@ -103,7 +101,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                 valueProno = (String) button.getTag(R.id.valueProno);
             }
 
-            for(View otherButton : othersButtons) {
+            for (View otherButton : othersButtons) {
                 otherButton.setSelected(false);
             }
 
@@ -122,16 +120,19 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             String url = new QueryBuilder(button.getContext().getAssets(), "/rest/pronos/" + userName).getUri();
             HttpResponse response = RestClient.postData(url, jsonDataArray.toString(), userName, password);
 
-            try {
-                String message = RestClient.convertStreamToString(response.getEntity().getContent());
-                System.out.println(message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if(response.getStatusLine().getStatusCode() != 200) {
-                Toast toast = Toast.makeText(button.getContext(), "Erreur lors de la mise à jour de vos pronostics", 4);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                Toast toast = Toast.makeText(button.getContext(), "Erreur lors de la mise à jour de vos pronostics : " + response.getStatusLine().getStatusCode(), 4);
                 toast.show();
+            } else {
+                try {
+                    String message = RestClient.convertStreamToString(response.getEntity().getContent());
+                    if(message.length() > 0) {
+                        Toast toast = Toast.makeText(button.getContext(), "Erreur lors de la mise à jour de vos pronostics : " + message, 4);
+                        toast.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
