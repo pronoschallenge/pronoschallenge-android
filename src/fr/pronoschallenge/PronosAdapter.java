@@ -47,12 +47,15 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             int id = pronoEntry.getId();
 
             Button buttonProno1 = (Button) view.findViewById(R.id.buttonProno1);
+            buttonProno1.setSelected(false);
             buttonProno1.setTag(R.id.idProno, id);
             buttonProno1.setTag(R.id.valueProno, "1");
             Button buttonPronoN = (Button) view.findViewById(R.id.buttonPronoN);
+            buttonPronoN.setSelected(false);
             buttonPronoN.setTag(R.id.idProno, id);
             buttonPronoN.setTag(R.id.valueProno, "N");
             Button buttonProno2 = (Button) view.findViewById(R.id.buttonProno2);
+            buttonProno2.setSelected(false);
             buttonProno2.setTag(R.id.idProno, id);
             buttonProno2.setTag(R.id.valueProno, "2");
 
