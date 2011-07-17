@@ -2,6 +2,8 @@ package fr.pronoschallenge;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.TextView;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.app.GDActivity;
@@ -24,6 +26,7 @@ public class ClassementActivity extends GDActivity {
 	
 	private String classementType;
 	private ListView classementListView;
+    private TextView messageTextView;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -33,6 +36,7 @@ public class ClassementActivity extends GDActivity {
 		
 		// Obtain handles to UI objects
 		classementListView = (ListView) findViewById(R.id.classementList);
+        messageTextView = (TextView) findViewById(R.id.classementMessage);
 	}
 	
 	
@@ -112,10 +116,17 @@ public class ClassementActivity extends GDActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries);
-            classementListView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-
+            if(classementEntries.size() > 0) {
+                ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries);
+                classementListView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                activity.messageTextView.setVisibility(View.INVISIBLE);
+                activity.classementListView.setVisibility(View.VISIBLE);
+            } else {
+                activity.classementListView.setVisibility(View.INVISIBLE);
+                activity.messageTextView.setText("Classement non disponible");
+                activity.messageTextView.setVisibility(View.VISIBLE);
+            }
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
