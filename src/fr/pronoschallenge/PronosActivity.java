@@ -45,7 +45,9 @@ public class PronosActivity extends GDActivity {
 	protected void onStart() {
 		setTitle(getString(R.string.title_pronos));
 
-        AsyncTask task = new PronosTask(this).execute("tomtom");
+        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+
+        AsyncTask task = new PronosTask(this).execute(userName);
 
 		super.onStart();
 	}
