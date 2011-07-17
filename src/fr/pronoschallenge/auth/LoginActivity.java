@@ -1,5 +1,6 @@
 package fr.pronoschallenge.auth;
 
+import android.preference.PreferenceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // check if an account exists
-        final SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);// getPreferences(Context.MODE_PRIVATE);
         if(preferences.contains("username") && preferences.contains("password")) {
             setContentView(R.layout.account_view);
 
@@ -115,7 +116,7 @@ public class LoginActivity extends Activity {
     private boolean checkAccount(String userName, String password) {
         boolean isValidAccount = false;
 
-        String strCompte = RestClient.exec(new QueryBuilder(this.getAssets(), "/rest/compte/" + userName + "/" + SecurityUtil.encodeMD5(password)).getUri());
+        String strCompte = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/compte/" + userName + "/" + SecurityUtil.encodeMD5(password)).getUri());
 
         try {
             JSONObject json = new JSONObject(strCompte);

@@ -1,0 +1,5 @@
+<resources>
+    <item type="id" name="idProno"/>
+    <item type="id" name="valueProno"/>
+    <item type="id" name="stateProno"/>
+</resources>

@@ -1,6 +1,5 @@
 package fr.pronoschallenge;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import fr.pronoschallenge.rest.QueryBuilder;
@@ -52,7 +51,7 @@ public class ClassementActivity extends GDActivity {
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 
-		String strClassement = RestClient.exec(new QueryBuilder(this.getAssets(), "/rest/classement/" + type).getUri());
+		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type).getUri());
 
 		try {
 			// A Simple JSONObject Creation

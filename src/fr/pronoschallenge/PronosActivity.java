@@ -3,6 +3,7 @@ package fr.pronoschallenge;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
@@ -14,7 +15,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PronosActivity extends GDActivity {
@@ -44,7 +44,7 @@ public class PronosActivity extends GDActivity {
 	private List<PronoEntry> getPronos(String userName) {
 		List<PronoEntry> pronoEntries = new ArrayList<PronoEntry>();
 
-		String strPronos = RestClient.exec(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName).getUri());
+		String strPronos = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName).getUri());
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
