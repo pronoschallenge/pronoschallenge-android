@@ -51,9 +51,7 @@ public class PronosActivity extends GDActivity {
 	}
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == RESULT_CANCELED) {
-            finish();
-        } else {
+        if(requestCode == 1) {
             String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
             String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
             if(userName == null || password == null) {
