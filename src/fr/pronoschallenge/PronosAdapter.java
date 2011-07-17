@@ -2,6 +2,7 @@ package fr.pronoschallenge;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +93,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
         }
 
         public void onClick(View button) {
+            // mise à jour des éléments graphiques
             String valueProno = null;
             if (button.isSelected()) {
                 button.setSelected(false);
@@ -104,6 +106,25 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             for (View otherButton : othersButtons) {
                 otherButton.setSelected(false);
             }
+
+            // lancement de la tâche de mise à jour de pronos
+            AsyncTask task = new PronosTask(button, othersButtons).execute(valueProno);
+        }
+    }
+
+    class PronosTask extends AsyncTask<String, Void, Boolean> {
+
+        private View button;
+        private List<View> othersButtons;
+
+        PronosTask(View button, List<View> othersButtons) {
+            this.button = button;
+            this.othersButtons = othersButtons;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... args) {
+            String valueProno = args[0];
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -134,6 +155,8 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                     e.printStackTrace();
                 }
             }
+
+            return true;
         }
     }
 }
