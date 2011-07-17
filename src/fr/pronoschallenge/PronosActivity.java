@@ -1,10 +1,12 @@
 package fr.pronoschallenge;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
+import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.app.GDActivity;
@@ -25,6 +27,13 @@ public class PronosActivity extends GDActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+        String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+        if(userName == null || password == null) {
+            startActivityForResult(new Intent(this, LoginActivity.class), 1);
+        }
+
 		setActionBarContentView(R.layout.pronos);
 		
 		// Obtain handles to UI objects
@@ -40,6 +49,18 @@ public class PronosActivity extends GDActivity {
 
 		super.onStart();
 	}
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_CANCELED) {
+            finish();
+        } else {
+            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+            String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+            if(userName == null || password == null) {
+                finish();
+            }
+        }
+    }
 
 	private List<PronoEntry> getPronos(String userName) {
 		List<PronoEntry> pronoEntries = new ArrayList<PronoEntry>();
