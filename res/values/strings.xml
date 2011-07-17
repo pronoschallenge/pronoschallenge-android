@@ -6,7 +6,7 @@
     <string name="button_classements">Classements</string>
     <string name="button_options">Options</string>
     <string name="button_gazouillis">Gazouillis</string>
-    <string name="title_login">Se connecter :</string>
+    <string name="title_login">Compte</string>
     <string name="button_login">Valider</string>
     <string name="text_login">Votre compte : </string>
     <string name="button_logout">Changer de compte</string>

@@ -1,6 +1,7 @@
 package fr.pronoschallenge.auth;
 
 import android.preference.PreferenceManager;
+import greendroid.app.GDActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ import fr.pronoschallenge.util.SecurityUtil;
  * Time: 17:08
  * To change this template use File | Settings | File Templates.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends GDActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class LoginActivity extends Activity {
         // check if an account exists
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);// getPreferences(Context.MODE_PRIVATE);
         if(preferences.contains("username") && preferences.contains("password")) {
-            setContentView(R.layout.account_view);
+            setActionBarContentView(R.layout.account_view);
 
             final TextView userNameText = (TextView) findViewById(R.id.account_view_username);
             userNameText.setText(preferences.getString("username", ""));
@@ -53,7 +54,7 @@ public class LoginActivity extends Activity {
             });
 
         } else {
-            setContentView(R.layout.account_form);
+            setActionBarContentView(R.layout.account_form);
 
             // retrieve account data
             final EditText userNameText = (EditText) findViewById(R.id.input_username);
@@ -99,6 +100,13 @@ public class LoginActivity extends Activity {
 
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        setTitle(getString(R.string.title_login));
+
+        super.onStart();
     }
 
     private void showMessage(String message) {
