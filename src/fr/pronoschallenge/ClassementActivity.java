@@ -1,11 +1,14 @@
 package fr.pronoschallenge;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
 
 import java.util.ArrayList;
@@ -28,6 +31,8 @@ public class ClassementActivity extends GDActivity {
 	private ListView classementListView;
     private TextView messageTextView;
 
+    private AlertDialog dialog;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +49,22 @@ public class ClassementActivity extends GDActivity {
 	protected void onStart() {
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
 
-		//classementTitleTextView.setText(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
-		setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
+		if(NetworkUtil.isConnected(this.getApplicationContext())) {
+            setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
 
-        AsyncTask task = new ClassementTask(this).execute(classementType);
+            AsyncTask task = new ClassementTask(this).execute(classementType);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Connexion Internet indisponible")
+                .setPositiveButton("Fermer", new DialogInterface.OnClickListener() {
+                                       public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            finish();
+                                       }
+                                   });
+            dialog = builder.create();
+            dialog.show();
+        }
 
 		super.onStart();
 	}

@@ -1,6 +1,8 @@
 package fr.pronoschallenge;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,7 +11,10 @@ import android.widget.ListView;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +27,8 @@ import java.util.List;
 public class PronosActivity extends GDActivity {
 
 	private ListView pronosListView;
+
+    private AlertDialog dialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -45,9 +52,22 @@ public class PronosActivity extends GDActivity {
 	protected void onStart() {
 		setTitle(getString(R.string.title_pronos));
 
-        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+        if(NetworkUtil.isConnected(this.getApplicationContext())) {
+            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
 
-        AsyncTask task = new PronosTask(this).execute(userName);
+            AsyncTask task = new PronosTask(this).execute(userName);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Connexion Internet indisponible")
+                .setPositiveButton("Fermer", new DialogInterface.OnClickListener() {
+                                       public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            finish();
+                                       }
+                                   });
+            dialog = builder.create();
+            dialog.show();
+        }
 
 		super.onStart();
 	}
