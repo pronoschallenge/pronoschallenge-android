@@ -69,7 +69,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                 buttonProno2.setSelected(true);
             }
 
-            if (false && pronoEntry.getDate().before(new Date())) {
+            if (pronoEntry.getDate().before(new Date())) {
                 buttonProno1.setEnabled(false);
                 buttonPronoN.setEnabled(false);
                 buttonProno2.setEnabled(false);
