@@ -14,4 +14,10 @@
         android:gravity="center"
         android:textSize="20px"
         android:visibility="gone"/>
+    <!--<Button android:id="@+id/gazouilliBoutonPlus"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:text="@string/button_gazouillis_plus"
+        android:onClick="fetchMoreGazouillis"
+        android:visibility="gone"/>-->
 </LinearLayout>
