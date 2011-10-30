@@ -42,7 +42,9 @@ public class RestClient {
         String line = null;
         try {
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+                if(!"".equals(line)) {
+                    sb.append(line + "\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

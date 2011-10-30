@@ -3,6 +3,7 @@ package fr.pronoschallenge.gazouillis;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +40,15 @@ public class GazouillisActivity extends GDActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarContentView(R.layout.gazouillis);
+
+        setTitle(getString(R.string.title_gazouillis));
+
+        // Ajout de l'item dans la barre de menu pour ajouter un gazouilli
+        ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        item.setDrawable(R.drawable.gd_action_bar_compose);
+        getActionBar().addItem(item);
+
+        setActionBarContentView(R.layout.gazouillis);
 		
 		// Obtain handles to UI objects
 		gazouillisListView = (ListView) findViewById(R.id.gazouillisList);
@@ -58,8 +69,6 @@ public class GazouillisActivity extends GDActivity {
 	@Override
 	protected void onStart() {
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            setTitle(getString(R.string.title_gazouillis));
-
             AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -188,5 +197,18 @@ public class GazouillisActivity extends GDActivity {
             }
             super.onPostExecute(success);
         }
+    }
+
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+        switch (position) {
+            case 0:
+                Intent composeGazouilliIntent = new Intent();
+                composeGazouilliIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.gazouillis.GazouilliComposerActivity");
+                startActivity(composeGazouilliIntent);
+                break;
+        }
+
+        return true;
     }
 }
