@@ -99,6 +99,15 @@ public class PronosChallengeActivity extends GDActivity {
                             startActivity(pronosIntent);
                         }
                     });
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_gazouillis))) {
+                menuItemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent gazouillisIntent = new Intent();
+                            gazouillisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.gazouillis.GazouillisActivity");
+                            startActivity(gazouillisIntent);
+                        }
+                    });
             }
 
             return menuItemView;

@@ -87,7 +87,7 @@ public class PronosActivity extends GDActivity {
 
 		String strPronos = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName).getUri());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		try {
 			// A Simple JSONObject Creation

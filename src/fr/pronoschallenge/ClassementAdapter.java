@@ -28,11 +28,11 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
 		View view = convertView;
         
         if (view == null)
-        {            
+        {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //le layout représentant la ligne dans le listView
             view = li.inflate(R.layout.classement_item, null); 
-        }         
+        }
         ClassementEntry classementEntry = getItem(position);
         if (classementEntry != null)
         {

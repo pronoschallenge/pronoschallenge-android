@@ -137,10 +137,10 @@ public class ClassementActivity extends GDActivity {
                 ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries);
                 classementListView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-                activity.messageTextView.setVisibility(View.INVISIBLE);
+                activity.messageTextView.setVisibility(View.GONE);
                 activity.classementListView.setVisibility(View.VISIBLE);
             } else {
-                activity.classementListView.setVisibility(View.INVISIBLE);
+                activity.classementListView.setVisibility(View.GONE);
                 activity.messageTextView.setText("Classement non disponible");
                 activity.messageTextView.setVisibility(View.VISIBLE);
             }
