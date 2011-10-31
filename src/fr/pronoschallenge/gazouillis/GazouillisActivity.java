@@ -119,7 +119,7 @@ public class GazouillisActivity extends GDActivity {
                 gazouillisEntry.setPseudo(jsonGazouilliEntry.getString("pseudo"));
 
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     gazouillisEntry.setDate(dateFormat.parse(jsonGazouilliEntry.getString("date")));
                 } catch (ParseException pe) {
                     pe.printStackTrace();
