@@ -8,11 +8,22 @@
         android:focusable="true"
         android:padding="3dp"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:gravity="top"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:inputType="textCapSentences|textMultiLine"
+        android:gravity="top"
+        android:textSize="20px"/>
     <LinearLayout android:orientation="horizontal"
-        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp">
+        <TextView android:id="@+id/characterCountGazouilli"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="20px"
+            android:textStyle="bold"/>
         <Button android:text="@string/button_gazouilli_send" android:layout_width="0dip"
             android:layout_weight="1" android:layout_height="40dp"
             android:singleLine="true" android:id="@+id/composeGazouilliSendButton"

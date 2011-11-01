@@ -15,7 +15,8 @@
         <activity android:name=".PronosActivity"></activity>
 	    <activity android:name=".ClassementActivity"></activity>
         <activity android:name=".gazouillis.GazouillisActivity"></activity>
-        <activity android:name=".gazouillis.GazouilliComposerActivity"></activity>
+        <activity android:name=".gazouillis.GazouilliComposerActivity"
+                android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".auth.LoginActivity"></activity>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
