@@ -63,11 +63,8 @@ public class GazouillisActivity extends GDActivity {
         });
 
         gazouillisListView.addFooterView(plusButton);
-	}
-	
-	
-	@Override
-	protected void onStart() {
+
+
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
             AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
         } else {
@@ -83,7 +80,6 @@ public class GazouillisActivity extends GDActivity {
             dialog.show();
         }
 
-		super.onStart();
 	}
 
     public void fetchMoreGazouillis(View view) {
