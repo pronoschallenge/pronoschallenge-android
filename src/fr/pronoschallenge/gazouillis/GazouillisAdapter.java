@@ -9,7 +9,6 @@ import android.widget.TextView;
 import fr.pronoschallenge.R;
 import greendroid.widget.AsyncImageView;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 

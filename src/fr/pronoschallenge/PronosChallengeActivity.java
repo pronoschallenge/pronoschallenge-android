@@ -32,8 +32,6 @@ public class PronosChallengeActivity extends GDActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class));
-
 		setActionBarContentView(R.layout.main);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);

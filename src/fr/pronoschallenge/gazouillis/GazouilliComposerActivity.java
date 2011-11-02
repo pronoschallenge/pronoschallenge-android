@@ -1,6 +1,5 @@
 package fr.pronoschallenge.gazouillis;
 
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,8 +14,6 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.app.GDActivity;
 import org.apache.http.HttpResponse;
-
-import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -89,8 +86,6 @@ public class GazouilliComposerActivity extends GDActivity {
         if (response.getStatusLine().getStatusCode() != 200) {
             Toast toast = Toast.makeText(view.getContext(), "Erreur lors de l'ajout du gazouilli : " + response.getStatusLine().getStatusCode(), 4);
             toast.show();
-
-            return;
         } else {
             try {
                 String message = RestClient.convertStreamToString(response.getEntity().getContent());

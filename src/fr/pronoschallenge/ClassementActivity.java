@@ -31,8 +31,6 @@ public class ClassementActivity extends GDActivity {
 	private ListView classementListView;
     private TextView messageTextView;
 
-    private AlertDialog dialog;
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class ClassementActivity extends GDActivity {
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
             setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
 
-            AsyncTask task = new ClassementTask(this).execute(classementType);
+            new ClassementTask(this).execute(classementType);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -62,7 +60,7 @@ public class ClassementActivity extends GDActivity {
                                             finish();
                                        }
                                    });
-            dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
         }
 

@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
@@ -19,11 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class GazouillisActivity extends GDActivity {
@@ -31,8 +32,6 @@ public class GazouillisActivity extends GDActivity {
 	private ListView gazouillisListView;
     private TextView messageTextView;
     private Button plusButton;
-
-    private AlertDialog dialog;
 
     private int debut = 0;
 
@@ -58,7 +57,7 @@ public class GazouillisActivity extends GDActivity {
         plusButton.setText(R.string.button_gazouillis_plus);
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                fetchMoreGazouillis(v);
+                fetchMoreGazouillis();
             }
         });
 
@@ -66,7 +65,7 @@ public class GazouillisActivity extends GDActivity {
 
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
+            new GazouillisTask(this).execute(String.valueOf(debut));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -76,22 +75,22 @@ public class GazouillisActivity extends GDActivity {
                                             finish();
                                        }
                                    });
-            dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
         }
 
 	}
 
-    public void fetchMoreGazouillis(View view) {
+    public void fetchMoreGazouillis() {
         debut += 10;
 
-        AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
+        new GazouillisTask(this).execute(String.valueOf(debut));
     }
 
     /**
      * Get the gazouillis by calling the REST service
-     * @param debut
-     * @return
+     * @param debut Index of the first gazouilli to retrieve
+     * @return List of gzouillis
      */
 	private List<GazouillisEntry> getGazouillis(String debut) {
 		List<GazouillisEntry> gazouillisEntries = new ArrayList<GazouillisEntry>();
@@ -163,7 +162,7 @@ public class GazouillisActivity extends GDActivity {
                 // Une fois qu'un header ou un footer a été ajouté à la liste,
                 // l'adpater d'origine est wrappé par un HeaderViewListAdapter.
                 // Il faut donc différencier les 2 cas.
-                GazouillisAdapter adapter = null;
+                GazouillisAdapter adapter;
                 if(gazouillisListView.getAdapter() instanceof HeaderViewListAdapter) {
                     adapter = (GazouillisAdapter) ((HeaderViewListAdapter) gazouillisListView.getAdapter()).getWrappedAdapter();
                 } else {
@@ -175,7 +174,6 @@ public class GazouillisActivity extends GDActivity {
                     activity.messageTextView.setVisibility(View.GONE);
                     activity.gazouillisListView.setVisibility(View.VISIBLE);
                     activity.plusButton.setVisibility(View.VISIBLE);
-                    //gazouillisListView.addFooterView(plusButton);
                 } else {
                     for(GazouillisEntry gazouilli : gazouillisEntries) {
                         adapter.add(gazouilli);

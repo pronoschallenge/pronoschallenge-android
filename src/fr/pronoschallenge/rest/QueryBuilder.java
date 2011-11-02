@@ -5,10 +5,9 @@ import fr.pronoschallenge.util.PropertiesUtil;
 
 /**
  * Created by IntelliJ IDEA.
- * User: thomas
+ * User: Thomas Delhoménie
  * Date: 26/12/10
  * Time: 11:40
- * To change this template use File | Settings | File Templates.
  */
 public class QueryBuilder {
 

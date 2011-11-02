@@ -1,14 +1,6 @@
 package fr.pronoschallenge.rest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import android.util.Log;
 import fr.pronoschallenge.util.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,11 +13,17 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class RestClient {
 
@@ -39,11 +37,11 @@ public class RestClient {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 if(!"".equals(line)) {
-                    sb.append(line + "\n");
+                    sb.append(line).append("\n");
                 }
             }
         } catch (IOException e) {
@@ -60,6 +58,7 @@ public class RestClient {
 
     /**
      * @param url
+     * @return
      */
     public static String get(String url) {
         String result = null;
@@ -156,7 +155,6 @@ public class RestClient {
 
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
-        } finally {
         }
 
         return response;
@@ -188,7 +186,6 @@ public class RestClient {
 
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
-        } finally {
         }
 
         return response;

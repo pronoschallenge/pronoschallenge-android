@@ -4,10 +4,9 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: thomas
+ * User: Thomas Delhoménie
  * Date: 19/12/10
  * Time: 19:38
- * To change this template use File | Settings | File Templates.
  */
 public class SecurityUtil {
 

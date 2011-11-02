@@ -13,8 +13,6 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
-import greendroid.widget.ActionBar;
-import greendroid.widget.ActionBarItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +25,6 @@ import java.util.List;
 public class PronosActivity extends GDActivity {
 
 	private ListView pronosListView;
-
-    private AlertDialog dialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,7 +51,7 @@ public class PronosActivity extends GDActivity {
         if(NetworkUtil.isConnected(this.getApplicationContext())) {
             String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
 
-            AsyncTask task = new PronosTask(this).execute(userName);
+            new PronosTask(this).execute(userName);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -65,7 +61,7 @@ public class PronosActivity extends GDActivity {
                                             finish();
                                        }
                                    });
-            dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
         }
 
