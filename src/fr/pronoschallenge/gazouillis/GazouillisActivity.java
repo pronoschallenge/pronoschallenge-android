@@ -47,6 +47,12 @@ public class GazouillisActivity extends GDActivity {
         item.setDrawable(R.drawable.gd_action_bar_compose);
         getActionBar().addItem(item);
 
+        // Ajout de l'item dans la barre de menu pour rafraichir la liste des gazouillis
+        ActionBarItem itemRefresh = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        itemRefresh.setDrawable(R.drawable.gd_action_bar_refresh);
+        getActionBar().addItem(itemRefresh);
+
+
         setActionBarContentView(R.layout.gazouillis);
 		
 		// Obtain handles to UI objects
@@ -200,6 +206,19 @@ public class GazouillisActivity extends GDActivity {
                 Intent composeGazouilliIntent = new Intent();
                 composeGazouilliIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.gazouillis.GazouilliComposerActivity");
                 startActivity(composeGazouilliIntent);
+                break;
+            case 1:
+                GazouillisAdapter adapter;
+                if(gazouillisListView.getAdapter() instanceof HeaderViewListAdapter) {
+                    adapter = (GazouillisAdapter) ((HeaderViewListAdapter) gazouillisListView.getAdapter()).getWrappedAdapter();
+                } else {
+                    adapter = (GazouillisAdapter) gazouillisListView.getAdapter();
+                }
+                if(adapter != null) {
+                    adapter.clear();
+                }
+                debut = 0;
+                new GazouillisTask(this).execute(String.valueOf(debut));
                 break;
         }
 
