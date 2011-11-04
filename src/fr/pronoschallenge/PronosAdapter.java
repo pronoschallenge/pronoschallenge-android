@@ -1,9 +1,11 @@
 package fr.pronoschallenge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
+import greendroid.app.GDActivity;
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,9 +77,9 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                 buttonPronoN.setEnabled(false);
                 buttonProno2.setEnabled(false);
             } else {
-                buttonProno1.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
-                buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
-                buttonProno2.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
+                buttonProno1.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.getContext(), new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
+                buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.getContext(), new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
+                buttonProno2.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.getContext(), new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
             }
 
             TextView pronoEntryClubExt = (TextView) view.findViewById(R.id.pronoEntryEquipeExt);
@@ -89,9 +92,11 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
     class PronosButtonsOnClickListener implements View.OnClickListener {
 
+        Activity activity;
         List<View> othersButtons = null;
 
-        PronosButtonsOnClickListener(List<View> othersButtons) {
+        PronosButtonsOnClickListener(Activity activity, List<View> othersButtons) {
+            this.activity = activity;
             this.othersButtons = othersButtons;
         }
 
@@ -111,18 +116,39 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             }
 
             // lancement de la tâche de mise à jour de pronos
-            new PronosTask(button, othersButtons).execute(valueProno);
+            new PronosTask(activity, button, othersButtons).execute(valueProno);
         }
     }
 
     class PronosTask extends AsyncTask<String, Void, Boolean> {
 
+        private Activity activity;
         private View button;
         private List<View> othersButtons;
+        private int nbOfProcess;
 
-        PronosTask(View button, List<View> othersButtons) {
+        PronosTask(Activity activity, View button, List<View> othersButtons) {
+            this.activity = activity;
             this.button = button;
             this.othersButtons = othersButtons;
+            this.nbOfProcess = 0;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if(nbOfProcess++ == 0) {
+                ((GDActivity) activity).getActionBar().showLoader();
+            }
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(--nbOfProcess == 0) {
+                ((GDActivity) activity).getActionBar().hideLoader();
+            }
+            super.onPostExecute(aBoolean);
         }
 
         @Override
