@@ -61,12 +61,25 @@ public class RestClient {
      * @return
      */
     public static String get(String url) {
+        return get(url, null, null);
+    }
+
+    /**
+     * @param url
+     * @return
+     */
+    public static String get(String url, String username, String password) {
         String result = null;
 
         HttpClient httpclient = new DefaultHttpClient();
 
         // Prepare a request object
         HttpGet httpget = new HttpGet(url);
+
+        if (username != null && password != null) {
+            String encodedCredentials = Base64.encodeBytes((username+":"+password).getBytes());
+            httpget.setHeader("Authorization", "Basic " + encodedCredentials);
+        }
 
         // Execute the request
         HttpResponse response;
@@ -86,25 +99,6 @@ public class RestClient {
                 InputStream instream = entity.getContent();
                 result = convertStreamToString(instream);
                 Log.i("PronosChallenge", result);
-
-                /*
-                // A Simple JSONObject Creation
-                JSONObject json=new JSONObject(result);
-                Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
- 
-                // A Simple JSONObject Parsing
-                JSONArray nameArray=json.names();
-                JSONArray valArray=json.toJSONArray(nameArray);
-                for(int i=0;i<valArray.length();i++)
-                {
-                    Log.i("Praeda","<jsonname"+i+">\n"+nameArray.getString(i)+"\n</jsonname"+i+">\n"
-                            +"<jsonvalue"+i+">\n"+valArray.getString(i)+"\n</jsonvalue"+i+">");
-                }
- 
-                // A Simple JSONObject Value Pushing
-                json.put("sample key", "sample value");
-                Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
- 				*/
 
                 // Closing the input stream will trigger connection release
                 instream.close();

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="strategies_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="strategies">
+        <item>Tout à domicile</item>
+        <item>Tout à nul</item>
+        <item>Tout à l\'extérieur</item>
+    </string-array>
+</resources>
