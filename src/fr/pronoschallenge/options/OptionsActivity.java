@@ -1,5 +1,6 @@
 package fr.pronoschallenge.options;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -7,10 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
@@ -63,7 +67,11 @@ public class OptionsActivity extends PreferenceActivity {
                 return true;
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
 
         if(NetworkUtil.isConnected(this.getApplicationContext())) {
             new GetStrategieTask(this).execute(userName);
@@ -80,6 +88,7 @@ public class OptionsActivity extends PreferenceActivity {
             dialog.show();
         }
 
+        super.onResume();
     }
 
     /**
@@ -153,10 +162,27 @@ public class OptionsActivity extends PreferenceActivity {
      * @param strategie
      * @return
      */
-    private void updateStrategie(String strategie) {
+    private void updateStrategie(String strategie, Activity activity) {
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
         HttpResponse response = RestClient.postData(new QueryBuilder(this.getAssets(), "/rest/strategie/" + userName).getUri(), strategie, userName, password);
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+            Toast toast = Toast.makeText(activity, "Erreur lors de la mise à jour de votre stratégie : " + response.getStatusLine().getStatusCode(), 4);
+            toast.show();
+        } else {
+            try {
+                String message = RestClient.convertStreamToString(response.getEntity().getContent());
+                if(message.length() > 0) {
+                    Toast toast = Toast.makeText(activity, message, 4);
+                    toast.show();
+                } else {
+                    this.finish();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -195,9 +221,13 @@ public class OptionsActivity extends PreferenceActivity {
         @Override
         protected void onPostExecute(Boolean success) {
 
-            SharedPreferences.Editor editor = findPreference("strategie").getEditor();
+            ListPreference strategiePreference = (ListPreference) findPreference("strategie");
+
+            SharedPreferences.Editor editor = strategiePreference.getEditor();
             editor.putString("strategie", strategie);
             editor.commit();
+
+            strategiePreference.setSummary(strategiePreference.getEntry());
 
             if (dialog.isShowing()) {
                 dialog.dismiss();
@@ -227,16 +257,20 @@ public class OptionsActivity extends PreferenceActivity {
 
          @Override
          protected Boolean doInBackground(String... strings) {
-             activity.updateStrategie(strings[0]);
+             activity.updateStrategie(strings[0], activity);
 
              return true;
          }
 
          @Override
          protected void onPostExecute(Boolean success) {
+            ListPreference strategiePreference = (ListPreference) findPreference("strategie");
+            strategiePreference.setSummary(strategiePreference.getEntry());
+
              if (dialog.isShowing()) {
                  dialog.dismiss();
              }
+
              super.onPostExecute(success);
          }
      }
