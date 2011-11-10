@@ -106,6 +106,15 @@ public class PronosChallengeActivity extends GDActivity {
                             startActivity(gazouillisIntent);
                         }
                     });
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_options))) {
+                menuItemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent optionsIntent = new Intent();
+                            optionsIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.options.OptionsActivity");
+                            startActivity(optionsIntent);
+                        }
+                    });
             }
 
             return menuItemView;
