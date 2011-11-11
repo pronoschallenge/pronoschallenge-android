@@ -3,24 +3,28 @@ package fr.pronoschallenge.gazouillis;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class GazouillisActivity extends GDActivity {
@@ -29,15 +33,27 @@ public class GazouillisActivity extends GDActivity {
     private TextView messageTextView;
     private Button plusButton;
 
-    private AlertDialog dialog;
-
     private int debut = 0;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setActionBarContentView(R.layout.gazouillis);
+
+        setTitle(getString(R.string.title_gazouillis));
+
+        // Ajout de l'item dans la barre de menu pour ajouter un gazouilli
+        ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        item.setDrawable(R.drawable.gd_action_bar_compose);
+        getActionBar().addItem(item);
+
+        // Ajout de l'item dans la barre de menu pour rafraichir la liste des gazouillis
+        ActionBarItem itemRefresh = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        itemRefresh.setDrawable(R.drawable.gd_action_bar_refresh);
+        getActionBar().addItem(itemRefresh);
+
+
+        setActionBarContentView(R.layout.gazouillis);
 		
 		// Obtain handles to UI objects
 		gazouillisListView = (ListView) findViewById(R.id.gazouillisList);
@@ -47,20 +63,15 @@ public class GazouillisActivity extends GDActivity {
         plusButton.setText(R.string.button_gazouillis_plus);
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                fetchMoreGazouillis(v);
+                fetchMoreGazouillis();
             }
         });
 
         gazouillisListView.addFooterView(plusButton);
-	}
-	
-	
-	@Override
-	protected void onStart() {
-		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            setTitle(getString(R.string.title_gazouillis));
 
-            AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
+
+		if(NetworkUtil.isConnected(this.getApplicationContext())) {
+            new GazouillisTask(this).execute(String.valueOf(debut));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -70,23 +81,22 @@ public class GazouillisActivity extends GDActivity {
                                             finish();
                                        }
                                    });
-            dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
         }
 
-		super.onStart();
 	}
 
-    public void fetchMoreGazouillis(View view) {
+    public void fetchMoreGazouillis() {
         debut += 10;
 
-        AsyncTask task = new GazouillisTask(this).execute(String.valueOf(debut));
+        new GazouillisTask(this).execute(String.valueOf(debut));
     }
 
     /**
      * Get the gazouillis by calling the REST service
-     * @param debut
-     * @return
+     * @param debut Index of the first gazouilli to retrieve
+     * @return List of gzouillis
      */
 	private List<GazouillisEntry> getGazouillis(String debut) {
 		List<GazouillisEntry> gazouillisEntries = new ArrayList<GazouillisEntry>();
@@ -110,7 +120,7 @@ public class GazouillisActivity extends GDActivity {
                 gazouillisEntry.setPseudo(jsonGazouilliEntry.getString("pseudo"));
 
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     gazouillisEntry.setDate(dateFormat.parse(jsonGazouilliEntry.getString("date")));
                 } catch (ParseException pe) {
                     pe.printStackTrace();
@@ -158,7 +168,7 @@ public class GazouillisActivity extends GDActivity {
                 // Une fois qu'un header ou un footer a été ajouté à la liste,
                 // l'adpater d'origine est wrappé par un HeaderViewListAdapter.
                 // Il faut donc différencier les 2 cas.
-                GazouillisAdapter adapter = null;
+                GazouillisAdapter adapter;
                 if(gazouillisListView.getAdapter() instanceof HeaderViewListAdapter) {
                     adapter = (GazouillisAdapter) ((HeaderViewListAdapter) gazouillisListView.getAdapter()).getWrappedAdapter();
                 } else {
@@ -170,7 +180,6 @@ public class GazouillisActivity extends GDActivity {
                     activity.messageTextView.setVisibility(View.GONE);
                     activity.gazouillisListView.setVisibility(View.VISIBLE);
                     activity.plusButton.setVisibility(View.VISIBLE);
-                    //gazouillisListView.addFooterView(plusButton);
                 } else {
                     for(GazouillisEntry gazouilli : gazouillisEntries) {
                         adapter.add(gazouilli);
@@ -188,5 +197,31 @@ public class GazouillisActivity extends GDActivity {
             }
             super.onPostExecute(success);
         }
+    }
+
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+        switch (position) {
+            case 0:
+                Intent composeGazouilliIntent = new Intent();
+                composeGazouilliIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.gazouillis.GazouilliComposerActivity");
+                startActivity(composeGazouilliIntent);
+                break;
+            case 1:
+                GazouillisAdapter adapter;
+                if(gazouillisListView.getAdapter() instanceof HeaderViewListAdapter) {
+                    adapter = (GazouillisAdapter) ((HeaderViewListAdapter) gazouillisListView.getAdapter()).getWrappedAdapter();
+                } else {
+                    adapter = (GazouillisAdapter) gazouillisListView.getAdapter();
+                }
+                if(adapter != null) {
+                    adapter.clear();
+                }
+                debut = 0;
+                new GazouillisTask(this).execute(String.valueOf(debut));
+                break;
+        }
+
+        return true;
     }
 }

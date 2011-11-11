@@ -19,4 +19,7 @@
     <string name="title_gazouillis">Gazouillis</string>
     <string name="button_gazouillis_plus">Plus</string>
     <string name="title_profil">Information profil</string>
+    <string name="title_gazouilli">Gazouilli</string>
+    <string name="button_gazouilli_send">Envoyer</string>
+    <string name="title_options">Options</string>
 </resources>

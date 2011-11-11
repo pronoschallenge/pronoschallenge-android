@@ -97,7 +97,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
         public void onClick(View button) {
             // mise à jour des éléments graphiques
-            String valueProno = null;
+            String valueProno;
             if (button.isSelected()) {
                 button.setSelected(false);
                 valueProno = "0";
@@ -111,7 +111,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             }
 
             // lancement de la tâche de mise à jour de pronos
-            AsyncTask task = new PronosTask(button, othersButtons).execute(valueProno);
+            new PronosTask(button, othersButtons).execute(valueProno);
         }
     }
 

@@ -9,10 +9,9 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Created by IntelliJ IDEA.
- * User: thomas
+ * User: Thomas Delhoménie
  * Date: 18/12/10
  * Time: 18:41
- * To change this template use File | Settings | File Templates.
  */
 public class AppUtil {
     public static Drawable resizeImage(Context ctx, int resId, int w, int h) {
@@ -23,12 +22,10 @@ public class AppUtil {
 
         int width = bitmapOrg.getWidth();
         int height = bitmapOrg.getHeight();
-        int newWidth = w;
-        int newHeight = h;
 
         // calculate the scale
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
+        float scaleWidth = ((float) w) / width;
+        float scaleHeight = ((float) h) / height;
 
         // create a matrix for the manipulation
         Matrix matrix = new Matrix();

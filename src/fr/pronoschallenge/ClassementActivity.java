@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import greendroid.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ public class ClassementActivity extends GDActivity {
 	private ListView classementListView;
     private TextView messageTextView;
 
-    private AlertDialog dialog;
+    private QuickActionWidget classementQuickActionGrid;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -69,17 +70,35 @@ public class ClassementActivity extends GDActivity {
 					startActivityForResult(intent, 0);
 			}
         });
-	}
-	
-	
-	@Override
-	protected void onStart() {
+
+        // menu pour switcher entre les classements
+        classementQuickActionGrid = new QuickActionGrid(this);
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_hourra));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_mixte));
+
+        classementQuickActionGrid.setOnQuickActionClickListener(new QuickActionWidget.OnQuickActionClickListener() {
+            public void onQuickActionClicked(QuickActionWidget widget, int position) {
+                final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte)};
+                final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
+                ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
+                classementActivity.setTitle(getString(R.string.title_classement) + " " + classementItems[position]);
+
+                new ClassementTask(classementActivity).execute(classementTypes[position]);
+            }
+        });
+
+        // Ajout de l'item dans la barre de menu pour changer de classement
+        ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        item.setDrawable(R.drawable.gd_action_bar_list);
+        getActionBar().addItem(item);
+
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
             setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
 
-            AsyncTask task = new ClassementTask(this).execute(classementType);
+            new ClassementTask(this).execute(classementType);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -89,11 +108,9 @@ public class ClassementActivity extends GDActivity {
                                             finish();
                                        }
                                    });
-            dialog = builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
         }
-
-		super.onStart();
 	}
 
 	private List<ClassementEntry> getClassement(String type) {
@@ -125,6 +142,17 @@ public class ClassementActivity extends GDActivity {
 
 		return classementEntries;
 	}
+
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+        switch (position) {
+            case 0:
+                classementQuickActionGrid.show(item.getItemView());
+                break;
+        }
+
+        return true;
+    }
 
 	public String getClassementType() {
 		return classementType;

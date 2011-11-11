@@ -32,8 +32,6 @@ public class PronosChallengeActivity extends GDActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class));
-
 		setActionBarContentView(R.layout.main);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
@@ -108,6 +106,15 @@ public class PronosChallengeActivity extends GDActivity {
                             startActivity(gazouillisIntent);
                         }
                     });
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_options))) {
+                menuItemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent optionsIntent = new Intent();
+                            optionsIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.options.OptionsActivity");
+                            startActivity(optionsIntent);
+                        }
+                    });
             }
 
             return menuItemView;
@@ -138,7 +145,7 @@ public class PronosChallengeActivity extends GDActivity {
 
     private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
-    		final CharSequence[] classementItems = {"Général", "Hourra", "Mixte"};
+    		final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte)};
     		final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
             Intent classementIntent = new Intent();
 	    	classementIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.ClassementActivity");
@@ -147,24 +154,4 @@ public class PronosChallengeActivity extends GDActivity {
 	        startActivity(classementIntent);
         }
     };
-	
-    private static class ClassementQuickAction extends QuickAction {
-        
-        private static final ColorFilter BLACK_CF = new LightingColorFilter(Color.BLACK, Color.BLACK);
-
-        public ClassementQuickAction(Context ctx, Drawable drawable, int titleId) {
-            super(ctx, drawable, titleId);
-        }
-        
-        public ClassementQuickAction(Context ctx, int drawableId, int titleId) {
-            super(ctx, buildDrawable(ctx, drawableId), titleId);
-        }
-        
-        private static Drawable buildDrawable(Context ctx, int drawableId) {
-            Drawable d = ctx.getResources().getDrawable(drawableId);
-            d.setColorFilter(BLACK_CF);
-            return d;
-        }
-        
-    }
 }

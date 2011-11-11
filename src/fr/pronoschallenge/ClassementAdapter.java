@@ -43,7 +43,7 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
             String placeAffichee = "";
 
             TextView classementEntryPoints = (TextView)view.findViewById(R.id.classementEntryPoints);  
-            String pointsAffiches = null;
+            String pointsAffiches;
 
             double points = classementEntry.getPoints();
             if(points != pointsMixtePrecedents)

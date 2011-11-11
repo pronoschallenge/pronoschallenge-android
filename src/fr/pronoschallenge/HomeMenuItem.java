@@ -4,10 +4,9 @@ import android.graphics.Bitmap;
 
 /**
  * Created by IntelliJ IDEA.
- * User: thomas
+ * User: Thomas Delhoménie
  * Date: 18/06/11
  * Time: 15:49
- * To change this template use File | Settings | File Templates.
  */
 public class HomeMenuItem {
     private String name;

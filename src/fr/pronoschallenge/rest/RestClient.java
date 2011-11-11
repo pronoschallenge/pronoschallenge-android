@@ -1,14 +1,6 @@
 package fr.pronoschallenge.rest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import android.util.Log;
 import fr.pronoschallenge.util.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,11 +13,17 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class RestClient {
 
@@ -39,10 +37,12 @@ public class RestClient {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+                if(!"".equals(line)) {
+                    sb.append(line).append("\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,14 +58,28 @@ public class RestClient {
 
     /**
      * @param url
+     * @return
      */
     public static String get(String url) {
+        return get(url, null, null);
+    }
+
+    /**
+     * @param url
+     * @return
+     */
+    public static String get(String url, String username, String password) {
         String result = null;
 
         HttpClient httpclient = new DefaultHttpClient();
 
         // Prepare a request object
         HttpGet httpget = new HttpGet(url);
+
+        if (username != null && password != null) {
+            String encodedCredentials = Base64.encodeBytes((username+":"+password).getBytes());
+            httpget.setHeader("Authorization", "Basic " + encodedCredentials);
+        }
 
         // Execute the request
         HttpResponse response;
@@ -85,25 +99,6 @@ public class RestClient {
                 InputStream instream = entity.getContent();
                 result = convertStreamToString(instream);
                 Log.i("PronosChallenge", result);
-
-                /*
-                // A Simple JSONObject Creation
-                JSONObject json=new JSONObject(result);
-                Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
- 
-                // A Simple JSONObject Parsing
-                JSONArray nameArray=json.names();
-                JSONArray valArray=json.toJSONArray(nameArray);
-                for(int i=0;i<valArray.length();i++)
-                {
-                    Log.i("Praeda","<jsonname"+i+">\n"+nameArray.getString(i)+"\n</jsonname"+i+">\n"
-                            +"<jsonvalue"+i+">\n"+valArray.getString(i)+"\n</jsonvalue"+i+">");
-                }
- 
-                // A Simple JSONObject Value Pushing
-                json.put("sample key", "sample value");
-                Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
- 				*/
 
                 // Closing the input stream will trigger connection release
                 instream.close();
@@ -154,7 +149,6 @@ public class RestClient {
 
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
-        } finally {
         }
 
         return response;
@@ -186,7 +180,6 @@ public class RestClient {
 
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
-        } finally {
         }
 
         return response;

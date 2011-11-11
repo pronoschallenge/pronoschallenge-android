@@ -9,7 +9,6 @@ import android.widget.TextView;
 import fr.pronoschallenge.R;
 import greendroid.widget.AsyncImageView;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class GazouillisAdapter extends ArrayAdapter<GazouillisEntry> {
             TextView gazouillisEntryMembreTextView = (TextView)view.findViewById(R.id.gazouilliEntryMembre);
             gazouillisEntryMembreTextView.setText(gazouillisEntry.getPseudo());
             // Date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:MM");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             TextView gazouillisEntryDateTextView = (TextView)view.findViewById(R.id.gazouilliEntryDate);
             gazouillisEntryDateTextView.setText(dateFormat.format(gazouillisEntry.getDate()));
         }
