@@ -13,6 +13,7 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.PagedView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,12 +25,14 @@ import java.util.List;
 
 public class PronosActivity extends GDActivity {
 
-	private ListView pronosListView;
+	private PagedView pronosListView;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        setTitle(getString(R.string.title_pronos));
 
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
@@ -40,17 +43,9 @@ public class PronosActivity extends GDActivity {
 		setActionBarContentView(R.layout.pronos);
 		
 		// Obtain handles to UI objects
-		pronosListView = (ListView) findViewById(R.id.pronoList);
-	}
-	
-	
-	@Override
-	protected void onStart() {
-		setTitle(getString(R.string.title_pronos));
+		pronosListView = (PagedView) findViewById(R.id.pronoList);
 
         if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
-
             new PronosTask(this).execute(userName);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -65,7 +60,6 @@ public class PronosActivity extends GDActivity {
             dialog.show();
         }
 
-		super.onStart();
 	}
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,7 +113,7 @@ public class PronosActivity extends GDActivity {
     private class PronosTask extends AsyncTask<String, Void, Boolean> {
 
         final private PronosActivity activity;
-        private List<PronoEntry> pronoEntries;
+        private List<List<PronoEntry>> pagedPronoEntries;
         private ProgressDialog dialog;
 
         private PronosTask(PronosActivity activity) {
@@ -135,14 +129,28 @@ public class PronosActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            pronoEntries = activity.getPronos(args[0]);
+            List<PronoEntry> pronoEntries = activity.getPronos(args[0]);
+
+            pagedPronoEntries = new ArrayList<List<PronoEntry>>();
+            List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
+            int count = 0;
+            for(PronoEntry prono : pronoEntries) {
+                if(count > 0 && count%10 == 0) {
+                    pagedPronoEntries.add(pagePronos);
+                    pagePronos = new ArrayList<PronoEntry>();
+                }
+
+                pagePronos.add(prono);
+                count++;
+            }
+
 
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            PronosAdapter adapter = new PronosAdapter(activity,	R.layout.pronos_item, pronoEntries);
+            PronosPagesAdapter adapter = new PronosPagesAdapter(activity, R.layout.pronos_page_item, pagedPronoEntries);
             pronosListView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
