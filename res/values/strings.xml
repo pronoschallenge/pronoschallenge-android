@@ -18,4 +18,5 @@
     <string name="title_pronos">Pronos</string>
     <string name="title_gazouillis">Gazouillis</string>
     <string name="button_gazouillis_plus">Plus</string>
+    <string name="title_profil">Information profil</string>
 </resources>

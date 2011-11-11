@@ -3,8 +3,11 @@ package fr.pronoschallenge;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
@@ -12,6 +15,7 @@ import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -42,6 +46,29 @@ public class ClassementActivity extends GDActivity {
 		// Obtain handles to UI objects
 		classementListView = (ListView) findViewById(R.id.classementList);
         messageTextView = (TextView) findViewById(R.id.classementMessage);
+        
+        classementListView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+			    int position, long id) {
+					//on récupère la HashMap contenant les infos de notre item (pseudo)
+					ClassementEntry classementEntry = (ClassementEntry) classementListView.getItemAtPosition(position);
+					
+					//On créé un objet Bundle, c'est ce qui va nous permettre d'envoyer des données à l'autre Activity
+					Bundle objetbunble = new Bundle();
+		 
+					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
+					objetbunble.putString("pseudo", classementEntry.getPseudo());
+							
+					// On met en place le passage entre les deux activités sur ce Listener (activité départ, activité arrivée)
+					Intent intent = new Intent(ClassementActivity.this,	ProfilActivity.class);
+					
+					//On affecte à l'Intent le Bundle que l'on a créé
+					intent.putExtras(objetbunble);
+					
+					//On démarre la nouvelle Activity en indiquant qu'on pourra revenir à l'activity classement
+					startActivityForResult(intent, 0);
+			}
+        });
 	}
 	
 	

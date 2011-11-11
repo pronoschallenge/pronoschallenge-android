@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/profilAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:layout_weight="0.14"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="20dip"
+            android:src="@drawable/no_avatar"
+            android:visibility="gone" />
+
+	    <LinearLayout
+	        android:id="@+id/linearLayout2"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.30"
+	        android:orientation="vertical" >
+        
+	        <TextView
+	            android:id="@+id/profilPseudo"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textColorHighlight="#656565"
+            	android:textStyle="bold"
+            	android:textSize="25sp"
+	            android:layout_weight="0.38"
+	            android:visibility="gone" />
+	        
+	        <TextView
+	            android:id="@+id/profilNomPrenom"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:visibility="gone" />
+	
+	        <TextView
+	            android:id="@+id/profilAdresse"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:visibility="gone" />
+	
+	        <ImageView
+	            android:id="@+id/profilLogo"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:visibility="gone" />
+	
+	        <TextView
+	            android:id="@+id/profilMessage"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:visibility="gone" />
+	        
+		</LinearLayout>
+    
+    </LinearLayout>
+
+    <ListView android:id="@+id/palmaresList"
+		android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"/>
+        
+        
+    <Button
+        android:id="@+id/buttonProfilRetour"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:text="Retour"/>
+
+</LinearLayout>

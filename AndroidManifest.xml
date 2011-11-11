@@ -16,6 +16,7 @@
 	    <activity android:name=".ClassementActivity"></activity>
         <activity android:name=".gazouillis.GazouillisActivity"></activity>
         <activity android:name=".auth.LoginActivity"></activity>
+        <activity android:name=".ProfilActivity"></activity>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
