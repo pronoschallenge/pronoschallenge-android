@@ -75,7 +75,7 @@ public class PronosActivity extends GDActivity {
 	private List<PronoEntry> getPronos(String userName) {
 		List<PronoEntry> pronoEntries = new ArrayList<PronoEntry>();
 
-		String strPronos = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName).getUri());
+		String strPronos = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName + "?mode=all").getUri());
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -144,6 +144,7 @@ public class PronosActivity extends GDActivity {
                 count++;
             }
 
+            pagedPronoEntries.add(pagePronos);
 
             return true;
         }

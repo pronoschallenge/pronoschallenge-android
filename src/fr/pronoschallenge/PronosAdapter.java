@@ -41,20 +41,24 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
         }
         PronoEntry pronoEntry = getItem(position);
         if (pronoEntry != null) {
+
             TextView pronoEntryClubDom = (TextView) view.findViewById(R.id.pronoEntryEquipeDom);
             pronoEntryClubDom.setText(pronoEntry.getEquipeDom());
 
             int id = pronoEntry.getId();
 
             Button buttonProno1 = (Button) view.findViewById(R.id.buttonProno1);
+            buttonProno1.setTag(R.id.objetProno, pronoEntry);
             buttonProno1.setSelected(false);
             buttonProno1.setTag(R.id.idProno, id);
             buttonProno1.setTag(R.id.valueProno, "1");
             Button buttonPronoN = (Button) view.findViewById(R.id.buttonPronoN);
+            buttonPronoN.setTag(R.id.objetProno, pronoEntry);
             buttonPronoN.setSelected(false);
             buttonPronoN.setTag(R.id.idProno, id);
             buttonPronoN.setTag(R.id.valueProno, "N");
             Button buttonProno2 = (Button) view.findViewById(R.id.buttonProno2);
+            buttonProno2.setTag(R.id.objetProno, pronoEntry);
             buttonProno2.setSelected(false);
             buttonProno2.setTag(R.id.idProno, id);
             buttonProno2.setTag(R.id.valueProno, "2");
@@ -112,6 +116,11 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
             // lancement de la tâche de mise à jour de pronos
             new PronosTask(button, othersButtons).execute(valueProno);
+
+            // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
+            // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
+            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
+            pronoEntry.setProno(valueProno);
         }
     }
 
