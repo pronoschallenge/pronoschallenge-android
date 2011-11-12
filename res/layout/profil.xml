@@ -10,11 +10,9 @@
 
         <ImageView
             android:id="@+id/profilAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="100px"
-            android:layout_weight="0.14"
-            android:layout_marginTop="10dip"
-            android:layout_marginBottom="20dip"
+	        android:layout_height="100px"
+	        android:layout_width="100px"
+	        android:layout_margin="5px"
             android:src="@drawable/no_avatar"
             android:visibility="gone" />
 
@@ -22,58 +20,85 @@
 	        android:id="@+id/linearLayout2"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_weight="0.30"
-	        android:orientation="vertical" >
-        
+	        android:orientation="vertical" >        
 	        <TextView
 	            android:id="@+id/profilPseudo"
-	            android:layout_width="wrap_content"
+	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:textColorHighlight="#656565"
             	android:textStyle="bold"
             	android:textSize="25sp"
-	            android:layout_weight="0.38"
-	            android:visibility="gone" />
-	        
+            	android:gravity="center"
+	            android:visibility="gone" />	        
 	        <TextView
 	            android:id="@+id/profilNomPrenom"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:visibility="gone" />
-	
+	            android:gravity="right"
+	            android:visibility="gone" />	
 	        <TextView
 	            android:id="@+id/profilAdresse"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:visibility="gone" />
-	
+	            android:gravity="right"
+	            android:visibility="gone" />	
 	        <ImageView
 	            android:id="@+id/profilLogo"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:visibility="gone" />
-	
+		        android:layout_height="30px"
+		        android:layout_width="30px"
+		        android:gravity="right"
+		        android:layout_alignParentRight="true"
+	            android:visibility="gone" />	
 	        <TextView
 	            android:id="@+id/profilMessage"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:visibility="gone" />
-	        
+	            android:visibility="gone" />	        
 		</LinearLayout>
     
     </LinearLayout>
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content">        
+		    <TextView
+		        android:id="@+id/profilSaisonEntete"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:padding="10dp"
+			    android:textSize="16sp"        
+		       	android:textStyle="bold"
+		       	android:text="Saison" />		
+		    <TextView
+		        android:id="@+id/profilPlaceGeneralEntete"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:padding="10dp"
+			    android:textSize="16sp"
+			    android:layout_toRightOf="@+id/profilSaisonEntete"
+			    android:text="Gen."/>		    
+		    <TextView
+		        android:id="@+id/profilPlaceHourraEntete"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+			    android:padding="10dp"
+			    android:textSize="16sp"
+			    android:layout_toRightOf="@+id/profilPlaceGeneralEntete"
+			    android:text="Hou." />		    
+		    <TextView
+		        android:id="@+id/profilPlaceMixteEntete"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+			    android:padding="10dp"
+			    android:textSize="16sp"
+			    android:layout_toRightOf="@+id/profilPlaceHourraEntete"
+			    android:text="Mix." />	    
+	</RelativeLayout>
+        
+        
     <ListView android:id="@+id/palmaresList"
 		android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_weight="1"/>
-        
-        
-    <Button
-        android:id="@+id/buttonProfilRetour"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:text="Retour"/>
 
 </LinearLayout>

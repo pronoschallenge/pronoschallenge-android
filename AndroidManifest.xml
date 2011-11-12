@@ -18,7 +18,7 @@
         <activity android:name=".gazouillis.GazouilliComposerActivity"
                 android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".auth.LoginActivity"></activity>
-        <activity android:name=".ProfilActivity"></activity>
+        <activity android:name=".profil.ProfilActivity"></activity>
         <activity android:name=".options.OptionsActivity"></activity>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>

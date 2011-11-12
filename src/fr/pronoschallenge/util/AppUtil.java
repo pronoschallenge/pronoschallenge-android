@@ -1,5 +1,11 @@
 package fr.pronoschallenge.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,4 +49,22 @@ public class AppUtil {
         return new BitmapDrawable(resizedBitmap);
 
     }
+    
+    
+    // fonction qui retourne une image chargée depuis une URL
+    public static Bitmap downloadImage(String strUrlImage) {
+    	Bitmap bitmap = null;
+    	try {
+        	URL urlImage = new URL(strUrlImage);
+        	HttpURLConnection connection = (HttpURLConnection) urlImage.openConnection();
+        	InputStream inputStream = connection.getInputStream();
+        	bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (MalformedURLException e) {
+        	e.printStackTrace();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }        	
+    	return bitmap;
+    }
+
 }

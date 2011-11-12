@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
@@ -35,6 +36,7 @@ public class ClassementActivity extends GDActivity {
 	private String classementType;
 	private ListView classementListView;
     private TextView messageTextView;
+    private String filtre;
 
     private QuickActionWidget classementQuickActionGrid;
 
@@ -47,6 +49,7 @@ public class ClassementActivity extends GDActivity {
 		// Obtain handles to UI objects
 		classementListView = (ListView) findViewById(R.id.classementList);
         messageTextView = (TextView) findViewById(R.id.classementMessage);
+        filtre = "0";
         
         classementListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -93,6 +96,11 @@ public class ClassementActivity extends GDActivity {
         item.setDrawable(R.drawable.gd_action_bar_list);
         getActionBar().addItem(item);
 
+        // Ajout de l'item dans la barre de menu pour activer/désactiver le filtre du classement
+        ActionBarItem itemFiltre = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        item.setDrawable(R.drawable.gd_action_bar_list);
+        getActionBar().addItem(itemFiltre);
+
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
@@ -116,7 +124,7 @@ public class ClassementActivity extends GDActivity {
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 
-		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type).getUri());
+		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type + "?filtre=" + filtre).getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -149,6 +157,15 @@ public class ClassementActivity extends GDActivity {
             case 0:
                 classementQuickActionGrid.show(item.getItemView());
                 break;
+            case 1:
+            	if (filtre == "0") {
+            		filtre = "1";
+            	} else {
+            		filtre = "0";
+            	}
+            	ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
+            	new ClassementTask(classementActivity).execute(this.getClassementType());
+            	break;            	
         }
 
         return true;
