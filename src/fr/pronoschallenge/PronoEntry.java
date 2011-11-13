@@ -8,6 +8,8 @@ public class PronoEntry {
 	private String equipeDom;
 	private String equipeExt;
     private String prono;
+    private Integer butsDom;
+    private Integer butsExt;
 
     public int getId() {
         return id;
@@ -47,5 +49,21 @@ public class PronoEntry {
 
     public void setProno(String prono) {
         this.prono = prono;
+    }
+
+    public Integer getButsDom() {
+        return butsDom;
+    }
+
+    public void setButsDom(int butsDom) {
+        this.butsDom = butsDom;
+    }
+
+    public Integer getButsExt() {
+        return butsExt;
+    }
+
+    public void setButsExt(Integer butsExt) {
+        this.butsExt = butsExt;
     }
 }
