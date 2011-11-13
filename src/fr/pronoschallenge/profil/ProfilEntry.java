@@ -36,34 +36,54 @@ public class ProfilEntry {
 		return nom;
 	}
 	public void setNom(String nom) {
-		this.nom= nom;
+		if (nom == null || nom == "null") {
+			this.nom = "";
+		} else {
+			this.nom = nom;	
+		}		
 	}
 	
 	public String getPrenom() {
 		return prenom;
 	}
 	public void setPrenom(String prenom) {
-		this.prenom= prenom;
+		if (prenom == null || prenom == "null") {
+			this.prenom = "";
+		} else {
+			this.prenom = prenom;	
+		}		
 	}
 	
 	public String getClub_favori() {
 		return club_favori;
 	}
 	public void setClub_favori(String club_favori) {
-		this.club_favori= club_favori;
+		if (club_favori == null || club_favori == "null") {
+			this.club_favori = "";
+		} else {
+			this.club_favori = club_favori;	
+		}		
 	}
 	
 	public String getVille() {
 		return ville;
 	}
 	public void setVille(String ville) {
-		this.ville= ville;
+		if (ville == null || ville == "null") {
+			this.ville = "";
+		} else {
+			this.ville = ville;	
+		}		
 	}	
 	public String getDepartement() {
 		return departement;
 	}
 	public void setDepartement(String departement) {
-		this.departement= departement;
+		if (departement == null || departement == "null") {
+			this.departement = "";
+		} else {
+			this.departement = departement;	
+		}		
 	}
 	
 	public String getUrl_logo() {

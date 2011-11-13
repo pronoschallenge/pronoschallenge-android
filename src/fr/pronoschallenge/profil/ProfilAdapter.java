@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.*;
 
-import fr.pronoschallenge.PalmaresDetailEntry;
-import fr.pronoschallenge.PalmaresEntry;
 import fr.pronoschallenge.R;
 
 
@@ -38,26 +36,14 @@ public class ProfilAdapter extends ArrayAdapter<PalmaresEntry> {
             
             for (PalmaresDetailEntry palmaresDetailEntry : palmaresEntry.getPalmaresDetail()) {
             	if (palmaresDetailEntry.getTypeChamp().equals("general")) {
-                    /*TextView palmaresClassementGeneral = (TextView) view.findViewById(R.id.profilChampGeneral);
-                    palmaresClassementGeneral.setText("Général");
-                    palmaresClassementGeneral.setVisibility(View.VISIBLE);*/
                     TextView palmaresPlaceGeneral = (TextView) view.findViewById(R.id.profilPlaceGeneral);
                     palmaresPlaceGeneral.setText(palmaresDetailEntry.getNumPlace());
-                    palmaresPlaceGeneral.setVisibility(View.VISIBLE);            		
             	} else if (palmaresDetailEntry.getTypeChamp().equals("hourra")) {
-                    /*TextView palmaresClassementHourra = (TextView) view.findViewById(R.id.profilChampHourra);
-                    palmaresClassementHourra.setText("Hourra");
-                    palmaresClassementHourra.setVisibility(View.VISIBLE);*/
                     TextView palmaresPlaceHourra = (TextView) view.findViewById(R.id.profilPlaceHourra);
                     palmaresPlaceHourra.setText(palmaresDetailEntry.getNumPlace());
-                    palmaresPlaceHourra.setVisibility(View.VISIBLE);            		
-            	}  else if (palmaresDetailEntry.getTypeChamp().equals("mixte")) {
-                    /*TextView palmaresClassementMixte = (TextView) view.findViewById(R.id.profilChampMixte);
-                    palmaresClassementMixte.setText("Mixte");
-                    palmaresClassementMixte.setVisibility(View.VISIBLE);*/
+            	} else if (palmaresDetailEntry.getTypeChamp().equals("mixte")) {
                     TextView palmaresPlaceMixte = (TextView) view.findViewById(R.id.profilPlaceMixte);
                     palmaresPlaceMixte.setText(palmaresDetailEntry.getNumPlace());
-                    palmaresPlaceMixte.setVisibility(View.VISIBLE);            		
             	}
             }
             	

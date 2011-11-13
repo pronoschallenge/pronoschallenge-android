@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.profil;
 
 import java.util.ArrayList;
 import java.util.List;

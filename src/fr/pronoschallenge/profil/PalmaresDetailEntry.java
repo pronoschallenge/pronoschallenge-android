@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.profil;
 
 public class PalmaresDetailEntry {
 	private String numPlace;

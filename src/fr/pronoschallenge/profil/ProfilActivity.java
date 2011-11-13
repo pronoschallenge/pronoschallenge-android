@@ -11,10 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import fr.pronoschallenge.PalmaresDetailEntry;
-import fr.pronoschallenge.PalmaresEntry;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
@@ -36,9 +35,11 @@ public class ProfilActivity extends GDActivity {
     private TextView adresseTextView;
     private ImageView logoImageView;
     private TextView messageTextView;
+    private LinearLayout profilLayout;
     
 	private ListView palmaresListView;
-
+    private TextView messagePalmares;
+	
     private AlertDialog dialog;
 
     
@@ -62,6 +63,8 @@ public class ProfilActivity extends GDActivity {
 		logoImageView = (ImageView) findViewById(R.id.profilLogo);
         messageTextView = (TextView) findViewById(R.id.profilMessage);
         palmaresListView = (ListView) findViewById(R.id.palmaresList);
+        messagePalmares = (TextView) findViewById(R.id.palmaresMessage);
+        profilLayout = (LinearLayout) findViewById(R.id.profilLayout);
 	}
 	
 	
@@ -197,15 +200,11 @@ public class ProfilActivity extends GDActivity {
                 if (bitmapAvatar != null) {
                 	activity.avatarImageView.setImageBitmap(bitmapAvatar);	
                 }
-                if (profilEntry.getNom() != null && profilEntry.getNom().length() > 0 ) {
-                	activity.nomPrenomTextView.setText(profilEntry.getNom() + " " + profilEntry.getPrenom());
+                activity.nomPrenomTextView.setText((String) (profilEntry.getNom() + " " + profilEntry.getPrenom()).trim());
+                if (profilEntry.getDepartement() != "") {
+                	activity.adresseTextView.setText((String) (profilEntry.getVille() + " (" + profilEntry.getDepartement() + ")").trim());	
                 } else {
-                	activity.nomPrenomTextView.setText(profilEntry.getPrenom());
-                }
-                if (profilEntry.getDepartement() != null && profilEntry.getDepartement().length() > 0 && profilEntry.getDepartement() != "null") {
-                	activity.adresseTextView.setText(profilEntry.getVille() + " (" + profilEntry.getDepartement() + ")");	
-                } else {
-                	activity.adresseTextView.setText(profilEntry.getVille());
+                	activity.adresseTextView.setText((String) (profilEntry.getVille()).trim());
                 }                
                 bitmapAvatar = AppUtil.downloadImage(profilEntry.getUrl_logo());
                 if (bitmapAvatar != null) {
@@ -223,14 +222,18 @@ public class ProfilActivity extends GDActivity {
                 activity.nomPrenomTextView.setVisibility(View.GONE);
                 activity.adresseTextView.setVisibility(View.GONE);
                 activity.logoImageView.setVisibility(View.GONE);
-                activity.messageTextView.setText("profil non disponible");
                 activity.messageTextView.setVisibility(View.VISIBLE);
             }
             
-            ProfilAdapter adapter = new ProfilAdapter(activity,	R.layout.profil_item, palmaresEntries);
-            palmaresListView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            if (palmaresEntries.isEmpty()) {
+            	activity.messagePalmares.setVisibility(View.VISIBLE);
+            } else {
+	            ProfilAdapter adapter = new ProfilAdapter(activity,	R.layout.profil_item, palmaresEntries);
+	            palmaresListView.setAdapter(adapter);
+	            adapter.notifyDataSetChanged();	            
+            }
 
+            activity.profilLayout.setVisibility(View.VISIBLE);
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }

@@ -98,7 +98,7 @@ public class ClassementActivity extends GDActivity {
 
         // Ajout de l'item dans la barre de menu pour activer/désactiver le filtre du classement
         ActionBarItem itemFiltre = getActionBar().newActionBarItem(NormalActionBarItem.class);
-        item.setDrawable(R.drawable.gd_action_bar_list);
+        itemFiltre.setDrawable(R.drawable.user_favorites);
         getActionBar().addItem(itemFiltre);
 
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
@@ -160,8 +160,10 @@ public class ClassementActivity extends GDActivity {
             case 1:
             	if (filtre == "0") {
             		filtre = "1";
+            		item.setDrawable(R.drawable.user_no_favorites);
             	} else {
             		filtre = "0";
+            		item.setDrawable(R.drawable.user_favorites);
             	}
             	ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
             	new ClassementTask(classementActivity).execute(this.getClassementType());
