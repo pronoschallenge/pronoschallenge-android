@@ -5,27 +5,27 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
 import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import greendroid.widget.*;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassementActivity extends GDActivity {
 
@@ -54,22 +54,22 @@ public class ClassementActivity extends GDActivity {
         classementListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 			    int position, long id) {
-					//on récupère la HashMap contenant les infos de notre item (pseudo)
+					//on rï¿½cupï¿½re la HashMap contenant les infos de notre item (pseudo)
 					ClassementEntry classementEntry = (ClassementEntry) classementListView.getItemAtPosition(position);
 					
-					//On créé un objet Bundle, c'est ce qui va nous permettre d'envoyer des données à l'autre Activity
+					//On crï¿½ï¿½ un objet Bundle, c'est ce qui va nous permettre d'envoyer des donnï¿½es ï¿½ l'autre Activity
 					Bundle objetbunble = new Bundle();
 		 
 					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", classementEntry.getPseudo());
 							
-					// On met en place le passage entre les deux activités sur ce Listener (activité départ, activité arrivée)
+					// On met en place le passage entre les deux activitï¿½s sur ce Listener (activitï¿½ dï¿½part, activitï¿½ arrivï¿½e)
 					Intent intent = new Intent(ClassementActivity.this,	ProfilActivity.class);
 					
-					//On affecte à l'Intent le Bundle que l'on a créé
+					//On affecte ï¿½ l'Intent le Bundle que l'on a crï¿½ï¿½
 					intent.putExtras(objetbunble);
 					
-					//On démarre la nouvelle Activity en indiquant qu'on pourra revenir à l'activity classement
+					//On dï¿½marre la nouvelle Activity en indiquant qu'on pourra revenir ï¿½ l'activity classement
 					startActivityForResult(intent, 0);
 			}
         });
@@ -96,7 +96,7 @@ public class ClassementActivity extends GDActivity {
         item.setDrawable(R.drawable.gd_action_bar_list);
         getActionBar().addItem(item);
 
-        // Ajout de l'item dans la barre de menu pour activer/désactiver le filtre du classement
+        // Ajout de l'item dans la barre de menu pour activer/dï¿½sactiver le filtre du classement
         ActionBarItem itemFiltre = getActionBar().newActionBarItem(NormalActionBarItem.class);
         itemFiltre.setDrawable(R.drawable.user_favorites);
         getActionBar().addItem(itemFiltre);
