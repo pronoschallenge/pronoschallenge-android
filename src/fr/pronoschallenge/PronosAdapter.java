@@ -2,6 +2,8 @@ package fr.pronoschallenge;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -25,62 +27,100 @@ import java.util.*;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
+    private Context context;
+
     public PronosAdapter(Context context, int textViewResourceId,
                          List<PronoEntry> objects) {
         super(context, textViewResourceId, objects);
+
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if (view == null) {
+        PronoEntry pronoEntry = getItem(position);
+
+        Integer butsDom = pronoEntry.getButsDom();
+        Integer butsExt = pronoEntry.getButsExt();
+        boolean matchsJoues = (butsDom != null && butsExt != null);
+
+        if (view == null || (matchsJoues && view.findViewById(R.id.butsDom) == null) || (!matchsJoues && view.findViewById(R.id.butsDom) != null)) {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //le layout représentant la ligne dans le listView
-            view = li.inflate(R.layout.pronos_item, null);
+            if(!matchsJoues) {
+                view = li.inflate(R.layout.pronos_item, null);
+            } else {
+                view = li.inflate(R.layout.pronos_item_joues, null);
+            }
         }
-        PronoEntry pronoEntry = getItem(position);
+
         if (pronoEntry != null) {
+
             TextView pronoEntryClubDom = (TextView) view.findViewById(R.id.pronoEntryEquipeDom);
             pronoEntryClubDom.setText(pronoEntry.getEquipeDom());
 
-            int id = pronoEntry.getId();
-
-            Button buttonProno1 = (Button) view.findViewById(R.id.buttonProno1);
-            buttonProno1.setSelected(false);
-            buttonProno1.setTag(R.id.idProno, id);
-            buttonProno1.setTag(R.id.valueProno, "1");
-            Button buttonPronoN = (Button) view.findViewById(R.id.buttonPronoN);
-            buttonPronoN.setSelected(false);
-            buttonPronoN.setTag(R.id.idProno, id);
-            buttonPronoN.setTag(R.id.valueProno, "N");
-            Button buttonProno2 = (Button) view.findViewById(R.id.buttonProno2);
-            buttonProno2.setSelected(false);
-            buttonProno2.setTag(R.id.idProno, id);
-            buttonProno2.setTag(R.id.valueProno, "2");
-
-            // si le match a déjà été pronostiqué, on sélectionne le bouton correspondant
-            String prono = pronoEntry.getProno();
-            if (prono.equals("1")) {
-                buttonProno1.setSelected(true);
-            } else if (prono.equals("N")) {
-                buttonPronoN.setSelected(true);
-            } else if (prono.equals("2")) {
-                buttonProno2.setSelected(true);
-            }
-
-            if (pronoEntry.getDate().before(new Date())) {
-                buttonProno1.setEnabled(false);
-                buttonPronoN.setEnabled(false);
-                buttonProno2.setEnabled(false);
-            } else {
-                buttonProno1.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
-                buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
-                buttonProno2.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
-            }
-
             TextView pronoEntryClubExt = (TextView) view.findViewById(R.id.pronoEntryEquipeExt);
             pronoEntryClubExt.setText(pronoEntry.getEquipeExt());
+
+            if(!matchsJoues) {
+
+                int id = pronoEntry.getId();
+
+                Button buttonProno1 = (Button) view.findViewById(R.id.buttonProno1);
+                buttonProno1.setTag(R.id.objetProno, pronoEntry);
+                buttonProno1.setSelected(false);
+                buttonProno1.setTag(R.id.idProno, id);
+                buttonProno1.setTag(R.id.valueProno, "1");
+                Button buttonPronoN = (Button) view.findViewById(R.id.buttonPronoN);
+                buttonPronoN.setTag(R.id.objetProno, pronoEntry);
+                buttonPronoN.setSelected(false);
+                buttonPronoN.setTag(R.id.idProno, id);
+                buttonPronoN.setTag(R.id.valueProno, "N");
+                Button buttonProno2 = (Button) view.findViewById(R.id.buttonProno2);
+                buttonProno2.setTag(R.id.objetProno, pronoEntry);
+                buttonProno2.setSelected(false);
+                buttonProno2.setTag(R.id.idProno, id);
+                buttonProno2.setTag(R.id.valueProno, "2");
+
+                // si le match a déjà été pronostiqué, on sélectionne le bouton correspondant
+                String prono = pronoEntry.getProno();
+                if (prono.equals("1")) {
+                    buttonProno1.setSelected(true);
+                } else if (prono.equals("N")) {
+                    buttonPronoN.setSelected(true);
+                } else if (prono.equals("2")) {
+                    buttonProno2.setSelected(true);
+                }
+
+                if (pronoEntry.getDate().before(new Date())) {
+                    buttonProno1.setEnabled(false);
+                    buttonPronoN.setEnabled(false);
+                    buttonProno2.setEnabled(false);
+                } else {
+                    buttonProno1.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
+                    buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
+                    buttonProno2.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
+                }
+            } else {
+                TextView butsDomTextView = (TextView) view.findViewById(R.id.butsDom);
+                butsDomTextView.setText(pronoEntry.getButsDom().toString());
+
+                TextView butsExtTextView = (TextView) view.findViewById(R.id.butsExt);
+                butsExtTextView.setText(pronoEntry.getButsExt().toString());
+
+                String prono = pronoEntry.getProno();
+                TextView pronoTextView = (TextView) view.findViewById(R.id.prono);
+                pronoTextView.setText(prono);
+
+                if((butsDom > butsExt && prono.equals("1")) || (butsDom == butsExt && prono.equals("N")) || (butsDom < butsExt && prono.equals("2"))) {
+                    pronoTextView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bouton_pronos_selected));
+                } else {
+                    pronoTextView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bouton_pronos_lost));
+                }
+            }
+
         }
 
         return view;
@@ -112,6 +152,11 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
             // lancement de la tâche de mise à jour de pronos
             new PronosTask(button, othersButtons).execute(valueProno);
+
+            // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
+            // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
+            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
+            pronoEntry.setProno(valueProno);
         }
     }
 

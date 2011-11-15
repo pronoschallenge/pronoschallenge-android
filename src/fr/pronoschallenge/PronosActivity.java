@@ -13,6 +13,7 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.PagedView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,16 +21,19 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PronosActivity extends GDActivity {
 
-	private ListView pronosListView;
+	private PagedView pronosListView;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        setTitle(getString(R.string.title_pronos));
 
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
@@ -40,17 +44,9 @@ public class PronosActivity extends GDActivity {
 		setActionBarContentView(R.layout.pronos);
 		
 		// Obtain handles to UI objects
-		pronosListView = (ListView) findViewById(R.id.pronoList);
-	}
-	
-	
-	@Override
-	protected void onStart() {
-		setTitle(getString(R.string.title_pronos));
+		pronosListView = (PagedView) findViewById(R.id.pronoList);
 
         if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
-
             new PronosTask(this).execute(userName);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -65,7 +61,6 @@ public class PronosActivity extends GDActivity {
             dialog.show();
         }
 
-		super.onStart();
 	}
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,18 +73,24 @@ public class PronosActivity extends GDActivity {
         }
     }
 
-	private List<PronoEntry> getPronos(String userName) {
-		List<PronoEntry> pronoEntries = new ArrayList<PronoEntry>();
+    public PagedView getPronosListView() {
+        return pronosListView;
+    }
 
-		String strPronos = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName).getUri());
+    private String getPronosJSON(String userName) {
+        return RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName + "?mode=all").getUri());
+    }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private List<PronoEntry> getPronos(String strJSON) {
+		List<PronoEntry> pronoEntries = new LinkedList<PronoEntry>();
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		try {
 			// A Simple JSONObject Creation
-	        JSONObject json = new JSONObject(strPronos);
+	        JSONObject json = new JSONObject(strJSON);
 
-	        // A Simple JSONObject Parsing
+	        // Matchs non joués
 	        JSONArray pronosArray = json.getJSONArray("pronos");
 	        for(int i=0;i<pronosArray.length();i++)
 	        {
@@ -116,11 +117,50 @@ public class PronosActivity extends GDActivity {
 		return pronoEntries;
 	}
 
+	private List<PronoEntry> getPronosJoues(String strJSON) {
+		List<PronoEntry> pronoEntries = new LinkedList<PronoEntry>();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		try {
+			// A Simple JSONObject Creation
+	        JSONObject json = new JSONObject(strJSON);
+
+	        // Matchs non joués
+	        JSONArray pronosArray = json.getJSONArray("pronos_joues");
+	        for(int i=0;i<pronosArray.length();i++)
+	        {
+	        	JSONObject jsonPronoEntry = pronosArray.getJSONObject(i);
+
+	        	PronoEntry pronoEntry = new PronoEntry();
+	        	pronoEntry.setId(jsonPronoEntry.getInt("id"));
+                try {
+                    pronoEntry.setDate(formatter.parse(jsonPronoEntry.getString("date")));
+                } catch(ParseException pe) {
+                    pronoEntry.setDate(null);
+                }
+	        	pronoEntry.setEquipeDom(jsonPronoEntry.getString("equipe_dom"));
+                pronoEntry.setEquipeExt(jsonPronoEntry.getString("equipe_ext"));
+	        	pronoEntry.setProno(jsonPronoEntry.getString("prono"));
+                pronoEntry.setButsDom(Integer.valueOf(jsonPronoEntry.getString("buts_dom")));
+                pronoEntry.setButsExt(Integer.valueOf(jsonPronoEntry.getString("buts_ext")));
+	        	pronoEntries.add(pronoEntry);
+	        }
+
+		} catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+		return pronoEntries;
+	}
+
     private class PronosTask extends AsyncTask<String, Void, Boolean> {
 
         final private PronosActivity activity;
-        private List<PronoEntry> pronoEntries;
+        private List<List<PronoEntry>> pagedPronoEntries;
         private ProgressDialog dialog;
+        private int nbPreviousPages;
 
         private PronosTask(PronosActivity activity) {
             this.activity = activity;
@@ -135,15 +175,52 @@ public class PronosActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            pronoEntries = activity.getPronos(args[0]);
+            String pronosJSON = activity.getPronosJSON(args[0]);
+
+            pagedPronoEntries = new LinkedList<List<PronoEntry>>();
+
+            List<PronoEntry> pronoEntries = activity.getPronos(pronosJSON);
+            List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
+            int count = 0;
+            for(PronoEntry prono : pronoEntries) {
+                if(count > 0 && count%10 == 0) {
+                    pagedPronoEntries.add(pagePronos);
+                    pagePronos = new ArrayList<PronoEntry>();
+                }
+
+                pagePronos.add(prono);
+                count++;
+            }
+
+            pagedPronoEntries.add(pagePronos);
+
+            nbPreviousPages = 0;
+            List<PronoEntry> pronoJouesEntries = activity.getPronosJoues(pronosJSON);
+            pagePronos = new ArrayList<PronoEntry>();
+            count = 0;
+            for(PronoEntry prono : pronoJouesEntries) {
+                if(count > 0 && count%10 == 0) {
+                    ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(pagePronos);
+                    pagePronos = new ArrayList<PronoEntry>();
+                    nbPreviousPages++;
+                }
+
+                pagePronos.add(prono);
+                count++;
+            }
+
+            ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(pagePronos);
+            nbPreviousPages++;
 
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            PronosAdapter adapter = new PronosAdapter(activity,	R.layout.pronos_item, pronoEntries);
+            PronosPagesAdapter adapter = new PronosPagesAdapter(activity, R.layout.pronos_page_item, pagedPronoEntries);
             pronosListView.setAdapter(adapter);
+            // on se place sur la 1ere page avec des matchs non joués
+            activity.getPronosListView().scrollToPage(nbPreviousPages);
             adapter.notifyDataSetChanged();
 
             if (dialog.isShowing()) {

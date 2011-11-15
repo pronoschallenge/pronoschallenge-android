@@ -2,4 +2,5 @@
     <item type="id" name="idProno"/>
     <item type="id" name="valueProno"/>
     <item type="id" name="stateProno"/>
+    <item type="id" name="objetProno"/>
 </resources>
