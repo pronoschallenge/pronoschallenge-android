@@ -181,10 +181,10 @@ public class ClassementActivity extends GDActivity {
                         startActivityForResult(new Intent(this, LoginActivity.class), 1);
                     }
             		filtre = true;
-            		item.setDrawable(R.drawable.user_no_favorites);
+            		item.setDrawable(R.drawable.user_favorites);
             	} else {
             		filtre = false;
-            		item.setDrawable(R.drawable.user_favorites);
+            		item.setDrawable(R.drawable.user_no_favorites);
             	}
             	ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
             	new ClassementTask(classementActivity).execute(this.getClassementType());
