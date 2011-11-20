@@ -28,6 +28,15 @@ public class PronosActivity extends GDActivity {
 
 	private PagedView pronosListView;
 
+    private String userName;
+    private String password;
+
+    private List<List<PronoEntry>> pagedPronoEntries;
+
+    private int currentPage = 0;
+    private boolean nextPronosLoaded = false;
+    private boolean previousPronosLoaded = false;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +44,8 @@ public class PronosActivity extends GDActivity {
 
         setTitle(getString(R.string.title_pronos));
 
-        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
-        String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+        userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+        password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
         if(userName == null || password == null) {
             startActivityForResult(new Intent(this, LoginActivity.class), 1);
         }
@@ -45,6 +54,7 @@ public class PronosActivity extends GDActivity {
 		
 		// Obtain handles to UI objects
 		pronosListView = (PagedView) findViewById(R.id.pronoList);
+        pronosListView.setOnPageChangeListener(mOnPagedViewChangedListener);
 
         if(NetworkUtil.isConnected(this.getApplicationContext())) {
             new PronosTask(this).execute(userName);
@@ -65,20 +75,36 @@ public class PronosActivity extends GDActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1) {
-            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
-            String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+            userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+            password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
             if(userName == null || password == null) {
                 finish();
             }
         }
     }
 
+    private PagedView.OnPagedViewChangeListener mOnPagedViewChangedListener = new PagedView.OnPagedViewChangeListener() {
+
+        public void onStopTracking(PagedView pagedView) {
+        }
+
+        public void onStartTracking(PagedView pagedView) {
+        }
+
+        public void onPageChanged(PagedView pagedView, int previousPage, int newPage) {
+            if((newPage == 0 && !previousPronosLoaded)
+                        || (newPage == PronosActivity.this.pagedPronoEntries.size()-1 && !nextPronosLoaded)) {
+                new PronosTask(PronosActivity.this).execute(userName);
+            }
+        }
+    };
+
     public PagedView getPronosListView() {
         return pronosListView;
     }
 
-    private String getPronosJSON(String userName) {
-        return RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName + "?mode=all").getUri());
+    private String getPronosJSON(String userName, String mode) {
+        return RestClient.get(new QueryBuilder(this.getAssets(), "/rest/pronos/" + userName + "?mode=" + mode).getUri());
     }
 
 	private List<PronoEntry> getPronos(String strJSON) {
@@ -158,9 +184,7 @@ public class PronosActivity extends GDActivity {
     private class PronosTask extends AsyncTask<String, Void, Boolean> {
 
         final private PronosActivity activity;
-        private List<List<PronoEntry>> pagedPronoEntries;
         private ProgressDialog dialog;
-        private int nbPreviousPages;
 
         private PronosTask(PronosActivity activity) {
             this.activity = activity;
@@ -175,42 +199,86 @@ public class PronosActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            String pronosJSON = activity.getPronosJSON(args[0]);
+            if(pagedPronoEntries == null || pagedPronoEntries.isEmpty()) {
 
-            pagedPronoEntries = new LinkedList<List<PronoEntry>>();
+                String pronosJSON = activity.getPronosJSON(args[0], "default");
 
-            List<PronoEntry> pronoEntries = activity.getPronos(pronosJSON);
-            List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
-            int count = 0;
-            for(PronoEntry prono : pronoEntries) {
-                if(count > 0 && count%10 == 0) {
-                    pagedPronoEntries.add(pagePronos);
-                    pagePronos = new ArrayList<PronoEntry>();
+                pagedPronoEntries = new LinkedList<List<PronoEntry>>();
+
+                List<PronoEntry> pronoEntries = activity.getPronos(pronosJSON);
+                List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
+                for(PronoEntry prono : pronoEntries) {
+                    pagePronos.add(prono);
                 }
 
-                pagePronos.add(prono);
-                count++;
-            }
+                pagedPronoEntries.add(pagePronos);
 
-            pagedPronoEntries.add(pagePronos);
+                pagedPronoEntries.add(new ArrayList<PronoEntry>());
+                ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(new ArrayList<PronoEntry>());
 
-            nbPreviousPages = 0;
-            List<PronoEntry> pronoJouesEntries = activity.getPronosJoues(pronosJSON);
-            pagePronos = new ArrayList<PronoEntry>();
-            count = 0;
-            for(PronoEntry prono : pronoJouesEntries) {
-                if(count > 0 && count%10 == 0) {
+                currentPage = 1;
+            } else if(activity.getPronosListView().getCurrentPage() == 0) {
+
+                pagedPronoEntries.remove(0);
+                currentPage = 0;
+
+                String pronosJSON = activity.getPronosJSON(args[0], "previous");
+
+                List<PronoEntry> pronoJouesEntries = activity.getPronosJoues(pronosJSON);
+                List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
+                int count = 0;
+                for(PronoEntry prono : pronoJouesEntries) {
+                    if(count > 0 && count%10 == 0) {
+                        ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(pagePronos);
+                        pagePronos = new ArrayList<PronoEntry>();
+                        currentPage++;
+                    }
+
+                    pagePronos.add(prono);
+                    count++;
+                }
+
+                if(pronoJouesEntries.size() > 0) {
                     ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(pagePronos);
-                    pagePronos = new ArrayList<PronoEntry>();
-                    nbPreviousPages++;
+                    currentPage++;
                 }
 
-                pagePronos.add(prono);
-                count++;
-            }
+                currentPage--;
 
-            ((LinkedList<List<PronoEntry>>)pagedPronoEntries).addFirst(pagePronos);
-            nbPreviousPages++;
+                previousPronosLoaded = true;
+            } else {
+
+                pagedPronoEntries.remove(pagedPronoEntries.size()-1);
+
+                String pronosJSON = activity.getPronosJSON(args[0], "next");
+
+                List<PronoEntry> pronoEntries = activity.getPronos(pronosJSON);
+                List<PronoEntry> pagePronos = new ArrayList<PronoEntry>();
+                int count = 0;
+                for(PronoEntry prono : pronoEntries) {
+                    if(count > 0 && count%10 == 0) {
+                        // on ne prend pas la 1ere page puisqu'on l'a déjà
+                        if(count > 10) {
+                            // ajout de la page de 10 pronos à faire
+                            pagedPronoEntries.add(pagePronos);
+                        }
+                        pagePronos = new ArrayList<PronoEntry>();
+                    }
+
+                    pagePronos.add(prono);
+                    count++;
+                }
+
+                pagedPronoEntries.add(pagePronos);
+
+                if(currentPage == 1) {
+                    currentPage = currentPage + 1;
+                } else {
+                    currentPage = currentPage + 2;
+                }
+
+                nextPronosLoaded = true;
+            }
 
             return true;
         }
@@ -220,7 +288,7 @@ public class PronosActivity extends GDActivity {
             PronosPagesAdapter adapter = new PronosPagesAdapter(activity, R.layout.pronos_page_item, pagedPronoEntries);
             pronosListView.setAdapter(adapter);
             // on se place sur la 1ere page avec des matchs non joués
-            activity.getPronosListView().scrollToPage(nbPreviousPages);
+            activity.getPronosListView().scrollToPage(currentPage);
             adapter.notifyDataSetChanged();
 
             if (dialog.isShowing()) {
