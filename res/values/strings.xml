@@ -22,4 +22,10 @@
     <string name="title_gazouilli">Gazouilli</string>
     <string name="button_gazouilli_send">Envoyer</string>
     <string name="title_options">Options</string>
+    <string name="title_liste_amis">Mes amis</string>
+    <string name="button_mes_amis">Mes amis</string>
+    <string name="type_vue_classement">Classement</string>
+    <string name="type_vue_topflop">Top flop</string>
+    <string name="type_vue_point">Point</string>
+        
 </resources>

@@ -20,6 +20,7 @@
         <activity android:name=".auth.LoginActivity"></activity>
         <activity android:name=".profil.ProfilActivity"></activity>
         <activity android:name=".options.OptionsActivity"></activity>
+        <activity android:name=".amis.AmisActivity"></activity>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>

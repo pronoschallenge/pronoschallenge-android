@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/amisLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="10px">
+	    	<TextView
+	    	    android:id="@+id/amisEntetePseudo"	    	    
+	            android:text="Pseudo"
+	            android:layout_width="175px"
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="3"
+	            android:clickable="true"/>
+	        <TextView
+	            android:id="@+id/amisEnteteGeneral"
+	            android:text="Gen."
+	            android:layout_width="45px"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:clickable="true"/>
+	        <TextView
+	            android:id="@+id/amisEnteteHourra"
+	            android:text="Hou."
+	            android:layout_width="45px"
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="1"
+	            android:clickable="true"/>
+	        <TextView
+	            android:id="@+id/amisEnteteMixte"
+	            android:text="Mix."
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="1"
+	            android:clickable="true"/>	        	        
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >        
+	    <ListView android:id="@+id/amisPalmaresList"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"/>	
+	    <TextView
+			 android:id="@+id/amisPalmaresMessage"
+			 android:layout_width="fill_parent"
+			 android:layout_height="fill_parent"
+			 android:gravity="center"
+			 android:text="Aucun ami défini"
+			 android:textSize="20px"
+			 android:visibility="gone" />	        
+	</LinearLayout>
+
+</LinearLayout>
