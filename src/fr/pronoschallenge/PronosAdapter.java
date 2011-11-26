@@ -141,7 +141,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
             String userName = PreferenceManager.getDefaultSharedPreferences(button.getContext()).getString("username", null);
             String password = PreferenceManager.getDefaultSharedPreferences(button.getContext()).getString("password", null);
-            String url = new QueryBuilder(button.getContext().getAssets(), "/rest/pronos/" + userName).getUri();
+            String url = new QueryBuilder(button.getContext().getAssets(), "/rest/pronos/" + userName + "/").getUri();
             HttpResponse response = RestClient.postData(url, jsonDataArray.toString(), userName, password);
 
             if (response.getStatusLine().getStatusCode() != 200) {

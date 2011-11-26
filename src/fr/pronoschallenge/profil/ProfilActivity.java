@@ -93,7 +93,7 @@ public class ProfilActivity extends GDActivity {
 	private ProfilEntry getProfil(String userName) {
 		ProfilEntry profilEntry = new ProfilEntry();
 
-		String strProfil = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/profil/" + userName).getUri());
+		String strProfil = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/profil/" + userName + "/").getUri());
 
 		// Propriété non présente dans le JSON
 		profilEntry.setPseudo(userName);
@@ -125,7 +125,7 @@ public class ProfilActivity extends GDActivity {
 	private List<PalmaresEntry> getPalmares(String userName) {
 		List<PalmaresEntry> palmaresEntries = new ArrayList<PalmaresEntry>();
 
-		String strPalmares = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/palmares/" + userName).getUri());
+		String strPalmares = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/palmares/" + userName + "/").getUri());
 
 		try {
 			// A Simple JSONObject Creation

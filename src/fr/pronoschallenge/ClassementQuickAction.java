@@ -13,7 +13,7 @@ import greendroid.widget.QuickAction;
 * Date: 05/11/11
 * Time: 14:23
 */
-class ClassementQuickAction extends QuickAction {
+public class ClassementQuickAction extends QuickAction {
 
     private static final ColorFilter BLACK_CF = new LightingColorFilter(Color.BLACK, Color.BLACK);
 

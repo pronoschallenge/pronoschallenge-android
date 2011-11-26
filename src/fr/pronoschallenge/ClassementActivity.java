@@ -98,7 +98,7 @@ public class ClassementActivity extends GDActivity {
 
         // Ajout de l'item dans la barre de menu pour activer/d�sactiver le filtre du classement
         ActionBarItem itemFiltre = getActionBar().newActionBarItem(NormalActionBarItem.class);
-        itemFiltre.setDrawable(R.drawable.user_favorites);
+        itemFiltre.setDrawable(R.drawable.user_no_favorites);
         getActionBar().addItem(itemFiltre);
 
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
@@ -124,7 +124,7 @@ public class ClassementActivity extends GDActivity {
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 
-		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type + "?filtre=" + filtre).getUri());
+		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type + "/?filtre=" + filtre).getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -160,10 +160,10 @@ public class ClassementActivity extends GDActivity {
             case 1:
             	if (filtre == "0") {
             		filtre = "1";
-            		item.setDrawable(R.drawable.user_no_favorites);
+            		item.setDrawable(R.drawable.user_favorites);
             	} else {
             		filtre = "0";
-            		item.setDrawable(R.drawable.user_favorites);
+            		item.setDrawable(R.drawable.user_no_favorites);
             	}
             	ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
             	new ClassementTask(classementActivity).execute(this.getClassementType());

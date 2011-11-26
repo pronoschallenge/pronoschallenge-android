@@ -41,6 +41,7 @@ public class PronosChallengeActivity extends GDActivity {
         icons.add(new HomeMenuItem(getString(R.string.button_classements), BitmapFactory.decodeResource(getResources(), R.drawable.classements)));
         icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));
         icons.add(new HomeMenuItem(getString(R.string.button_options), BitmapFactory.decodeResource(getResources(), R.drawable.options)));
+        icons.add(new HomeMenuItem(getString(R.string.button_mes_amis), BitmapFactory.decodeResource(getResources(), R.drawable.options)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
@@ -115,8 +116,17 @@ public class PronosChallengeActivity extends GDActivity {
                             startActivity(optionsIntent);
                         }
                     });
+                
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_mes_amis))) {
+                menuItemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent amisIntent = new Intent();
+                                amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.amis.AmisActivity");
+                                startActivity(amisIntent);
+                            }
+                        }); 
             }
-
             return menuItemView;
         }
     }

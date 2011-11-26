@@ -153,7 +153,7 @@ public class OptionsActivity extends PreferenceActivity {
     private String getStrategie() {
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
-        String strategie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/strategie/" + userName).getUri(), userName, password);
+        String strategie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/strategie/" + userName + "/").getUri(), userName, password);
         return strategie;
     }
 
@@ -165,7 +165,7 @@ public class OptionsActivity extends PreferenceActivity {
     private void updateStrategie(String strategie, Activity activity) {
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
-        HttpResponse response = RestClient.postData(new QueryBuilder(this.getAssets(), "/rest/strategie/" + userName).getUri(), strategie, userName, password);
+        HttpResponse response = RestClient.postData(new QueryBuilder(this.getAssets(), "/rest/strategie/" + userName + "/").getUri(), strategie, userName, password);
 
         if (response.getStatusLine().getStatusCode() != 200) {
             Toast toast = Toast.makeText(activity, "Erreur lors de la mise à jour de votre stratégie : " + response.getStatusLine().getStatusCode(), 4);
