@@ -1,9 +1,17 @@
 package fr.pronoschallenge;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -15,15 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
-import org.apache.http.HttpResponse;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.ResponseCache;
-import java.text.DecimalFormat;
-import java.util.*;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
@@ -99,9 +98,9 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                     buttonPronoN.setEnabled(false);
                     buttonProno2.setEnabled(false);
                 } else {
-                    buttonProno1.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
-                    buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
-                    buttonProno2.setOnClickListener(new PronosButtonsOnClickListener(new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
+                    buttonProno1.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.context, new ArrayList<View>(Arrays.asList(buttonPronoN, buttonProno2))));
+                    buttonPronoN.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.context, new ArrayList<View>(Arrays.asList(buttonProno1, buttonProno2))));
+                    buttonProno2.setOnClickListener(new PronosButtonsOnClickListener((Activity) this.context, new ArrayList<View>(Arrays.asList(buttonProno1, buttonPronoN))));
                 }
             } else {
                 TextView butsDomTextView = (TextView) view.findViewById(R.id.butsDom);
@@ -129,9 +128,11 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
     class PronosButtonsOnClickListener implements View.OnClickListener {
 
+        Activity activity;
         List<View> othersButtons = null;
 
-        PronosButtonsOnClickListener(List<View> othersButtons) {
+        PronosButtonsOnClickListener(Activity activity, List<View> othersButtons) {
+            this.activity = activity;
             this.othersButtons = othersButtons;
         }
 
@@ -151,7 +152,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             }
 
             // lancement de la tâche de mise à jour de pronos
-            new PronosTask(button, othersButtons).execute(valueProno);
+            new PronosTask(activity, button, othersButtons).execute(valueProno);
 
             // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
             // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
@@ -162,12 +163,33 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
     class PronosTask extends AsyncTask<String, Void, Boolean> {
 
+        private Activity activity;
         private View button;
-        private List<View> othersButtons;
+        private int nbOfProcess;
 
-        PronosTask(View button, List<View> othersButtons) {
+        PronosTask(Activity activity, View button, List<View> othersButtons) {
+            this.activity = activity;
             this.button = button;
-            this.othersButtons = othersButtons;
+            this.nbOfProcess = 0;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if(nbOfProcess++ == 0) {
+                //((GDActivity) activity).getActionBar().showLoader();
+            	((PronosActivity)activity).showLoader();
+            }
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(--nbOfProcess == 0) {
+                //((GDActivity) activity).getActionBar().hideLoader();
+                ((PronosActivity)activity).hideLoader();
+            }
+            super.onPostExecute(aBoolean);
         }
 
         @Override
