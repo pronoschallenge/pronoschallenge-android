@@ -51,7 +51,7 @@ public class ProfilActivity extends GDActivity {
 		//on lui associe le layout profil.xml
 		setActionBarContentView(R.layout.profil);
     	
-    	//On récupère l'objet Bundle envoyé par l'autre Activity
+    	//On rÃ©cupÃ¨re l'objet Bundle envoyÃ© par l'autre Activity
         Bundle objetbunble  = this.getIntent().getExtras();
         profilPseudo = (String) objetbunble.get("pseudo");
 		
@@ -95,7 +95,7 @@ public class ProfilActivity extends GDActivity {
 
 		String strProfil = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/profil/" + userName).getUri());
 
-		// Propriété non présente dans le JSON
+		// PropriÃ©tÃ© non prÃ©sente dans le JSON
 		profilEntry.setPseudo(userName);
 		
 		try {
@@ -103,7 +103,7 @@ public class ProfilActivity extends GDActivity {
 	        JSONObject json = new JSONObject(strProfil);
 	        JSONObject jsonProfilEntry = json.getJSONObject("profil");
 	        
-	        // Propriétés de l'objet JSON
+	        // PropriÃ©tÃ©s de l'objet JSON
 	        profilEntry.setId_membre(jsonProfilEntry.getInt("id_membre"));	        
 	        profilEntry.setUrl_avatar(jsonProfilEntry.getString("url_avatar"));
 	        profilEntry.setNom(jsonProfilEntry.getString("nom"));
@@ -139,19 +139,19 @@ public class ProfilActivity extends GDActivity {
 
 	        	PalmaresEntry palmaresEntry = new PalmaresEntry();
 	        	palmaresEntry.setNomSaison(jsonPalmaresEntry.getString("nomSaison"));
-	        	// Recherche des championnats liés à la saison
+	        	// Recherche des championnats liï¿½s ï¿½ la saison
 	        	while (jsonPalmaresEntry.getString("nomSaison").equals(palmaresEntry.getNomSaison()) && i < palmaresArray.length()) {
 	        		PalmaresDetailEntry palmaresDetail = new PalmaresDetailEntry();
         			palmaresDetail.setTypeChamp(jsonPalmaresEntry.getString("typeChamp"));
                     palmaresDetail.setNumPlace(jsonPalmaresEntry.getString("numPlace"));
                     palmaresEntry.setPalmaresDetail(palmaresDetail);
-                    // Entité JSON suivante
+                    // EntitÃ© JSON suivante
                     i++;
                     if (i < palmaresArray.length()) {
                     	jsonPalmaresEntry = palmaresArray.getJSONObject(i);
                     }
 	        	}
-	        	// Repositionnement sur l'entité JSON adéquate
+	        	// Repositionnement sur l'entitÃ© JSON adÃ©quate
 	        	if (i < palmaresArray.length()) {
 	        		i--;
 	        	}
@@ -194,7 +194,7 @@ public class ProfilActivity extends GDActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(profilEntry != null) {
-            	// Chargement des données de l'activity
+            	// Chargement des donnÃ©es de l'activity
                 activity.pseudoTextView.setText(profilEntry.getPseudo());
                 Bitmap bitmapAvatar = AppUtil.downloadImage(profilEntry.getUrl_avatar());
                 if (bitmapAvatar != null) {
