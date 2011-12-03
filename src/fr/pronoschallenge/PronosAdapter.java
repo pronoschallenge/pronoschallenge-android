@@ -1,11 +1,19 @@
 package fr.pronoschallenge;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
-import greendroid.app.GDActivity;
-import org.apache.http.HttpResponse;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.ResponseCache;
-import java.text.DecimalFormat;
-import java.util.*;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
@@ -124,20 +122,19 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
         private Activity activity;
         private View button;
-        private List<View> othersButtons;
         private int nbOfProcess;
 
         PronosTask(Activity activity, View button, List<View> othersButtons) {
             this.activity = activity;
             this.button = button;
-            this.othersButtons = othersButtons;
             this.nbOfProcess = 0;
         }
 
         @Override
         protected void onPreExecute() {
             if(nbOfProcess++ == 0) {
-                ((GDActivity) activity).getActionBar().showLoader();
+                //((GDActivity) activity).getActionBar().showLoader();
+            	((PronosActivity)activity).showLoader();
             }
 
             super.onPreExecute();
@@ -146,7 +143,8 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if(--nbOfProcess == 0) {
-                ((GDActivity) activity).getActionBar().hideLoader();
+                //((GDActivity) activity).getActionBar().hideLoader();
+                ((PronosActivity)activity).hideLoader();
             }
             super.onPostExecute(aBoolean);
         }
