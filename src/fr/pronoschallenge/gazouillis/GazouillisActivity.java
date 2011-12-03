@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
@@ -40,6 +41,8 @@ public class GazouillisActivity extends GDActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
         setTitle(getString(R.string.title_gazouillis));
 
         // Ajout de l'item dans la barre de menu pour ajouter un gazouilli
