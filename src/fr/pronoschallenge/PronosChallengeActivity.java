@@ -1,22 +1,28 @@
 package fr.pronoschallenge;
 
-import android.graphics.*;
-import android.view.*;
-import android.widget.*;
 import fr.pronoschallenge.util.AppUtil;
 import greendroid.app.GDActivity;
 import greendroid.widget.ActionBar.Type;
-import greendroid.widget.QuickAction;
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class PronosChallengeActivity extends GDActivity {
 	
@@ -31,6 +37,8 @@ public class PronosChallengeActivity extends GDActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setActionBarContentView(R.layout.main);
 

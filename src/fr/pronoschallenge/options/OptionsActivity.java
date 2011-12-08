@@ -1,5 +1,19 @@
 package fr.pronoschallenge.options;
 
+import fr.pronoschallenge.R;
+import fr.pronoschallenge.auth.LoginActivity;
+import fr.pronoschallenge.rest.QueryBuilder;
+import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.util.NetworkUtil;
+import greendroid.app.GDApplication;
+import greendroid.util.Config;
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,22 +27,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
-import fr.pronoschallenge.R;
-import fr.pronoschallenge.auth.LoginActivity;
-import fr.pronoschallenge.rest.QueryBuilder;
-import fr.pronoschallenge.rest.RestClient;
-import fr.pronoschallenge.util.NetworkUtil;
-import greendroid.app.GDActivity;
-import greendroid.app.GDApplication;
-import greendroid.app.GDTabActivity;
-import greendroid.util.Config;
-import greendroid.widget.ActionBar;
-import greendroid.widget.ActionBarItem;
-import org.apache.http.HttpResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,8 +44,10 @@ public class OptionsActivity extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	requestWindowFeature(Window.FEATURE_NO_TITLE);
+    	
         super.onCreate(savedInstanceState);
-
+        
         String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
         if(userName == null || password == null) {

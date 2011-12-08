@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class LoginActivity extends GDActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         // check if an account exists
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);// getPreferences(Context.MODE_PRIVATE);
         if(preferences.contains("username") && preferences.contains("password")) {

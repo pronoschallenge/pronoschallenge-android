@@ -24,7 +24,7 @@ public class ProfilAdapter extends ArrayAdapter<PalmaresEntry> {
 
         if (view == null) {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //le layout représentant la ligne dans le listView
+            //le layout reprÃ©sentant la ligne dans le listView
             view = li.inflate(R.layout.profil_item, null);
         }
         PalmaresEntry palmaresEntry = getItem(position);

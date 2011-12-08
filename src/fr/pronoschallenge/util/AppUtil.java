@@ -51,7 +51,7 @@ public class AppUtil {
     }
     
     
-    // fonction qui retourne une image chargée depuis une URL
+    // fonction qui retourne une image chargÃ©e depuis une URL
     public static Bitmap downloadImage(String strUrlImage) {
     	Bitmap bitmap = null;
     	try {
