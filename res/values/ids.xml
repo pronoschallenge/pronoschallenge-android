@@ -2,4 +2,7 @@
     <item type="id" name="idProno"/>
     <item type="id" name="valueProno"/>
     <item type="id" name="stateProno"/>
+    <item type="id" name="objetProno"/>
+    <item type="id" name="idAmi"/>
+    <item type="id" name="objetAmi"/>    
 </resources>

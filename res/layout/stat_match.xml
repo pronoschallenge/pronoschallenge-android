@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent" >
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              android:layout_width="fill_parent"
+	              android:layout_height="fill_parent">
+    
+	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			        android:orientation="horizontal"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent">
+			<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchLogoDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchEquipeDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchPlaceDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+		</LinearLayout>
+
+    	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			      android:orientation="horizontal"
+			      android:layout_width="fill_parent"
+			      android:layout_height="fill_parent">
+			<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchLogoExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchEquipeExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchPlaceExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"/>
+		</LinearLayout>
+	        	
+	</RelativeLayout>
+
+
+    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical" >	        
+	    <TextView
+	        	android:text="5 derniers matchs" 
+				android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:textSize="20px"/>        
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		              android:layout_width="fill_parent"
+		              android:layout_height="fill_parent">
+	    
+		    <ListView android:id="@+id/statMatchSerieListDom" 
+					android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="1"/>
+		    <ListView android:id="@+id/statMatchSerieListExt" 
+					android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="1"/>
+		 </RelativeLayout>
+		 
+		    <TextView android:id="@+id/statMatchSerieMessage"
+				android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:textSize="20px"
+		        android:visibility="gone"/>
+		    
+	</LinearLayout>
+
+</LinearLayout>

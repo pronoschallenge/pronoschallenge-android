@@ -4,8 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <greendroid.widget.PagedView
-        android:id="@+id/pronoList"
+    <ListView
+        android:id="@+id/pronoPageList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

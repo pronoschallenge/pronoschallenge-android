@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="fr.pronoschallenge" android:versionCode="1"
-	android:versionName="1.0-b2">
+	android:versionName="1.0-b3">
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="false"
-		android:name="fr.pronoschallenge.PronosChallengeApplication"
+		android:name=".PronosChallengeApplication"
 		android:theme="@style/Theme.GreenDroid">
 		<activity android:name="PronosChallengeActivity" android:label="@string/app_name">
 			<intent-filter>
@@ -21,6 +21,10 @@
         <activity android:name=".profil.ProfilActivity"></activity>
         <activity android:name=".options.OptionsActivity"></activity>
         <activity android:name=".amis.AmisActivity"></activity>
+        <activity android:name=".amis.ajout.AmisAjoutActivity"></activity>
+        <activity android:name=".classement.club.ClassementClubActivity"></activity>
+        <activity android:name=".stat.match.StatMatchActivity"></activity>
+            
     </application>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>

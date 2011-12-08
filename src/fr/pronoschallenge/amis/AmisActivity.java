@@ -1,24 +1,8 @@
 package fr.pronoschallenge.amis;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import fr.pronoschallenge.ClassementQuickAction;
 import fr.pronoschallenge.R;
+import fr.pronoschallenge.amis.ajout.AmisAjoutActivity;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
@@ -30,9 +14,28 @@ import greendroid.widget.NormalActionBarItem;
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class AmisActivity extends GDActivity {
@@ -45,7 +48,7 @@ public class AmisActivity extends GDActivity {
 	final static String TRI_HOURRA = "hourra";
 	final static String TRI_MIXTE = "mixte";
 	
-	private String profilPseudo;
+	private String strProfilPseudo;
 	private String strTri;
 	private Boolean bolTriAscendant;
 	private String strVue; 
@@ -77,7 +80,7 @@ public class AmisActivity extends GDActivity {
 
 		setActionBarContentView(R.layout.amis_liste);
     	
-        profilPseudo = userName;
+        strProfilPseudo = userName;
         strTri = TRI_PSEUDO;
         bolTriAscendant = true;
         strVue = VUE_POINT;
@@ -114,19 +117,19 @@ public class AmisActivity extends GDActivity {
                 	strVue = VUE_PLACE;
                 	amisPalmaresEntriesNonTriee = null;
                     getActionBar().getItem(0).setDrawable(R.drawable.coupe);;
-                	new AmisTask(amisActivity).execute(profilPseudo);
+                	new AmisTask(amisActivity).execute(strProfilPseudo);
                     break;
                 case 1:
                 	strVue = VUE_POINT;
                 	amisPalmaresEntriesNonTriee = null;
                 	getActionBar().getItem(0).setDrawable(R.drawable.classement);
-                	new AmisTask(amisActivity).execute(profilPseudo);
+                	new AmisTask(amisActivity).execute(strProfilPseudo);
                 	break;            	
                 case 2:
                 	strVue = VUE_EVOLUTION;
                 	amisPalmaresEntriesNonTriee = null;
                 	getActionBar().getItem(0).setDrawable(R.drawable.top_flop);
-                	new AmisTask(amisActivity).execute(profilPseudo);
+                	new AmisTask(amisActivity).execute(strProfilPseudo);
                 	break;            	
                 }
             }
@@ -153,11 +156,13 @@ public class AmisActivity extends GDActivity {
 					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", amisPalmaresEntry.getPseudo());							
 					// On met en place le passage entre les deux activitï¿½s sur ce Listener (activitï¿½ dï¿½part, activitï¿½ arrivï¿½e)
-					Intent intent = new Intent(AmisActivity.this,ProfilActivity.class);					
+					Intent intent = new Intent(AmisActivity.this, ProfilActivity.class);					
 					//On affecte ï¿½ l'Intent le Bundle que l'on a crï¿½ï¿½
 					intent.putExtras(objetbunble);					
 					//On dï¿½marre la nouvelle Activity en indiquant qu'on pourra revenir ï¿½ l'activity classement
-					startActivityForResult(intent, 0);
+					int intRecharge = 0;
+					startActivityForResult(intent, intRecharge);
+					if (intRecharge == RESULT_OK) reStart();
 			}
         });        
 
@@ -168,7 +173,7 @@ public class AmisActivity extends GDActivity {
 	protected void onStart() {
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
 			setTitle(getString(R.string.title_liste_amis) + " - " + getString(R.string.type_vue_classement));
-            new AmisTask(this).execute(profilPseudo, strTri);
+            new AmisTask(this).execute(strProfilPseudo, strTri);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -188,13 +193,25 @@ public class AmisActivity extends GDActivity {
     @Override
     public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
         switch (position) {
+        // Changement de liste
         case 0:
             vueQuickActionGrid.show(item.getItemView());
             break;
+        // Ajout d'un ami
+        case 1:
+			Bundle objetbunble = new Bundle();		 
+			objetbunble.putString("pseudo", strProfilPseudo);
+			Intent intent = new Intent(AmisActivity.this,AmisAjoutActivity.class);					
+			intent.putExtras(objetbunble);					
+			startActivityForResult(intent, 0);            
         }
         return true;
     }
-	    
+
+    private void reStart() {
+    	this.onRestart();
+    }
+    
     // fonction qui tri la liste des amis selon un paramètre (pseudo, classement général ...)
     public List<AmisPalmaresEntry> triAmis() {
 
@@ -222,7 +239,7 @@ public class AmisActivity extends GDActivity {
 				if (bolTriAscendant) {
 					Collections.sort(ma_liste);	
 				} else {
-					Comparator comparator = Collections.reverseOrder();
+					Comparator<Object> comparator = Collections.reverseOrder();
 					Collections.sort(ma_liste, comparator);
 				}				
 				Integer numPlacePrecedente = 0;
@@ -259,7 +276,7 @@ public class AmisActivity extends GDActivity {
             // Actualisation du tri de la liste des amis
         	bolTriAscendant = !bolTriAscendant;
         	activity.strTri = strTri;
-            new AmisTask(activity).execute(activity.profilPseudo);
+            new AmisTask(activity).execute(activity.strProfilPseudo);
         }
     }
 

@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
@@ -36,7 +38,7 @@ public class ClassementActivity extends GDActivity {
 	private String classementType;
 	private ListView classementListView;
     private TextView messageTextView;
-    private String filtre;
+    private boolean filtre;
 
     private QuickActionWidget classementQuickActionGrid;
 
@@ -49,28 +51,28 @@ public class ClassementActivity extends GDActivity {
 		// Obtain handles to UI objects
 		classementListView = (ListView) findViewById(R.id.classementList);
         messageTextView = (TextView) findViewById(R.id.classementMessage);
-        filtre = "0";
+        filtre = false;
         
         classementListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 			    int position, long id) {
-					//on r�cup�re la HashMap contenant les infos de notre item (pseudo)
+					//on récupère la HashMap contenant les infos de notre item (pseudo)
 					ClassementEntry classementEntry = (ClassementEntry) classementListView.getItemAtPosition(position);
 					
-					//On cr�� un objet Bundle, c'est ce qui va nous permettre d'envoyer des donn�es � l'autre Activity
+					//On crée un objet Bundle, c'est ce qui va nous permettre d'envoyer des données à l'autre Activity
 					Bundle objetbunble = new Bundle();
 		 
 					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", classementEntry.getPseudo());
 							
-					// On met en place le passage entre les deux activit�s sur ce Listener (activit� d�part, activit� arriv�e)
+					// On met en place le passage entre les deux activités sur ce Listener (activité départ, activité arrivée)
 					Intent intent = new Intent(ClassementActivity.this,	ProfilActivity.class);
 					
-					//On affecte � l'Intent le Bundle que l'on a cr��
+					//On affecte à l'Intent le Bundle que l'on a créé
 					intent.putExtras(objetbunble);
 					
-					//On d�marre la nouvelle Activity en indiquant qu'on pourra revenir � l'activity classement
-					startActivityForResult(intent, 0);
+					//On démarre la nouvelle Activity
+					startActivity(intent);
 			}
         });
 
@@ -121,10 +123,23 @@ public class ClassementActivity extends GDActivity {
         }
 	}
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1) {
+            String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+            String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+            if(userName == null || password == null) {
+                finish();
+            }
+        }
+    }
+
 	private List<ClassementEntry> getClassement(String type) {
 		List<ClassementEntry> classementEntries = new ArrayList<ClassementEntry>();
 
-		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type + "/?filtre=" + filtre).getUri());
+        String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+        String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+
+		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classement/" + type + "?filtre=" + (filtre ? "1" : "0")).getUri(), userName, password);
 
 		try {
 			// A Simple JSONObject Creation
@@ -158,11 +173,17 @@ public class ClassementActivity extends GDActivity {
                 classementQuickActionGrid.show(item.getItemView());
                 break;
             case 1:
-            	if (filtre == "0") {
-            		filtre = "1";
+            	if (!filtre) {
+                    // on vérifie si l'utilisateur est connecté
+                    String userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
+                    String password = PreferenceManager.getDefaultSharedPreferences(this).getString("password", null);
+                    if(userName == null || password == null) {
+                        startActivityForResult(new Intent(this, LoginActivity.class), 1);
+                    }
+            		filtre = true;
             		item.setDrawable(R.drawable.user_favorites);
             	} else {
-            		filtre = "0";
+            		filtre = false;
             		item.setDrawable(R.drawable.user_no_favorites);
             	}
             	ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
