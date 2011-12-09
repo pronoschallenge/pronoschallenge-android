@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.classement;
 
 public class ClassementEntry {
 	private int place;

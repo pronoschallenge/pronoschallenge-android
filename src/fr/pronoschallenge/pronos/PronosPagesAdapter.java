@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.pronos;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import fr.pronoschallenge.R;
+import fr.pronoschallenge.R.id;
+import fr.pronoschallenge.R.layout;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.widget.PagedAdapter;

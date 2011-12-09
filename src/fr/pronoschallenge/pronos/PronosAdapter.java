@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.pronos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import fr.pronoschallenge.R;
+import fr.pronoschallenge.R.drawable;
+import fr.pronoschallenge.R.id;
+import fr.pronoschallenge.R.layout;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 

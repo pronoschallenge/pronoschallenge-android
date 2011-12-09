@@ -1,9 +1,9 @@
 package fr.pronoschallenge.amis;
 
-import fr.pronoschallenge.ClassementQuickAction;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.amis.ajout.AmisAjoutActivity;
 import fr.pronoschallenge.auth.LoginActivity;
+import fr.pronoschallenge.classement.ClassementQuickAction;
 import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;

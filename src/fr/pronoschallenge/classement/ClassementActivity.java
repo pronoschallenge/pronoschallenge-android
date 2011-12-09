@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.classement;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,6 +13,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import fr.pronoschallenge.R;
+import fr.pronoschallenge.R.drawable;
+import fr.pronoschallenge.R.id;
+import fr.pronoschallenge.R.layout;
+import fr.pronoschallenge.R.string;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.profil.ProfilActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
@@ -32,9 +37,9 @@ import java.util.List;
 
 public class ClassementActivity extends GDActivity {
 
-	final static String CLASSEMENT_TYPE_GENERAL = "general";
-	final static String CLASSEMENT_TYPE_HOURRA = "hourra";
-	final static String CLASSEMENT_TYPE_MIXTE = "mixte";
+	public final static String CLASSEMENT_TYPE_GENERAL = "general";
+	public final static String CLASSEMENT_TYPE_HOURRA = "hourra";
+	public final static String CLASSEMENT_TYPE_MIXTE = "mixte";
 	
 	private String classementType;
 	private ListView classementListView;

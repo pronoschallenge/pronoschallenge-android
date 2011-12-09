@@ -1,5 +1,7 @@
 package fr.pronoschallenge;
 
+import fr.pronoschallenge.classement.ClassementActivity;
+import fr.pronoschallenge.classement.ClassementQuickAction;
 import fr.pronoschallenge.util.AppUtil;
 import greendroid.app.GDActivity;
 import greendroid.widget.ActionBar.Type;

@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.pronos;
 
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.rest.QueryBuilder;

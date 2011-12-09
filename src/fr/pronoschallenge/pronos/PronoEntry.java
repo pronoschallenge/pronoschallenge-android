@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.pronos;
 
 import java.util.Date;
 

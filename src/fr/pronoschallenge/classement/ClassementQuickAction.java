@@ -1,4 +1,4 @@
-package fr.pronoschallenge;
+package fr.pronoschallenge.classement;
 
 import android.content.Context;
 import android.graphics.Color;
