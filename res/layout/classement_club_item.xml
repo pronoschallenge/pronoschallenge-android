@@ -14,6 +14,7 @@
 	    android:layout_weight="1" />
     <greendroid.widget.AsyncImageView
         android:id="@+id/classementClubEntryLogo"
+        android:layout_marginTop="10px"
 	    android:layout_height="20px"
 	    android:layout_width="20px"
 	    android:gravity="center_horizontal"

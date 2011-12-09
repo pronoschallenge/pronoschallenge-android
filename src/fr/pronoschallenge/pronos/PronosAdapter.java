@@ -22,9 +22,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.pronoschallenge.R;
-import fr.pronoschallenge.R.drawable;
-import fr.pronoschallenge.R.id;
-import fr.pronoschallenge.R.layout;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 
@@ -160,7 +157,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
             // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
             // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
-            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetAmi);
+            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
             pronoEntry.setProno(valueProno);
         }
     }

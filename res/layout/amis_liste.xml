@@ -19,21 +19,21 @@
 	            android:clickable="true"/>
 	        <TextView
 	            android:id="@+id/amisEnteteGeneral"
-	            android:text="Gen."
+	            android:text=" Gen."
 	            android:layout_width="45px"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
 	            android:clickable="true"/>
 	        <TextView
 	            android:id="@+id/amisEnteteHourra"
-	            android:text="Hou."
+	            android:text=" Hou."
 	            android:layout_width="45px"
 	            android:layout_height="wrap_content"	            
 	            android:layout_weight="1"
 	            android:clickable="true"/>
 	        <TextView
 	            android:id="@+id/amisEnteteMixte"
-	            android:text="Mix."
+	            android:text="  Mix."
 	            android:layout_width="40px"
 	            android:layout_height="wrap_content"	            
 	            android:layout_weight="1"

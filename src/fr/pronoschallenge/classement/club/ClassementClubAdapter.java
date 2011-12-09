@@ -13,6 +13,7 @@ import greendroid.widget.AsyncImageView;
 
 public class ClassementClubAdapter extends ArrayAdapter<ClassementClubEntry> {
 
+	public int intPlacePrecedent = 0;
 
 	public ClassementClubAdapter(Context context, int textViewResourceId,
 			List<ClassementClubEntry> objects) {
@@ -33,7 +34,12 @@ public class ClassementClubAdapter extends ArrayAdapter<ClassementClubEntry> {
         if (classementClubEntry != null)
         {
             TextView classementClubEntryPlace = (TextView)view.findViewById(R.id.classementClubEntryPlace);
-            classementClubEntryPlace.setText(String.valueOf(classementClubEntry.getPlace()));
+            if (classementClubEntry.getPlace() == intPlacePrecedent) {
+            	classementClubEntryPlace.setText("");
+            } else {
+            	intPlacePrecedent = classementClubEntry.getPlace();
+            	classementClubEntryPlace.setText(String.valueOf(classementClubEntry.getPlace()));
+            }
 
             AsyncImageView classementClubEntryLogo = (AsyncImageView)view.findViewById(R.id.classementClubEntryLogo);
             classementClubEntryLogo.setUrl(classementClubEntry.getUrlLogo());

@@ -106,7 +106,7 @@ public class PronosChallengeActivity extends GDActivity {
                     new View.OnClickListener() {
                         public void onClick(View v) {
                             Intent pronosIntent = new Intent();
-                            pronosIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.PronosActivity");
+                            pronosIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.pronos.PronosActivity");
                             startActivity(pronosIntent);
                         }
                     });
@@ -192,9 +192,9 @@ public class PronosChallengeActivity extends GDActivity {
     		final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte)};
     		final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
             Intent classementIntent = new Intent();
-	    	classementIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.ClassementActivity");
-	    	classementIntent.putExtra("fr.pronoschallenge.ClassementType", classementTypes[position]);
-	    	classementIntent.putExtra("fr.pronoschallenge.ClassementTitle", classementItems[position]);
+	    	classementIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.classement.ClassementActivity");
+	    	classementIntent.putExtra("fr.pronoschallenge.classement.ClassementType", classementTypes[position]);
+	    	classementIntent.putExtra("fr.pronoschallenge.classement.ClassementTitle", classementItems[position]);
 	        startActivity(classementIntent);
         }
     };

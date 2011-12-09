@@ -1,5 +1,24 @@
 package fr.pronoschallenge.classement;
 
+import fr.pronoschallenge.R;
+import fr.pronoschallenge.auth.LoginActivity;
+import fr.pronoschallenge.profil.ProfilActivity;
+import fr.pronoschallenge.rest.QueryBuilder;
+import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.util.NetworkUtil;
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,27 +32,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import fr.pronoschallenge.R;
-import fr.pronoschallenge.R.drawable;
-import fr.pronoschallenge.R.id;
-import fr.pronoschallenge.R.layout;
-import fr.pronoschallenge.R.string;
-import fr.pronoschallenge.auth.LoginActivity;
-import fr.pronoschallenge.profil.ProfilActivity;
-import fr.pronoschallenge.rest.QueryBuilder;
-import fr.pronoschallenge.rest.RestClient;
-import fr.pronoschallenge.util.NetworkUtil;
-import greendroid.app.GDActivity;
-import greendroid.widget.ActionBarItem;
-import greendroid.widget.NormalActionBarItem;
-import greendroid.widget.QuickActionGrid;
-import greendroid.widget.QuickActionWidget;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClassementActivity extends GDActivity {
 
@@ -112,10 +110,10 @@ public class ClassementActivity extends GDActivity {
         itemFiltre.setDrawable(R.drawable.user_no_favorites);
         getActionBar().addItem(itemFiltre);
 
-		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.ClassementType");
+		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.classement.ClassementType");
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.ClassementTitle"));
+            setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.classement.ClassementTitle"));
 
             new ClassementTask(this).execute(classementType);
         } else {
