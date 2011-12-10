@@ -1,116 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>fr.pronoschallenge</groupId>
-  <artifactId>pronoschallenge-android</artifactId>
-  <packaging>apk</packaging>
-  <name>PronosChallenge Android</name>
-  <version>0.4.0-SNAPSHOT</version>
-  <description>PronosChallenge Android</description>
+	<groupId>fr.pronoschallenge</groupId>
+	<artifactId>pronoschallenge-android</artifactId>
+	<packaging>apk</packaging>
+	<name>PronosChallenge Android</name>
+	<version>0.4.0-SNAPSHOT</version>
+	<description>PronosChallenge Android</description>
 
-  <properties>
-    <!-- Runtimes -->
-    <com.google.android.version>2.1.2</com.google.android.version>
-    <!-- Default version of SDK to use -->
-    <android.sdk.platform>7</android.sdk.platform>
-    <!-- Maven Plugins -->
-    <maven-android-plugin.plugin-version>3.0.0</maven-android-plugin.plugin-version>
-    <!-- Java version -->
-    <maven.compiler.target>1.6</maven.compiler.target>
-    <maven.compiler.source>1.6</maven.compiler.source>
-  </properties>
+	<properties>
+		<!-- Runtimes -->
+		<com.google.android.version>2.1.2</com.google.android.version>
+		<!-- Default version of SDK to use -->
+		<android.sdk.platform>7</android.sdk.platform>
+		<!-- Maven Plugins -->
+		<maven-android-plugin.plugin-version>3.0.0</maven-android-plugin.plugin-version>
+		<!-- Java version -->
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.6</maven.compiler.source>
+	</properties>
 
-  <dependencies>
-    <!-- Dependency With Android -->
-    <dependency>
-      <groupId>com.google.android</groupId>
-      <artifactId>android</artifactId>
-      <version>${com.google.android.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- Dependency With Greendroid library for Android -->
-    <dependency>
-      <groupId>com.greendroid</groupId>
-      <artifactId>greendroid</artifactId>
-      <version>1.0.0</version>
-      <type>apklib</type>
-    </dependency>
-  </dependencies>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-          <artifactId>android-maven-plugin</artifactId>
-          <version>${maven-android-plugin.plugin-version}</version>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-        	<groupId>org.eclipse.m2e</groupId>
-        	<artifactId>lifecycle-mapping</artifactId>
-        	<version>1.0.0</version>
-        	<configuration>
-        		<lifecycleMappingMetadata>
-        			<pluginExecutions>
-        				<pluginExecution>
-        					<pluginExecutionFilter>
-        						<groupId>
-        							com.jayway.maven.plugins.android.generation2
+	<scm>
+		<developerConnection>scm:git:git://github.com/pronoschallenge/pronoschallenge-android</developerConnection>
+	</scm>
+
+	<dependencies>
+		<!-- Dependency With Android -->
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${com.google.android.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Dependency With Greendroid library for Android -->
+		<dependency>
+			<groupId>com.greendroid</groupId>
+			<artifactId>greendroid</artifactId>
+			<version>1.0.0</version>
+			<type>apklib</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>${maven-android-plugin.plugin-version}</version>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.jayway.maven.plugins.android.generation2
         						</groupId>
-        						<artifactId>
-        							android-maven-plugin
+										<artifactId>
+											android-maven-plugin
         						</artifactId>
-        						<versionRange>
-        							[3.0.0-alpha-14,)
+										<versionRange>
+											[3.0.0-alpha-14,)
         						</versionRange>
-        						<goals>
-        							<goal>manifest-update</goal>
-        							<goal>proguard</goal>
-        						</goals>
-        					</pluginExecutionFilter>
-        					<action>
-        						<ignore></ignore>
-        					</action>
-        				</pluginExecution>
-        			</pluginExecutions>
-        		</lifecycleMappingMetadata>
-        	</configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-        <artifactId>android-maven-plugin</artifactId>
-        <configuration>
-          <dexJvmArguments>
-            <jvmArgument>-Xshare:auto</jvmArgument>
-            <jvmArgument>-Xms128M</jvmArgument>
-            <jvmArgument>-Xmx1G</jvmArgument>
-            <jvmArgument>-XX:MaxPermSize=256M</jvmArgument>
-          </dexJvmArguments>
-          <extractDuplicates>true</extractDuplicates>
-        </configuration>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <id>manifestUpdate</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>manifest-update</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>alignApk</id>
-            <phase>package</phase>
-            <goals>
-              <goal>zipalign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    <sourceDirectory>src</sourceDirectory>
-  </build>
+										<goals>
+											<goal>manifest-update</goal>
+											<goal>proguard</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<configuration>
+					<dexJvmArguments>
+						<jvmArgument>-Xshare:auto</jvmArgument>
+						<jvmArgument>-Xms128M</jvmArgument>
+						<jvmArgument>-Xmx1G</jvmArgument>
+						<jvmArgument>-XX:MaxPermSize=256M</jvmArgument>
+					</dexJvmArguments>
+					<extractDuplicates>true</extractDuplicates>
+				</configuration>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>manifestUpdate</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>manifest-update</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>alignApk</id>
+						<phase>package</phase>
+						<goals>
+							<goal>zipalign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.1</version>
+			</plugin>
+		</plugins>
+		<sourceDirectory>src</sourceDirectory>
+	</build>
 </project>
