@@ -24,7 +24,7 @@
 	</properties>
 
 	<scm>
-		<developerConnection>scm:git:git://github.com/pronoschallenge/pronoschallenge-android</developerConnection>
+		<developerConnection>scm:git:http://github.com/pronoschallenge/pronoschallenge-android</developerConnection>
 	</scm>
 
 	<dependencies>
