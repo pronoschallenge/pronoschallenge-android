@@ -7,18 +7,17 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-        <activity android:name=".pronos.PronosActivity"></activity>
-	    <activity android:name=".classement.ClassementActivity"></activity>
-        <activity android:name=".gazouillis.GazouillisActivity"></activity>
-        <activity android:name=".gazouillis.GazouilliComposerActivity"
-                android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".auth.LoginActivity"></activity>
-        <activity android:name=".profil.ProfilActivity"></activity>
-        <activity android:name=".options.OptionsActivity"></activity>
-        <activity android:name=".amis.AmisActivity"></activity>
-        <activity android:name=".amis.ajout.AmisAjoutActivity"></activity>
-        <activity android:name=".classement.club.ClassementClubActivity"></activity>
-        <activity android:name=".stat.match.StatMatchActivity"></activity>
+        <activity android:name=".pronos.PronosActivity"/>
+	    <activity android:name=".classement.ClassementActivity"/>
+        <activity android:name=".gazouillis.GazouillisActivity"/>
+        <activity android:name=".gazouillis.GazouilliComposerActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".auth.LoginActivity"/>
+        <activity android:name=".profil.ProfilActivity"/>
+        <activity android:name=".options.OptionsActivity"/>
+        <activity android:name=".amis.AmisActivity"/>
+        <activity android:name=".amis.ajout.AmisAjoutActivity"/>
+        <activity android:name=".classement.club.ClassementClubActivity"/>
+        <activity android:name=".stat.match.StatMatchActivity"/>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

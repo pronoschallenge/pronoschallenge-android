@@ -35,7 +35,7 @@ public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> {
 
         if (view == null) {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //le layout représentant la ligne dans le listView
+            //le layout reprÃ©sentant la ligne dans le listView
             view = li.inflate(R.layout.amis_ajout_liste_item, null);
         }
         AmisAjoutEntry amisAjoutEntry = getItem(position);
@@ -107,13 +107,13 @@ public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> {
             HttpResponse response = RestClient.postData(url, "", userName, password);
 
             if (response.getStatusLine().getStatusCode() != 200) {
-                Toast toast = Toast.makeText(checkBoxView.getContext(), "Erreur lors de la mise à jour de votre ami : " + response.getStatusLine().getStatusCode(), 4);
+                Toast toast = Toast.makeText(checkBoxView.getContext(), "Erreur lors de la mise Ã  jour de votre ami : " + response.getStatusLine().getStatusCode(), 4);
                 toast.show();
             } else {
                 try {
                     String message = RestClient.convertStreamToString(response.getEntity().getContent());
                     if(message.length() > 0) {
-                        Toast toast = Toast.makeText(checkBoxView.getContext(), "Erreur lors de la mise à jour de votre ami : " + message, 4);
+                        Toast toast = Toast.makeText(checkBoxView.getContext(), "Erreur lors de la mise Ã  jour de votre ami : " + message, 4);
                         toast.show();
                     }
                 } catch (Exception e) {

@@ -37,7 +37,7 @@ public class StatMatchActivity extends GDActivity {
 		super.onCreate(savedInstanceState);
 		setActionBarContentView(R.layout.stat_match);
     	
-    	//On récupère l'objet Bundle envoyé par l'autre Activity
+    	//On rÃ©cupÃ¨re l'objet Bundle envoyÃ© par l'autre Activity
         Bundle objetbunble  = this.getIntent().getExtras();
         nomClubDomicile = (String) objetbunble.get("clubDomicile");
         nomClubExterieur = (String) objetbunble.get("clubExterieur");
