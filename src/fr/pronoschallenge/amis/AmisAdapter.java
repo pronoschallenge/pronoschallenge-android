@@ -24,7 +24,7 @@ public class AmisAdapter extends ArrayAdapter<AmisPalmaresEntry> {
 
         if (view == null) {
             LayoutInflater li = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //le layout représentant la ligne dans le listView
+            //le layout reprÃ©sentant la ligne dans le listView
             view = li.inflate(R.layout.amis_liste_item, null);
         }
         AmisPalmaresEntry palmaresEntry = getItem(position);

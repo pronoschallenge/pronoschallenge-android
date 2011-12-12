@@ -90,7 +90,7 @@ public class AmisActivity extends GDActivity {
         amisPalmaresMessage = (TextView) findViewById(R.id.amisPalmaresMessage);
         amisLayout = (LinearLayout) findViewById(R.id.amisLayout);
         
-        // Entête de la liste view permettant de trier la liste
+        // EntÃªte de la liste view permettant de trier la liste
         pseudoTextView = (TextView) findViewById(R.id.amisEntetePseudo);
         pseudoTextView.setOnClickListener(new EnteteOnClickListener(TRI_PSEUDO, this));        	
         generalTextView = (TextView) findViewById(R.id.amisEnteteGeneral);
@@ -149,17 +149,17 @@ public class AmisActivity extends GDActivity {
         amisPalmaresListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 			    int position, long id) {
-					//on rï¿½cupï¿½re la HashMap contenant les infos de notre item (pseudo)
+					//on rÃ©cupÃ¨re la HashMap contenant les infos de notre item (pseudo)
 					AmisPalmaresEntry amisPalmaresEntry = (AmisPalmaresEntry) amisPalmaresListView.getItemAtPosition(position);					
-					//On crï¿½ï¿½ un objet Bundle, c'est ce qui va nous permettre d'envoyer des donnï¿½es ï¿½ l'autre Activity
+					//On crÃ©e un objet Bundle, c'est ce qui va nous permettre d'envoyer des donnÃ©es Ã  l'autre Activity
 					Bundle objetbunble = new Bundle();		 
 					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", amisPalmaresEntry.getPseudo());							
-					// On met en place le passage entre les deux activitï¿½s sur ce Listener (activitï¿½ dï¿½part, activitï¿½ arrivï¿½e)
+					// On met en place le passage entre les deux activitÃ©s sur ce Listener (activitÃ© dÃ©part, activitÃ© arrivÃ©e)
 					Intent intent = new Intent(AmisActivity.this, ProfilActivity.class);					
-					//On affecte ï¿½ l'Intent le Bundle que l'on a crï¿½ï¿½
+					//On affecte Ã  l'Intent le Bundle que l'on a crÃ©Ã©
 					intent.putExtras(objetbunble);					
-					//On dï¿½marre la nouvelle Activity en indiquant qu'on pourra revenir ï¿½ l'activity classement
+					//On dÃ©marre la nouvelle Activity en indiquant qu'on pourra revenir Ã  l'activity classement
 					int intRecharge = 0;
 					startActivityForResult(intent, intRecharge);
 					if (intRecharge == RESULT_OK) reStart();
@@ -212,10 +212,10 @@ public class AmisActivity extends GDActivity {
     	this.onRestart();
     }
     
-    // fonction qui tri la liste des amis selon un paramètre (pseudo, classement général ...)
+    // fonction qui tri la liste des amis selon un paramï¿½tre (pseudo, classement gï¿½nï¿½ral ...)
     public List<AmisPalmaresEntry> triAmis() {
 
-    	// La liste est triée par défaut sur le pseudo 
+    	// La liste est triÃ©e par dÃ©faut sur le pseudo 
 		if (strTri.compareTo(TRI_PSEUDO) == 0 && bolTriAscendant) {
 			return amisPalmaresEntriesNonTriee;
 		// TRI PAR PSEUDO DESCENDANT
@@ -227,7 +227,7 @@ public class AmisActivity extends GDActivity {
 			// TRI PAR PLACE (classement, top/flop) ASCENDANT / DESCENDANT	
 			} else {
 				List<Integer> ma_liste = new ArrayList<Integer>();
-				// Parcours des amis et stockage du classement souhaité
+				// Parcours des amis et stockage du classement souhaitÃ©
 				for (AmisPalmaresEntry palmaresEntry : amisPalmaresEntriesNonTriee) {
 					for (AmisPalmaresDetailEntry palmaresDetail : palmaresEntry.getPalmaresDetail()) {
 						if (palmaresDetail.getTypeChamp().compareTo(strTri) == 0) {
@@ -243,7 +243,7 @@ public class AmisActivity extends GDActivity {
 					Collections.sort(ma_liste, comparator);
 				}				
 				Integer numPlacePrecedente = 0;
-				// Reparcours de la liste pour attribuer tous les éléments affichés
+				// Reparcours de la liste pour attribuer tous les Ã©lÃ©ments affichÃ©s
 				for (Integer numPlace : ma_liste) {
 					if (numPlace.compareTo(numPlacePrecedente) != 0) {
 						for (AmisPalmaresEntry palmaresEntry : amisPalmaresEntriesNonTriee) {
@@ -261,7 +261,7 @@ public class AmisActivity extends GDActivity {
 		}
     }
 	
-	// Clic sur un entête = filtre des amis sur ce critère
+	// Clic sur un entÃªte = filtre des amis sur ce critÃ¨re
     class EnteteOnClickListener implements View.OnClickListener {
 
         String strTri = null;
@@ -282,7 +282,7 @@ public class AmisActivity extends GDActivity {
 
 	
 	private List<AmisPalmaresEntry> getAmisPalmares(String userName) {
-		// Chargement de la liste des amis uniquement la première fois (pour ne pas faire un chargement à chaque filtre)
+		// Chargement de la liste des amis uniquement la premiÃ¨re fois (pour ne pas faire un chargement Ã  chaque filtre)
 		if (amisPalmaresEntriesNonTriee == null) {
 	
 			amisPalmaresEntriesNonTriee = new ArrayList<AmisPalmaresEntry>();
@@ -303,19 +303,19 @@ public class AmisActivity extends GDActivity {
 		
 			        	AmisPalmaresEntry palmaresEntry = new AmisPalmaresEntry();
 			        	palmaresEntry.setPseudo(jsonPalmaresEntry.getString("pseudo"));
-			        	// Recherche des championnats liés à la saison
+			        	// Recherche des championnats liÃ©s Ã  la saison
 			        	while (jsonPalmaresEntry.getString("pseudo").equals(palmaresEntry.getPseudo()) && i < palmaresArray.length()) {
 			        		AmisPalmaresDetailEntry palmaresDetail = new AmisPalmaresDetailEntry();
 		        			palmaresDetail.setTypeChamp(jsonPalmaresEntry.getString("type"));
 		                    palmaresDetail.setNumPlace(jsonPalmaresEntry.getInt("evol"));
 		                    palmaresEntry.setPalmaresDetail(palmaresDetail);
-		                    // Entité JSON suivante
+		                    // EntitÃ© JSON suivante
 		                    i++;
 		                    if (i < palmaresArray.length()) {
 		                    	jsonPalmaresEntry = palmaresArray.getJSONObject(i);
 		                    }
 			        	}
-			        	// Repositionnement sur l'entité JSON adéquate
+			        	// Repositionnement sur l'entitÃ© JSON adÃ©quate
 			        	if (i < palmaresArray.length()) {
 			        		i--;
 			        	}
@@ -341,7 +341,7 @@ public class AmisActivity extends GDActivity {
 		
 			        	AmisPalmaresEntry palmaresEntry = new AmisPalmaresEntry();
 			        	palmaresEntry.setPseudo(jsonPalmaresEntry.getString("pseudo"));
-			        	// Recherche des championnats liés à la saison
+			        	// Recherche des championnats liÃ©s Ã  la saison
 			        	while (jsonPalmaresEntry.getString("pseudo").equals(palmaresEntry.getPseudo()) && i < palmaresArray.length()) {
 			        		AmisPalmaresDetailEntry palmaresDetail = new AmisPalmaresDetailEntry();
 		        			palmaresDetail.setTypeChamp(jsonPalmaresEntry.getString("type"));
@@ -351,13 +351,13 @@ public class AmisActivity extends GDActivity {
 			                    palmaresDetail.setNumPlace(jsonPalmaresEntry.getInt("point"));		        				
 		        			}
 		                    palmaresEntry.setPalmaresDetail(palmaresDetail);
-		                    // Entité JSON suivante
+		                    // EntitÃ© JSON suivante
 		                    i++;
 		                    if (i < palmaresArray.length()) {
 		                    	jsonPalmaresEntry = palmaresArray.getJSONObject(i);
 		                    }
 			        	}
-			        	// Repositionnement sur l'entité JSON adéquate
+			        	// Repositionnement sur l'entitÃ© JSON adÃ©quate
 			        	if (i < palmaresArray.length()) {
 			        		i--;
 			        	}
@@ -371,7 +371,7 @@ public class AmisActivity extends GDActivity {
 			}
 		}
 		
-		// Retourne amisPalmaresEntriesNonTriee triée sur le tri souhaité
+		// Retourne amisPalmaresEntriesNonTriee triÃ©e sur le tri souhaitÃ©
 		return triAmis();
 	}
 
