@@ -5,6 +5,7 @@ public class StatMatchSerieEntry {
 	private String nomClubAdverse;
 	private int butExt;
 	private String matchDomExt;
+	private String typeResultat;
 
 	public String getNomClubAdverse() {
 		return nomClubAdverse;
@@ -29,5 +30,11 @@ public class StatMatchSerieEntry {
 	}
 	public void setButExt(int butExt) {
 		this.butExt = butExt;
+	}
+	public String getTypeResultat() {
+		return typeResultat;
+	}
+	public void setTypeResultat(String typeResultat) {
+		this.typeResultat = typeResultat;
 	}
 }
