@@ -31,5 +31,6 @@
     <string name="title_classement_club">Classement ligue 1</string>
     <string name="button_classement_club">Ligue 1</string>      
     <string name="button_stat">Stats</string>
+    <string name="title_stat">Statistiques match</string>
         
 </resources>

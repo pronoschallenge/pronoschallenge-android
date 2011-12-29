@@ -1,35 +1,19 @@
 package fr.pronoschallenge.pronos;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import fr.pronoschallenge.R;
-import fr.pronoschallenge.R.id;
-import fr.pronoschallenge.R.layout;
-import fr.pronoschallenge.rest.QueryBuilder;
-import fr.pronoschallenge.rest.RestClient;
 import greendroid.widget.PagedAdapter;
-import org.apache.http.HttpResponse;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class PronosPagesAdapter extends PagedAdapter {
 
     private Context context;
     private List<List<PronoEntry>> pronos;
+    private ListView pronoPageListView;
 
     public PronosPagesAdapter(Context context, int textViewResourceId,
                               List<List<PronoEntry>> objects) {
@@ -65,11 +49,11 @@ public class PronosPagesAdapter extends PagedAdapter {
             view = li.inflate(R.layout.pronos_page_item, null);
         }
 
-        ListView pronoPageListView = (ListView) view.findViewById(R.id.pronoPageList);
+        pronoPageListView = (ListView) view.findViewById(R.id.pronoPageList);
 
         PronosAdapter adapter = new PronosAdapter(context, R.layout.pronos_item, pronos.get(position));
         pronoPageListView.setAdapter(adapter);
-
+        
         return view;
 
     }

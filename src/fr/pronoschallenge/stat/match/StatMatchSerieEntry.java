@@ -2,16 +2,17 @@ package fr.pronoschallenge.stat.match;
 
 public class StatMatchSerieEntry {
 	private int butDom;
-	private String nomClubAdverse;
+	private String nomClubExt;
+	private String nomClubDom;
 	private int butExt;
 	private String matchDomExt;
 	private String typeResultat;
 
-	public String getNomClubAdverse() {
-		return nomClubAdverse;
+	public String getNomClubExt() {
+		return nomClubExt;
 	}
-	public void setNomClubAdverse(String nomClubAdverse) {
-		this.nomClubAdverse = nomClubAdverse;
+	public void setNomClubExt(String nomClubExt) {
+		this.nomClubExt = nomClubExt;
 	}
 	public String getMatchDomExt() {
 		return matchDomExt;
@@ -36,5 +37,11 @@ public class StatMatchSerieEntry {
 	}
 	public void setTypeResultat(String typeResultat) {
 		this.typeResultat = typeResultat;
+	}
+	public String getNomClubDom() {
+		return nomClubDom;
+	}
+	public void setNomClubDom(String nomClubDom) {
+		this.nomClubDom = nomClubDom;
 	}
 }

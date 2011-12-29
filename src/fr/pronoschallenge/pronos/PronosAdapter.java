@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.stat.match.StatMatchActivity;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
@@ -60,10 +63,12 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
             TextView pronoEntryClubDom = (TextView) view.findViewById(R.id.pronoEntryEquipeDom);
             pronoEntryClubDom.setText(pronoEntry.getEquipeDom());
+            pronoEntryClubDom.setOnClickListener(new PronosTextOnClickListener((Activity) this.context, pronoEntry));
 
             TextView pronoEntryClubExt = (TextView) view.findViewById(R.id.pronoEntryEquipeExt);
             pronoEntryClubExt.setText(pronoEntry.getEquipeExt());
-
+            pronoEntryClubExt.setOnClickListener(new PronosTextOnClickListener((Activity) this.context, pronoEntry));
+            
             if(!matchsJoues) {
 
                 int id = pronoEntry.getId();
@@ -126,7 +131,30 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
         return view;
 
     }
+    
+    
+    class PronosTextOnClickListener implements View.OnClickListener {
 
+        Activity activity;
+        PronoEntry pronoEntry;
+
+        PronosTextOnClickListener(Activity activity, PronoEntry pronoEntry) {
+            this.activity = activity;
+            this.pronoEntry = pronoEntry;
+        }
+
+        public void onClick(View text) {
+			Bundle objetbunble = new Bundle();
+			objetbunble.putString("clubDomicile", pronoEntry.getEquipeDom());
+			objetbunble.putString("clubExterieur", pronoEntry.getEquipeExt());
+			objetbunble.putString("idMatch", String.valueOf(pronoEntry.getId()));
+			Intent intent = new Intent(context, StatMatchActivity.class);
+			intent.putExtras(objetbunble);
+			context.startActivity(intent);
+        }
+    }
+    
+    
     class PronosButtonsOnClickListener implements View.OnClickListener {
 
         Activity activity;
@@ -161,7 +189,7 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             pronoEntry.setProno(valueProno);
         }
     }
-
+    
     class PronosTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;

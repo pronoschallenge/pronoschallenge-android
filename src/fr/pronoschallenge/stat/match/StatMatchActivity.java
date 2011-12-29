@@ -18,9 +18,11 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,19 +44,20 @@ public class StatMatchActivity extends GDActivity {
 	
 	private TextView messageStatMatchSerieTextView;
 	
-	private AsyncImageView statMatchLogoCoteDomAsyncImageView;
+	//private AsyncImageView statMatchLogoCoteDomAsyncImageView;
 	private TextView statMatchCoteDomTextView;
 	
-	private AsyncImageView statMatchLogoCoteNulAsyncImageView;
+	//private AsyncImageView statMatchLogoCoteNulAsyncImageView;
 	private TextView statMatchCoteNulTextView;
 	
-	private AsyncImageView statMatchLogoCoteExtAsyncImageView;
+	//private AsyncImageView statMatchLogoCoteExtAsyncImageView;
 	private TextView statMatchCoteExtTextView;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setActionBarContentView(R.layout.stat_match);
     	
     	//On récupère l'objet Bundle envoyé par l'autre Activity
@@ -77,17 +80,17 @@ public class StatMatchActivity extends GDActivity {
 		
         messageStatMatchSerieTextView = (TextView) findViewById(R.id.statMatchSerieMessage);
         
-        statMatchLogoCoteDomAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteDom);
+        //statMatchLogoCoteDomAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteDom);
         statMatchCoteDomTextView = (TextView) findViewById(R.id.statMatchCoteDom);
         
-        statMatchLogoCoteNulAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteNul);
+        //statMatchLogoCoteNulAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteNul);
         statMatchCoteNulTextView = (TextView) findViewById(R.id.statMatchCoteNul);
         
-        statMatchLogoCoteExtAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteExt);
+        //statMatchLogoCoteExtAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoCoteExt);
         statMatchCoteExtTextView = (TextView) findViewById(R.id.statMatchCoteExt);
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            setTitle(getString(R.string.title_classement_club));
+            setTitle(getString(R.string.title_stat));
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -111,7 +114,7 @@ public class StatMatchActivity extends GDActivity {
 	private List<StatMatchSerieEntry> getMatchSerie(String nomClub) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
-		String strMatchSerie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/serieClub/" + nomClub + "/").getUri());
+		String strMatchSerie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=6").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -125,21 +128,20 @@ public class StatMatchActivity extends GDActivity {
 	        	StatMatchSerieEntry statMatchSerieEntry = new StatMatchSerieEntry();	        	
 	        	statMatchSerieEntry.setButDom(jsonSerieEntry.getInt("butDom"));
 	        	statMatchSerieEntry.setButExt(jsonSerieEntry.getInt("butExt"));
-	        	if (nomClub.compareTo(jsonSerieEntry.getString("clubDom")) == 0) {
-	        		statMatchSerieEntry.setNomClubAdverse(jsonSerieEntry.getString("clubExt"));
-	        		statMatchSerieEntry.setMatchDomExt("(D)");
+	        	statMatchSerieEntry.setMatchDomExt(jsonSerieEntry.getString("type"));
+        		statMatchSerieEntry.setNomClubDom(jsonSerieEntry.getString("clubDom"));
+	        	statMatchSerieEntry.setNomClubExt(jsonSerieEntry.getString("clubExt"));
+	        	if (statMatchSerieEntry.getMatchDomExt().compareTo("D") == 0) {
 	        		if (statMatchSerieEntry.getButDom() == statMatchSerieEntry.getButExt()) { 
-	        			statMatchSerieEntry.setTypeResultat("N");	        		
+	        			statMatchSerieEntry.setTypeResultat("N");
 	        		} else if (statMatchSerieEntry.getButDom() > statMatchSerieEntry.getButExt()) {
 	        			statMatchSerieEntry.setTypeResultat("V");
 	        		} else {
 	        			statMatchSerieEntry.setTypeResultat("D");
 	        		}
 	        	} else {
-	        		statMatchSerieEntry.setNomClubAdverse(jsonSerieEntry.getString("clubDom"));
-	        		statMatchSerieEntry.setMatchDomExt("(E)");
 	        		if (statMatchSerieEntry.getButDom() == statMatchSerieEntry.getButExt()) { 
-	        			statMatchSerieEntry.setTypeResultat("N");	        		
+	        			statMatchSerieEntry.setTypeResultat("N");
 	        		} else if (statMatchSerieEntry.getButDom() > statMatchSerieEntry.getButExt()) {
 	        			statMatchSerieEntry.setTypeResultat("D");
 	        		} else {
@@ -305,19 +307,49 @@ public class StatMatchActivity extends GDActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
         	
-	        for(CoteMatchEntry coteMatchEntry : coteMatchEntries) {	        	
+        	int tabcote[] = new int [3];
+        	
+	        for(CoteMatchEntry coteMatchEntry : coteMatchEntries) {
 	        	if (coteMatchEntry.getTypeMatch().compareTo("1") == 0) {
-                	statMatchLogoCoteDomAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
-                	statMatchCoteDomTextView.setText(String.valueOf(coteMatchEntry.getCote() ));	        		
+                	//statMatchLogoCoteDomAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
+                	statMatchCoteDomTextView.setText(String.valueOf(coteMatchEntry.getCote()));
+                	tabcote[0] = coteMatchEntry.getCote();
 	        	} else if (coteMatchEntry.getTypeMatch().compareTo("N") == 0) {
-                	statMatchLogoCoteNulAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
-                	statMatchCoteNulTextView.setText(String.valueOf(coteMatchEntry.getCote() ));	        		
+                	//statMatchLogoCoteNulAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
+                	statMatchCoteNulTextView.setText(String.valueOf(coteMatchEntry.getCote()));
+                	tabcote[1] = coteMatchEntry.getCote();
 	        	} else if (coteMatchEntry.getTypeMatch().compareTo("2") == 0) {
-                	statMatchLogoCoteExtAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
-                	statMatchCoteExtTextView.setText(String.valueOf(coteMatchEntry.getCote() ));	        		
+                	//statMatchLogoCoteExtAsyncImageView.setUrl(coteMatchEntry.getUrlLogo());
+                	statMatchCoteExtTextView.setText(String.valueOf(coteMatchEntry.getCote()));
+                	tabcote[2] = coteMatchEntry.getCote();
 	        	}
 	        }
+	        
+	        // Affectations des couleurs de fond pour les cotes
+	        if (tabcote[0] >= tabcote[1] && tabcote[0] >= tabcote[2]) {
+	        	statMatchCoteDomTextView.setBackgroundColor(Color.RED);
+	        }
+	        if (tabcote[1] >= tabcote[0] && tabcote[1] >= tabcote[2]) {
+	        	statMatchCoteNulTextView.setBackgroundColor(Color.RED);
+	        }
+	        if (tabcote[2] >= tabcote[0] && tabcote[2] >= tabcote[1]) {
+	        	statMatchCoteExtTextView.setBackgroundColor(Color.RED);
+	        }
 
+	        if (tabcote[0] <= tabcote[1] && tabcote[0] <= tabcote[2]) {
+	        	statMatchCoteDomTextView.setBackgroundColor(Color.GREEN);
+	        	statMatchCoteDomTextView.setTextColor(Color.BLACK);
+	        } 
+	        if (tabcote[1] <= tabcote[0] && tabcote[1] <= tabcote[2]) {
+	        	statMatchCoteNulTextView.setBackgroundColor(Color.GREEN);
+	        	statMatchCoteNulTextView.setTextColor(Color.BLACK);
+	        } 
+	        if (tabcote[2] <= tabcote[0] && tabcote[2] <= tabcote[1]) {
+	        	statMatchCoteExtTextView.setBackgroundColor(Color.GREEN);
+	        	statMatchCoteExtTextView.setTextColor(Color.BLACK);
+	        }
+	        
+	        
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }

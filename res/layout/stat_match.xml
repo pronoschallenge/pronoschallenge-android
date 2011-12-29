@@ -7,7 +7,8 @@
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	              android:layout_width="fill_parent"
-	              android:layout_height="wrap_content">
+	              android:layout_height="wrap_content"	              
+			      android:layout_marginTop="5px">
     
 	    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			        android:orientation="vertical"
@@ -34,6 +35,10 @@
 					    android:textSize="16px"/>
 		</LinearLayout>
 
+	    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+				    android:layout_width="100px"
+				    android:layout_height="wrap_content"/>
+    		        
     	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			      android:orientation="vertical"
 			      android:layout_width="wrap_content"
@@ -61,71 +66,41 @@
 	        	
 	</LinearLayout>
 
-
+    <TextView
+        	android:id="@+id/statMatchCoteTitre"
+        	android:text="Cote" 
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:textSize="14px"/>
+	    	    
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	              android:layout_width="fill_parent"
 	              android:layout_height="wrap_content"
-	              android:orientation="vertical"
-	              android:layout_marginTop="10px"
-		          android:background="@drawable/back">
-	    <TextView
-	        	android:id="@+id/statMatchCoteTitre"
-	        	android:text="Cote" 
-				android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-		        android:gravity="center"
-		        android:textSize="14px"/>
-	    	    
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		              android:layout_width="fill_parent"
-		              android:layout_height="wrap_content"
-		              android:layout_marginTop="5px" >		    	    
-			<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
-						android:id="@+id/statMatchLogoCoteDom"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"						
+	              android:layout_marginTop="10px">		    	    
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchCoteDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
 					    android:gravity="center"
+					    android:textSize="16px"
 					    android:layout_weight="1"/>
-			<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
-						android:id="@+id/statMatchLogoCoteNul"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"						
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchCoteNul"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_marginLeft="10px"
 					    android:gravity="center"
+					    android:textSize="16px"
 					    android:layout_weight="1"/>
-			<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
-						android:id="@+id/statMatchLogoCoteExt"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
+			<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+						android:id="@+id/statMatchCoteExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:layout_marginLeft="10px"
 					    android:gravity="center"
-					    android:layout_weight="1"/>						
-		</LinearLayout>	    	    
-	    
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		              android:layout_width="fill_parent"
-		              android:layout_height="wrap_content">		    	    
-				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-							android:id="@+id/statMatchCoteDom"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:gravity="center"
-						    android:textSize="16px"
-						    android:layout_weight="1"/>
-				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-							android:id="@+id/statMatchCoteNul"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:gravity="center"
-						    android:textSize="16px"
-						    android:layout_weight="1"/>
-				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-							android:id="@+id/statMatchCoteExt"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:gravity="center"
-						    android:textSize="16px"
-						    android:layout_weight="1"/>
-		</LinearLayout>
-			        	
+					    android:textSize="16px"
+					    android:layout_weight="1"/>
 	</LinearLayout>
 
 	    	    
@@ -133,7 +108,7 @@
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:orientation="vertical"
-		        android:layout_marginTop="10px" >	        
+		        android:layout_marginTop="15px" >	        
 	    <TextView
 	        	android:text="Derniers matchs" 
 				android:layout_width="fill_parent"

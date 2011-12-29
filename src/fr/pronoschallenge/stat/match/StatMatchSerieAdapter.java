@@ -33,13 +33,13 @@ public class StatMatchSerieAdapter extends ArrayAdapter<StatMatchSerieEntry> {
         if (statMatchSerieEntry != null)
         {
             TextView statMatchSerieResultat = (TextView)view.findViewById(R.id.statMatchSerieResultat);
-            statMatchSerieResultat.setText(statMatchSerieEntry.getMatchDomExt() + " " + String.valueOf(statMatchSerieEntry.getButDom()) + "-" + String.valueOf(statMatchSerieEntry.getButExt()) + " " + statMatchSerieEntry.getNomClubAdverse());
+            statMatchSerieResultat.setText(statMatchSerieEntry.getNomClubDom() + " " + String.valueOf(statMatchSerieEntry.getButDom()) + "-" + String.valueOf(statMatchSerieEntry.getButExt()) + " " + statMatchSerieEntry.getNomClubExt());
             if (statMatchSerieEntry.getTypeResultat().compareTo("D") == 0) {
             	statMatchSerieResultat.setTextColor(Color.RED);
             } else if (statMatchSerieEntry.getTypeResultat().compareTo("V") == 0) {
             	statMatchSerieResultat.setTextColor(Color.GREEN);
             } else {
-            	statMatchSerieResultat.setTextColor(Color.WHITE);
+            	statMatchSerieResultat.setTextColor(Color.YELLOW);
             }
         }
         
