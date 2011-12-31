@@ -4,9 +4,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import fr.pronoschallenge.R;
-import fr.pronoschallenge.R.id;
-import fr.pronoschallenge.R.layout;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
