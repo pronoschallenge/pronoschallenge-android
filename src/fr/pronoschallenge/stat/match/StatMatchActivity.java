@@ -238,7 +238,6 @@ public class StatMatchActivity extends GDActivity {
 	        	CoteMatchEntry coteMatchEntry = new CoteMatchEntry();	        	
 	        	coteMatchEntry.setTypeMatch(jsonCoteMatchEntry.getString("type"));
 	        	coteMatchEntry.setCote(jsonCoteMatchEntry.getInt("cote"));
-	        	coteMatchEntry.setUrlLogo(jsonCoteMatchEntry.getString("url_logo"));
 	        	
 	        	coteMatchEntries.add(coteMatchEntry);
 	        }
