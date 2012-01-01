@@ -53,7 +53,6 @@ public class PronosChallengeActivity extends GDActivity {
         icons.add(new HomeMenuItem(getString(R.string.button_options), BitmapFactory.decodeResource(getResources(), R.drawable.options)));
         icons.add(new HomeMenuItem(getString(R.string.button_mes_amis), BitmapFactory.decodeResource(getResources(), R.drawable.mes_amis)));
         icons.add(new HomeMenuItem(getString(R.string.button_classement_club), BitmapFactory.decodeResource(getResources(), R.drawable.ligue_1)));
-        //icons.add(new HomeMenuItem(getString(R.string.button_stat), BitmapFactory.decodeResource(getResources(), R.drawable.ligue_1)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
@@ -145,19 +144,6 @@ public class PronosChallengeActivity extends GDActivity {
                                 Intent amisIntent = new Intent();
                                 amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.classement.club.ClassementClubActivity");
                                 startActivity(amisIntent);
-                            }
-                        }); 
-            } else if(homeMenuItem.getName().equals(getString(R.string.button_stat))) {
-                menuItemView.setOnClickListener(
-                        new View.OnClickListener() {
-                            public void onClick(View v) {
-            					Bundle objetbunble = new Bundle();
-            					objetbunble.putString("clubDomicile", "Marseille");
-            					objetbunble.putString("clubExterieur", "Caen");
-                                Intent statIntent = new Intent();
-                                statIntent.putExtras(objetbunble);
-                                statIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.stat.match.StatMatchActivity");
-                                startActivity(statIntent);
                             }
                         }); 
             }

@@ -6,8 +6,9 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
 import greendroid.widget.AsyncImageView;
-
+import greendroid.widget.NormalActionBarItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,46 +33,13 @@ public class StatMatchActivity extends GDActivity {
 
 	private String nomClubDomicile;
 	private String nomClubExterieur;
-	private int intIdMatch;
-	private int vueStat;
-	static int vueCote = 1;
-	static int vueClassement = 2;
+	private String idMatch;
+	static int PAGE_COUNT = 2;
+	static int NUM_PAGE_COTE = 1;
+	static int NUM_PAGE_CLASSEMENT = 2;	
 	
-	private AsyncImageView statMatchLogoDomAsyncImageView;
-	private TextView statMatchEquipeDomTextView;
-	private TextView statMatchPlaceDomTextView;
-	private ListView statMatchSerieListViewDom;
-	
-	private AsyncImageView statMatchLogoExtAsyncImageView;	
-	private TextView statMatchEquipeExtTextView;
-	private TextView statMatchPlaceExtTextView;
-	private ListView statMatchSerieListViewExt;
-	
-	private TextView messageStatMatchSerieTextView;
-	
-	private TextView statMatchCoteDomTextView;
-	private TextView statMatchCoteNulTextView;
-	private TextView statMatchCoteExtTextView;
-	
-	private TextView statMatchFormeDom1TextView;
-	private TextView statMatchFormeDomNTextView;
-	private TextView statMatchFormeDom2TextView;
-	private TextView statMatchFormeExt1TextView;
-	private TextView statMatchFormeExtNTextView;
-	private TextView statMatchFormeExt2TextView;
-	private LinearLayout statMatchFormeLayout;
-	private LinearLayout statMatchCoteLayout;
-	private LinearLayout statMatchDerniersMatchLayout;
-
-	private ListView statMatchClassementListView;
-	private LinearLayout statMatchClassementLayout;
-	
-	private LinearLayout statMatchConfrontationLayout;
-	private TextView statMatchConfrontationTitreTextView;	
-	private TextView statMatchConfrontation1TextView;
-	private TextView statMatchConfrontationNTextView;
-	private TextView statMatchConfrontation2TextView;
-	private TextView statMatchConfrontationMessageTextView;	
+	private StatMatchActivity statMatchActivity;
+    private int currentPage;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -82,48 +50,9 @@ public class StatMatchActivity extends GDActivity {
     	
     	//On rÃ©cupÃ¨re l'objet Bundle envoyÃ© par l'autre Activity
         Bundle objetbunble  = this.getIntent().getExtras();
-        nomClubDomicile = (String) objetbunble.get("clubDomicile");
-        nomClubExterieur = (String) objetbunble.get("clubExterieur");
-        String strIdMatch = (String) objetbunble.get("idMatch");
-        intIdMatch = Integer.parseInt(strIdMatch);
-        vueStat = vueClassement;
-        
-		// Obtain handles to UI objects
-        statMatchLogoDomAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoDom);
-        statMatchEquipeDomTextView = (TextView) findViewById(R.id.statMatchEquipeDom);
-        statMatchPlaceDomTextView = (TextView) findViewById(R.id.statMatchPlaceDom);
-		statMatchSerieListViewDom = (ListView) findViewById(R.id.statMatchSerieListDom);
-		
-        statMatchLogoExtAsyncImageView = (AsyncImageView) findViewById(R.id.statMatchLogoExt);
-        statMatchEquipeExtTextView = (TextView) findViewById(R.id.statMatchEquipeExt);
-        statMatchPlaceExtTextView = (TextView) findViewById(R.id.statMatchPlaceExt);
-		statMatchSerieListViewExt = (ListView) findViewById(R.id.statMatchSerieListExt);
-		
-        messageStatMatchSerieTextView = (TextView) findViewById(R.id.statMatchSerieMessage);
-        
-        statMatchCoteDomTextView = (TextView) findViewById(R.id.statMatchCoteDom);
-        statMatchCoteNulTextView = (TextView) findViewById(R.id.statMatchCoteNul);
-        statMatchCoteExtTextView = (TextView) findViewById(R.id.statMatchCoteExt);
-
-        statMatchFormeDom1TextView = (TextView) findViewById(R.id.statMatchFormeDom1);
-        statMatchFormeDomNTextView = (TextView) findViewById(R.id.statMatchFormeDomN);
-        statMatchFormeDom2TextView = (TextView) findViewById(R.id.statMatchFormeDom2);
-        statMatchFormeExt1TextView = (TextView) findViewById(R.id.statMatchFormeExt1);
-        statMatchFormeExtNTextView = (TextView) findViewById(R.id.statMatchFormeExtN);
-        statMatchFormeExt2TextView = (TextView) findViewById(R.id.statMatchFormeExt2);
-        statMatchFormeLayout = (LinearLayout) findViewById(R.id.statMatchFormeLayout);
-        statMatchCoteLayout = (LinearLayout) findViewById(R.id.statMatchCoteLayout);
-        statMatchDerniersMatchLayout = (LinearLayout) findViewById(R.id.statMatchDerniersMatchLayout);
-
-        statMatchClassementLayout = (LinearLayout) findViewById(R.id.statMatchClassementLayout);
-        statMatchClassementListView = (ListView) findViewById(R.id.statMatchClassementList);
-
-        statMatchConfrontationLayout = (LinearLayout) findViewById(R.id.statMatchConfrontationLayout);
-        statMatchConfrontationTitreTextView = (TextView) findViewById(R.id.statMatchConfrontationTitre);
-        statMatchConfrontation1TextView = (TextView) findViewById(R.id.statMatchConfrontation1);
-        statMatchConfrontationNTextView = (TextView) findViewById(R.id.statMatchConfrontationN);
-        statMatchConfrontation2TextView = (TextView) findViewById(R.id.statMatchConfrontation2);
-        statMatchConfrontationMessageTextView = (TextView) findViewById(R.id.statMatchConfrontationMessage);
+        setNomClubDomicile((String) objetbunble.get("clubDomicile"));
+        setNomClubExterieur((String) objetbunble.get("clubExterieur"));
+        setIdMatch((String) objetbunble.get("idMatch"));
         
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
             setTitle(getString(R.string.title_stat));
@@ -139,21 +68,74 @@ public class StatMatchActivity extends GDActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+		statMatchActivity = this;
 		
-		afficherPage();
+        ActionBarItem itemNext = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        itemNext.setDrawable(android.R.drawable.arrow_up_float);
+        getActionBar().addItem(itemNext);		
+		
+		afficherPage(NUM_PAGE_COTE);
+	}
+	
+	private void afficherPage(int numPage) {
+
+		LinearLayout statMatchConfrontationLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationLayout);
+		LinearLayout statMatchClassementLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchClassementLayout);
+		LinearLayout statMatchCoteLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchCoteLayout);
+		LinearLayout statMatchFormeLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchFormeLayout);
+		LinearLayout statMatchDerniersMatchLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchDerniersMatchLayout);		
+		
+		statMatchCoteLayout.setVisibility(View.GONE);
+		statMatchFormeLayout.setVisibility(View.GONE);
+		statMatchDerniersMatchLayout.setVisibility(View.GONE);
+		statMatchConfrontationLayout.setVisibility(View.GONE);
+		statMatchClassementLayout.setVisibility(View.GONE);
+		
+		currentPage = numPage;
+		new InfoClubTask().execute("");
+		
+		if (currentPage == NUM_PAGE_COTE) {
+			new CoteMatchTask().execute("");
+			new StatMatchTask().execute("");
+		} else if (currentPage == NUM_PAGE_CLASSEMENT) {
+			new ConfrontationTask().execute("");
+		}
 	}
 
-	// Affichage de la page selon la vue souhaitée
-	private void afficherPage() {
-		
-		new InfoClubTask(this).execute("");
-		
-		if (vueStat == vueCote) {
-			new CoteMatchTask(this).execute("");
-			new StatMatchTask(this).execute("");
-		} else if (vueStat == vueClassement) {
-			new ConfrontationTask(this).execute("");
-		}
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+    	if (currentPage == NUM_PAGE_COTE) {
+    		getActionBar().getItem(0).setDrawable(android.R.drawable.arrow_down_float);
+    		afficherPage(NUM_PAGE_CLASSEMENT);
+    	} else {
+    		getActionBar().getItem(0).setDrawable(android.R.drawable.arrow_up_float);
+    		afficherPage(NUM_PAGE_COTE);    		
+    	}    	
+    	
+        return true;
+    }
+	public String getNomClubDomicile() {
+		return nomClubDomicile;
+	}
+
+	public void setNomClubDomicile(String nomClubDomicile) {
+		this.nomClubDomicile = nomClubDomicile;
+	}
+
+	public String getNomClubExterieur() {
+		return nomClubExterieur;
+	}
+
+	public void setNomClubExterieur(String nomClubExterieur) {
+		this.nomClubExterieur = nomClubExterieur;
+	}
+
+	public String getIdMatch() {
+		return idMatch;
+	}
+
+	public void setIdMatch(String idMatch) {
+		this.idMatch = idMatch;
 	}
 	
 	
@@ -161,7 +143,7 @@ public class StatMatchActivity extends GDActivity {
 	private List<StatMatchSerieEntry> getMatchSerie(String nomClub) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
-		String strMatchSerie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=5").getUri());
+		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=5").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -211,7 +193,7 @@ public class StatMatchActivity extends GDActivity {
 	private List<StatMatchSerieEntry> getConfrontation(String nomClubDom, String nomClubExt) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
-		String strMatchSerie = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/confrontationClub/" + nomClubDom + "/?clubAdverse=" + nomClubExt).getUri());
+		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/confrontationClub/" + nomClubDom + "/?clubAdverse=" + nomClubExt).getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -242,7 +224,7 @@ public class StatMatchActivity extends GDActivity {
 	private List<CoteMatchEntry> getCoteMatch(int idMatch) {
 		List<CoteMatchEntry> coteMatchEntries = new ArrayList<CoteMatchEntry>();
 
-		String strCoteMatch = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/coteMatch/" + String.valueOf(idMatch) + "/").getUri());
+		String strCoteMatch = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/coteMatch/" + String.valueOf(idMatch) + "/").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -274,7 +256,7 @@ public class StatMatchActivity extends GDActivity {
 		
 		ClassementClubEntry infoClubEntry = new ClassementClubEntry(); 
 
-		String strInfoClub = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/infoClub/" + nomClub + "/").getUri());
+		String strInfoClub = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/infoClub/" + nomClub + "/").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -315,14 +297,12 @@ public class StatMatchActivity extends GDActivity {
 	// Derniers matchs effectués par les 2 clubs
     private class StatMatchTask extends AsyncTask<String, Void, Boolean> {
 
-        final private StatMatchActivity activity;
         private List<StatMatchSerieEntry> statMatchSerieEntriesDom;
         private List<StatMatchSerieEntry> statMatchSerieEntriesExt;
         private ProgressDialog dialog;
 
-        private StatMatchTask(StatMatchActivity activity) {
-            this.activity = activity;
-            dialog = new ProgressDialog(activity);
+        private StatMatchTask() {
+            dialog = new ProgressDialog(statMatchActivity);
         }
 
         protected void onPreExecute() {
@@ -333,19 +313,24 @@ public class StatMatchActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            statMatchSerieEntriesDom = getMatchSerie(nomClubDomicile);
-            statMatchSerieEntriesExt = getMatchSerie(nomClubExterieur);
+            statMatchSerieEntriesDom = getMatchSerie(statMatchActivity.getNomClubDomicile());
+            statMatchSerieEntriesExt = getMatchSerie(statMatchActivity.getNomClubExterieur());
 
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            
+        	LinearLayout statMatchDerniersMatchLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchDerniersMatchLayout);
+        	ListView statMatchSerieListViewDom = (ListView) statMatchActivity.findViewById(R.id.statMatchSerieListDom);;
+        	TextView messageStatMatchSerieTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchSerieMessage);
+        	ListView statMatchSerieListViewExt = (ListView) statMatchActivity.findViewById(R.id.statMatchSerieListExt);
         	
         	statMatchDerniersMatchLayout.setVisibility(View.VISIBLE);
         	
             if(statMatchSerieEntriesDom.size() > 0) {
-                StatMatchSerieAdapter adapter = new StatMatchSerieAdapter(activity,	R.layout.stat_match_serie_item, statMatchSerieEntriesDom);
+                StatMatchSerieAdapter adapter = new StatMatchSerieAdapter(statMatchActivity, R.layout.stat_match_serie_item, statMatchSerieEntriesDom);
                 statMatchSerieListViewDom.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 messageStatMatchSerieTextView.setVisibility(View.GONE);
@@ -353,11 +338,11 @@ public class StatMatchActivity extends GDActivity {
             }
             
             if(statMatchSerieEntriesExt.size() > 0) {
-                StatMatchSerieAdapter adapter = new StatMatchSerieAdapter(activity,	R.layout.stat_match_serie_item, statMatchSerieEntriesExt);
+                StatMatchSerieAdapter adapter = new StatMatchSerieAdapter(statMatchActivity, R.layout.stat_match_serie_item, statMatchSerieEntriesExt);
                 statMatchSerieListViewExt.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-                activity.messageStatMatchSerieTextView.setVisibility(View.GONE);
-                activity.statMatchSerieListViewExt.setVisibility(View.VISIBLE);
+                messageStatMatchSerieTextView.setVisibility(View.GONE);
+                statMatchSerieListViewExt.setVisibility(View.VISIBLE);
             }
             
             if(statMatchSerieEntriesDom.size() == 0 && statMatchSerieEntriesExt.size() == 0) {
@@ -379,9 +364,9 @@ public class StatMatchActivity extends GDActivity {
 
         private List<StatMatchSerieEntry> statMatchSerieEntries;
         private ProgressDialog dialog;
-
-        private ConfrontationTask(StatMatchActivity activity) {
-            dialog = new ProgressDialog(activity);
+     
+        private ConfrontationTask() {
+            dialog = new ProgressDialog(statMatchActivity);
         }
 
         protected void onPreExecute() {
@@ -391,7 +376,7 @@ public class StatMatchActivity extends GDActivity {
 
         @Override
         protected Boolean doInBackground(final String... args) {
-            statMatchSerieEntries = getConfrontation(nomClubDomicile, nomClubExterieur);
+            statMatchSerieEntries = getConfrontation(statMatchActivity.getNomClubDomicile(), statMatchActivity.getNomClubExterieur());
             return true;
         }
 
@@ -401,7 +386,14 @@ public class StatMatchActivity extends GDActivity {
         	double nbMatchG = 0, nbMatchN = 0, nbMatchP = 0;
         	String titreCompl;
 
-        	android.view.Display display = ((android.view.WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        	LinearLayout statMatchConfrontationLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationLayout);
+        	TextView statMatchConfrontationTitreTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationTitre);	
+        	TextView statMatchConfrontation1TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontation1);
+        	TextView statMatchConfrontationNTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationN);
+        	TextView statMatchConfrontation2TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontation2);
+        	TextView statMatchConfrontationMessageTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationMessage);	
+
+        	android.view.Display display = ((android.view.WindowManager)statMatchActivity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         	int intLargeur = display.getWidth() - 10;        	
         	
         	statMatchConfrontationLayout.setVisibility(View.VISIBLE);
@@ -416,8 +408,8 @@ public class StatMatchActivity extends GDActivity {
             	for (StatMatchSerieEntry statMatchSerie : statMatchSerieEntries) {
             		if (statMatchSerie.getButDom() == statMatchSerie.getButExt()) {
             			nbMatchN += 1;
-            		} else if ((statMatchSerie.getButDom() > statMatchSerie.getButExt() && statMatchSerie.getNomClubDom().compareTo(nomClubDomicile) == 0)
-            				|| (statMatchSerie.getButExt() > statMatchSerie.getButDom() && statMatchSerie.getNomClubExt().compareTo(nomClubDomicile) == 0)) {
+            		} else if ((statMatchSerie.getButDom() > statMatchSerie.getButExt() && statMatchSerie.getNomClubDom().compareTo(statMatchActivity.getNomClubDomicile()) == 0)
+            				|| (statMatchSerie.getButExt() > statMatchSerie.getButDom() && statMatchSerie.getNomClubExt().compareTo(statMatchActivity.getNomClubDomicile()) == 0)) {
             			nbMatchG += 1;
             		} else {
             			nbMatchP += 1;
@@ -432,7 +424,7 @@ public class StatMatchActivity extends GDActivity {
             		titreCompl = ")";
             	}
             	statMatchConfrontationTitreTextView.setText("Confrontations (" + String.valueOf((int) nbMatchJoue) + " match" + titreCompl);
-            } else {
+            } else { 
             	statMatchConfrontation1TextView.setVisibility(View.GONE);
             	statMatchConfrontationNTextView.setVisibility(View.GONE);
             	statMatchConfrontation2TextView.setVisibility(View.GONE);
@@ -450,7 +442,16 @@ public class StatMatchActivity extends GDActivity {
 	
 	// affiche la forme domicile/extérieur sur la saison pour les 2 clubs
     private void afficherForme(ClassementClubEntry infoClubEntryDom, ClassementClubEntry infoClubEntryExt) {
-    	android.view.Display display = ((android.view.WindowManager)getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();    	
+
+    	TextView statMatchFormeDom1TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeDom1);
+    	TextView statMatchFormeDomNTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeDomN);
+    	TextView statMatchFormeDom2TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeDom2);
+    	TextView statMatchFormeExt1TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeExt1);
+    	TextView statMatchFormeExtNTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeExtN);
+    	TextView statMatchFormeExt2TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchFormeExt2);
+    	LinearLayout statMatchFormeLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchFormeLayout);
+    	
+    	android.view.Display display = ((android.view.WindowManager)statMatchActivity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();    	
     	// Moitié de la largeur de l'écran - 2x(largeur min d'une valeur forme) 
     	int intLargeur = (display.getWidth() / 2) - 10;
     	double intMatchJoue;
@@ -482,9 +483,12 @@ public class StatMatchActivity extends GDActivity {
 	
 	
 	// affiche le classement détaillé des 2 clubs
-    private void afficherClassementDetail(StatMatchActivity activity, ClassementClubEntry infoClubEntryDom, ClassementClubEntry infoClubEntryExt) {
+    private void afficherClassementDetail(ClassementClubEntry infoClubEntryDom, ClassementClubEntry infoClubEntryExt) {
         List<StatMatchClassementEntry> StatMatchClassementEntries = new ArrayList<StatMatchClassementEntry>();
         StatMatchClassementEntry statMatchClassementEntry;
+
+        LinearLayout statMatchClassementLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchClassementLayout);
+        ListView statMatchClassementListView = (ListView) statMatchActivity.findViewById(R.id.statMatchClassementList);
         
     	statMatchClassementLayout.setVisibility(View.VISIBLE);
     	
@@ -530,7 +534,7 @@ public class StatMatchActivity extends GDActivity {
     	statMatchClassementEntry.setInfoExt(String.valueOf(infoClubEntryExt.getButsContre()));
     	StatMatchClassementEntries.add(statMatchClassementEntry);
     	
-		StatMatchClassementAdapter adapter = new StatMatchClassementAdapter(activity, R.layout.stat_match_classement_item, StatMatchClassementEntries);
+		StatMatchClassementAdapter adapter = new StatMatchClassementAdapter(statMatchActivity, R.layout.stat_match_classement_item, StatMatchClassementEntries);
 	    statMatchClassementListView.setAdapter(adapter);
 	    adapter.notifyDataSetChanged();
 
@@ -543,8 +547,8 @@ public class StatMatchActivity extends GDActivity {
         private List<CoteMatchEntry> coteMatchEntries;
         private ProgressDialog dialog;
 
-        private CoteMatchTask(StatMatchActivity activity) {
-            dialog = new ProgressDialog(activity);
+        private CoteMatchTask() {
+            dialog = new ProgressDialog(statMatchActivity);
         }
 
         protected void onPreExecute() {
@@ -555,13 +559,18 @@ public class StatMatchActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            coteMatchEntries = getCoteMatch(intIdMatch);
+            coteMatchEntries = getCoteMatch(Integer.parseInt(statMatchActivity.getIdMatch()));
 
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+        	
+        	TextView statMatchCoteDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchCoteDom);
+        	TextView statMatchCoteNulTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchCoteNul);
+        	TextView statMatchCoteExtTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchCoteExt);
+        	LinearLayout statMatchCoteLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchCoteLayout);
         	
         	int tabcote[] = new int [3];
         	
@@ -619,11 +628,9 @@ public class StatMatchActivity extends GDActivity {
         private ClassementClubEntry infoClubEntryDom;
         private ClassementClubEntry infoClubEntryExt;
         private ProgressDialog dialog;
-        private StatMatchActivity activity;
 
-        private InfoClubTask(StatMatchActivity activity) {
-        	this.activity = activity;
-            dialog = new ProgressDialog(activity);
+        private InfoClubTask() {
+            dialog = new ProgressDialog(statMatchActivity);
         }
 
         protected void onPreExecute() {
@@ -634,14 +641,21 @@ public class StatMatchActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            infoClubEntryDom = getInfoClub(nomClubDomicile);
-            infoClubEntryExt = getInfoClub(nomClubExterieur);
+            infoClubEntryDom = getInfoClub(statMatchActivity.getNomClubDomicile());
+            infoClubEntryExt = getInfoClub(statMatchActivity.getNomClubExterieur());
 
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+        	
+        	AsyncImageView statMatchLogoDomAsyncImageView = (AsyncImageView) statMatchActivity.findViewById(R.id.statMatchLogoDom);
+        	TextView statMatchEquipeDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchEquipeDom);
+        	TextView statMatchPlaceDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchPlaceDom);
+            AsyncImageView statMatchLogoExtAsyncImageView = (AsyncImageView) statMatchActivity.findViewById(R.id.statMatchLogoExt);
+            TextView statMatchEquipeExtTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchEquipeExt);
+            TextView statMatchPlaceExtTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchPlaceExt);
         	
         	statMatchLogoDomAsyncImageView.setUrl(infoClubEntryDom.getUrlLogo());
         	statMatchEquipeDomTextView.setText(infoClubEntryDom.getClub());
@@ -651,10 +665,10 @@ public class StatMatchActivity extends GDActivity {
         	statMatchEquipeExtTextView.setText(infoClubEntryExt.getClub());
         	statMatchPlaceExtTextView.setText("(" + String.valueOf(infoClubEntryExt.getPlace()) + ")");       	
 
-        	if (vueStat == vueCote) {
+        	if (currentPage == NUM_PAGE_COTE) {
         		afficherForme(infoClubEntryDom, infoClubEntryExt);
-        	} else if (vueStat == vueClassement) {
-        		afficherClassementDetail(activity, infoClubEntryDom, infoClubEntryExt);
+        	} else if (currentPage == NUM_PAGE_CLASSEMENT) {
+        		afficherClassementDetail(infoClubEntryDom, infoClubEntryExt);
         	}
         	
         	if (dialog.isShowing()) {
@@ -663,5 +677,4 @@ public class StatMatchActivity extends GDActivity {
             super.onPostExecute(success);
         }
     }
-
 }
