@@ -1,19 +1,23 @@
 package fr.pronoschallenge.pronos;
 
+import fr.pronoschallenge.R;
+import greendroid.widget.PagedAdapter;
+
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import fr.pronoschallenge.R;
-import greendroid.widget.PagedAdapter;
-import java.util.List;
+import android.widget.TextView;
 
 public class PronosPagesAdapter extends PagedAdapter {
 
     private Context context;
     private List<List<PronoEntry>> pronos;
     private ListView pronoPageListView;
+    private TextView pronoPageHourra;
 
     public PronosPagesAdapter(Context context, int textViewResourceId,
                               List<List<PronoEntry>> objects) {
@@ -41,6 +45,9 @@ public class PronosPagesAdapter extends PagedAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+    	boolean calculHourra = false;
+        int nbPointsHourra = 0;
+        
         View view = convertView;
 
         if (view == null) {
@@ -54,7 +61,22 @@ public class PronosPagesAdapter extends PagedAdapter {
         PronosAdapter adapter = new PronosAdapter(context, R.layout.pronos_item, pronos.get(position));
         pronoPageListView.setAdapter(adapter);
         
+        // Recherche du nombre de points Hourra pour une journée non jouée
+        for (PronoEntry pronoEntry : pronos.get(position)) {
+        	if  (pronoEntry.getButsDom() == null && pronoEntry.getButsExt() == null) {
+        		calculHourra = true;
+        		nbPointsHourra += pronoEntry.getCote();
+        	}
+        }
+    	pronoPageHourra = (TextView) view.findViewById(R.id.pronoPageHourra);        
+        if (calculHourra) {
+        	pronoPageHourra.setVisibility(View.VISIBLE);
+        	pronoPageHourra.setText("Nb pts Hourra = " + String.valueOf(nbPointsHourra));
+        	pronoPageHourra.setTag(R.id.valueHourra, nbPointsHourra);
+        }
+        
         return view;
 
     }
+
 }

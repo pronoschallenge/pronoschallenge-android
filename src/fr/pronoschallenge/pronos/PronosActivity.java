@@ -186,6 +186,7 @@ public class PronosActivity extends GDActivity {
 	        	pronoEntry.setEquipeDom(jsonPronoEntry.getString("equipe_dom"));
                 pronoEntry.setEquipeExt(jsonPronoEntry.getString("equipe_ext"));
 	        	pronoEntry.setProno(jsonPronoEntry.getString("prono"));
+	        	pronoEntry.setCote(jsonPronoEntry.getInt("cote"));
 	        	pronoEntries.add(pronoEntry);
 	        }
 
@@ -224,6 +225,7 @@ public class PronosActivity extends GDActivity {
 	        	pronoEntry.setProno(jsonPronoEntry.getString("prono"));
                 pronoEntry.setButsDom(Integer.valueOf(jsonPronoEntry.getString("buts_dom")));
                 pronoEntry.setButsExt(Integer.valueOf(jsonPronoEntry.getString("buts_ext")));
+                pronoEntry.setCote(0);
 	        	pronoEntries.add(pronoEntry);
 	        }
 

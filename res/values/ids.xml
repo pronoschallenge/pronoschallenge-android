@@ -4,5 +4,6 @@
     <item type="id" name="stateProno"/>
     <item type="id" name="objetProno"/>
     <item type="id" name="idAmi"/>
-    <item type="id" name="objetAmi"/>    
+    <item type="id" name="objetAmi"/>
+    <item type="id" name="valueHourra"/>        
 </resources>

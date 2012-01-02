@@ -26,6 +26,7 @@ import android.widget.Toast;
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
+import fr.pronoschallenge.stat.match.CoteMatchEntry;
 import fr.pronoschallenge.stat.match.StatMatchActivity;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
@@ -179,14 +180,30 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             for (View otherButton : othersButtons) {
                 otherButton.setSelected(false);
             }
-
+            
             // lancement de la tâche de mise à jour de pronos
             new PronosTask(activity, button, othersButtons).execute(valueProno);
+            
+            // R�cup�ration de l'objet prono
+            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
 
+            // Recherche du nb de points Hourra avant le nouveau prono
+            TextView pronoPageHourra = (TextView) activity.findViewById(R.id.pronoPageHourra); 
+            int nbPointsHourra = (Integer) pronoPageHourra.getTag(R.id.valueHourra);
+            nbPointsHourra -= pronoEntry.getCote();
+            
+            // Recherche de la nouvelle cote
+            CoteMatchEntry coteMatchEntry = getCoteMatch((Integer) button.getTag(R.id.idProno), valueProno, activity);
+            
+            // Mise � jour du nb de points total
+            nbPointsHourra += coteMatchEntry.getCote();
+        	pronoPageHourra.setText("Nb pts Hourra = " + String.valueOf(nbPointsHourra));
+        	pronoPageHourra.setTag(R.id.valueHourra, nbPointsHourra);   
+            
             // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
             // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
-            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
             pronoEntry.setProno(valueProno);
+            pronoEntry.setCote(coteMatchEntry.getCote());
         }
     }
     
@@ -254,8 +271,37 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
                     e.printStackTrace();
                 }
             }
-
+      	
             return true;
         }
     }
+
+	
+	// Cote d'un match
+	private CoteMatchEntry getCoteMatch(int idMatch, String valueProno, Activity activity) {
+		
+		CoteMatchEntry coteMatchEntry = new CoteMatchEntry();
+
+		String strCoteMatch = RestClient.get(new QueryBuilder(activity.getAssets(), "/rest/coteMatch/" + String.valueOf(idMatch) + "/?paramProno=" + valueProno).getUri());
+
+		try {
+			// A Simple JSONObject Creation
+	        JSONObject json = new JSONObject(strCoteMatch);
+
+	        // A Simple JSONObject Parsing
+	        JSONArray coteMatchArray = json.getJSONArray("coteMatch");
+	        for(int i = 0; i < coteMatchArray.length(); i++) {
+	        	JSONObject jsonCoteMatchEntry = coteMatchArray.getJSONObject(i);
+
+	        	coteMatchEntry.setTypeMatch(jsonCoteMatchEntry.getString("type"));
+	        	coteMatchEntry.setCote(jsonCoteMatchEntry.getInt("cote"));
+	        }
+
+		} catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+		return coteMatchEntry;
+	}
+	
 }

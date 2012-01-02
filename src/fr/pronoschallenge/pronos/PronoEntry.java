@@ -10,6 +10,7 @@ public class PronoEntry {
     private String prono;
     private Integer butsDom;
     private Integer butsExt;
+    private Integer cote;
 
     public int getId() {
         return id;
@@ -66,4 +67,12 @@ public class PronoEntry {
     public void setButsExt(Integer butsExt) {
         this.butsExt = butsExt;
     }
+
+	public Integer getCote() {
+		return cote;
+	}
+
+	public void setCote(Integer cote) {
+		this.cote = cote;
+	}
 }
