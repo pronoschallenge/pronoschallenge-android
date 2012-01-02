@@ -80,6 +80,7 @@ public class StatMatchActivity extends GDActivity {
 	private void afficherPage(int numPage) {
 
 		LinearLayout statMatchConfrontationLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationLayout);
+		LinearLayout statMatchConfrontationDomLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationDomLayout);
 		LinearLayout statMatchClassementLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchClassementLayout);
 		LinearLayout statMatchCoteLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchCoteLayout);
 		LinearLayout statMatchFormeLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchFormeLayout);
@@ -89,6 +90,7 @@ public class StatMatchActivity extends GDActivity {
 		statMatchFormeLayout.setVisibility(View.GONE);
 		statMatchDerniersMatchLayout.setVisibility(View.GONE);
 		statMatchConfrontationLayout.setVisibility(View.GONE);
+		statMatchConfrontationDomLayout.setVisibility(View.GONE);
 		statMatchClassementLayout.setVisibility(View.GONE);
 		
 		currentPage = numPage;
@@ -143,7 +145,7 @@ public class StatMatchActivity extends GDActivity {
 	private List<StatMatchSerieEntry> getMatchSerie(String nomClub) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
-		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=5").getUri());
+		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=6").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -383,6 +385,7 @@ public class StatMatchActivity extends GDActivity {
         protected void onPostExecute(final Boolean success) {
         	double nbMatchJoue = statMatchSerieEntries.size();
         	double nbMatchG = 0, nbMatchN = 0, nbMatchP = 0;
+        	double nbMatchJoueDom = 0, nbMatchDomG = 0, nbMatchDomN = 0, nbMatchDomP = 0;
         	String titreCompl;
 
         	LinearLayout statMatchConfrontationLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationLayout);
@@ -392,6 +395,13 @@ public class StatMatchActivity extends GDActivity {
         	TextView statMatchConfrontation2TextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontation2);
         	TextView statMatchConfrontationMessageTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationMessage);	
 
+        	LinearLayout statMatchConfrontationDomLayout = (LinearLayout) statMatchActivity.findViewById(R.id.statMatchConfrontationDomLayout);
+        	TextView statMatchConfrontationTitreDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationDomTitre);	
+        	TextView statMatchConfrontation1DomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationDom1);
+        	TextView statMatchConfrontationNDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationDomN);
+        	TextView statMatchConfrontation2DomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationDom2);
+        	TextView statMatchConfrontationMessageDomTextView = (TextView) statMatchActivity.findViewById(R.id.statMatchConfrontationDomMessage);	        	
+        	
         	android.view.Display display = ((android.view.WindowManager)statMatchActivity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         	int intLargeur = display.getWidth() - 10;        	
         	
@@ -402,16 +412,36 @@ public class StatMatchActivity extends GDActivity {
         	statMatchConfrontationNTextView.setTextColor(Color.BLACK);
         	statMatchConfrontation2TextView.setBackgroundColor(Color.RED);
         	statMatchConfrontation2TextView.setTextColor(Color.BLACK);
+
+        	statMatchConfrontationDomLayout.setVisibility(View.VISIBLE);
+        	statMatchConfrontation1DomTextView.setBackgroundColor(Color.GREEN);
+        	statMatchConfrontation1DomTextView.setTextColor(Color.BLACK);
+        	statMatchConfrontationNDomTextView.setBackgroundColor(Color.YELLOW);
+        	statMatchConfrontationNDomTextView.setTextColor(Color.BLACK);
+        	statMatchConfrontation2DomTextView.setBackgroundColor(Color.RED);
+        	statMatchConfrontation2DomTextView.setTextColor(Color.BLACK);
         	
             if(nbMatchJoue > 0) {
             	for (StatMatchSerieEntry statMatchSerie : statMatchSerieEntries) {
             		if (statMatchSerie.getButDom() == statMatchSerie.getButExt()) {
             			nbMatchN += 1;
+            			if (statMatchSerie.getNomClubDom().compareTo(nomClubDomicile) == 0) {
+            				nbMatchJoueDom += 1;
+            				nbMatchDomN += 1;
+            			}
             		} else if ((statMatchSerie.getButDom() > statMatchSerie.getButExt() && statMatchSerie.getNomClubDom().compareTo(statMatchActivity.getNomClubDomicile()) == 0)
             				|| (statMatchSerie.getButExt() > statMatchSerie.getButDom() && statMatchSerie.getNomClubExt().compareTo(statMatchActivity.getNomClubDomicile()) == 0)) {
             			nbMatchG += 1;
+            			if (statMatchSerie.getNomClubDom().compareTo(nomClubDomicile) == 0) {
+            				nbMatchJoueDom += 1;
+            				nbMatchDomG += 1;
+            			}
             		} else {
             			nbMatchP += 1;
+            			if (statMatchSerie.getNomClubDom().compareTo(nomClubDomicile) == 0) {
+            				nbMatchJoueDom += 1;
+            				nbMatchDomP += 1;
+            			}            			
             		}
             	}
             	statMatchConfrontation1TextView.setWidth((int) ((nbMatchG / nbMatchJoue) * intLargeur));
@@ -422,13 +452,33 @@ public class StatMatchActivity extends GDActivity {
             	} else {
             		titreCompl = ")";
             	}
-            	statMatchConfrontationTitreTextView.setText("Confrontations (" + String.valueOf((int) nbMatchJoue) + " match" + titreCompl);
+            	statMatchConfrontationTitreTextView.setText("Confrontation globale (" + String.valueOf((int) nbMatchJoue) + " match" + titreCompl);
+            	if (nbMatchJoueDom > 0) {
+	            	statMatchConfrontation1DomTextView.setWidth((int) ((nbMatchDomG / nbMatchJoueDom) * intLargeur));
+	            	statMatchConfrontationNDomTextView.setWidth((int) ((nbMatchDomN / nbMatchJoueDom) * intLargeur));
+	            	statMatchConfrontation2DomTextView.setWidth((int) ((nbMatchDomP / nbMatchJoueDom) * intLargeur));
+	            	if (nbMatchJoueDom > 1) {
+	            		titreCompl = "s)";
+	            	} else {
+	            		titreCompl = ")";
+	            	}
+	            	statMatchConfrontationTitreDomTextView.setText("Confrontation à " + nomClubDomicile + " (" + String.valueOf((int) nbMatchJoueDom) + " match" + titreCompl);
+            	}
             } else { 
             	statMatchConfrontation1TextView.setVisibility(View.GONE);
             	statMatchConfrontationNTextView.setVisibility(View.GONE);
             	statMatchConfrontation2TextView.setVisibility(View.GONE);
+            	statMatchConfrontationTitreTextView.setText("Confrontation globale");
                 statMatchConfrontationMessageTextView.setText("Historique non disponible");
                 statMatchConfrontationMessageTextView.setVisibility(View.VISIBLE);
+            }
+            if (nbMatchJoueDom == 0) {
+            	statMatchConfrontation1DomTextView.setVisibility(View.GONE);
+            	statMatchConfrontationNDomTextView.setVisibility(View.GONE);
+            	statMatchConfrontation2DomTextView.setVisibility(View.GONE);
+            	statMatchConfrontationTitreDomTextView.setText("Confrontation à " + nomClubDomicile);
+                statMatchConfrontationMessageDomTextView.setText("Historique non disponible");
+                statMatchConfrontationMessageDomTextView.setVisibility(View.VISIBLE);            	
             }
         
             if (dialog.isShowing()) {
