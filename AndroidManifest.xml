@@ -17,7 +17,7 @@
         <activity android:name=".amis.AmisActivity"/>
         <activity android:name=".amis.ajout.AmisAjoutActivity"/>
         <activity android:name=".classement.club.ClassementClubActivity"/>
-        <activity android:name=".stat.match.StatMatchActivity"/>
+        <activity android:name=".stat.match.StatMatchPagedViewActivity"/>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

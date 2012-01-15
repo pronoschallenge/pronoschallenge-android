@@ -27,7 +27,7 @@ import fr.pronoschallenge.R;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.stat.match.CoteMatchEntry;
-import fr.pronoschallenge.stat.match.StatMatchActivity;
+import fr.pronoschallenge.stat.match.StatMatchPagedViewActivity;
 
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
@@ -149,7 +149,8 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 			objetbunble.putString("clubDomicile", pronoEntry.getEquipeDom());
 			objetbunble.putString("clubExterieur", pronoEntry.getEquipeExt());
 			objetbunble.putString("idMatch", String.valueOf(pronoEntry.getId()));
-			Intent intent = new Intent(context, StatMatchActivity.class);
+			//Intent intent = new Intent(context, StatMatchActivity.class);
+			Intent intent = new Intent(context, StatMatchPagedViewActivity.class);
 			intent.putExtras(objetbunble);
 			context.startActivity(intent);
         }

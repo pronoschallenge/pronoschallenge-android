@@ -55,7 +55,7 @@ public class PronosPagesAdapter extends PagedAdapter {
             //le layout représentant la ligne dans le listView
             view = li.inflate(R.layout.pronos_page_item, null);
         }
-
+        
         pronoPageListView = (ListView) view.findViewById(R.id.pronoPageList);
 
         PronosAdapter adapter = new PronosAdapter(context, R.layout.pronos_item, pronos.get(position));
@@ -68,6 +68,7 @@ public class PronosPagesAdapter extends PagedAdapter {
         		nbPointsHourra += pronoEntry.getCote();
         	}
         }
+        
     	pronoPageHourra = (TextView) view.findViewById(R.id.pronoPageHourra);        
         if (calculHourra) {
         	pronoPageHourra.setVisibility(View.VISIBLE);
