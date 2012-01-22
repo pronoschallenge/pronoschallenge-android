@@ -5,7 +5,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     >
- 
+
+<!--     <include -->
+<!--         layout="@layout/gd_separator_item_view" /> -->
+    
     <CheckBox
 		android:id="@+id/ajoutAmisCheck"
 		android:layout_width="wrap_content"

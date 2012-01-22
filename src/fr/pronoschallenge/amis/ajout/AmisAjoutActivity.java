@@ -35,6 +35,8 @@ public class AmisAjoutActivity extends GDActivity {
     
 	private ListView amisAjoutListView;
     private TextView amisAjoutMessage;
+    
+    private static final String SECTIONS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   
     private AlertDialog dialog;
 
@@ -148,6 +150,7 @@ public class AmisAjoutActivity extends GDActivity {
             } else {
             	// Affichage de la liste
             	activity.amisAjoutMessage.setVisibility(View.GONE);
+            	amisAjoutListView.setFastScrollEnabled(true);
 	            AmisAjoutAdapter adapter = new AmisAjoutAdapter(activity, R.layout.amis_ajout_liste_item, amisAjoutListe);
 	            amisAjoutListView.setAdapter(adapter);
 	            adapter.notifyDataSetChanged();	            

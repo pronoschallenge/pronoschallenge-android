@@ -1,6 +1,11 @@
 package fr.pronoschallenge.amis.ajout;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
@@ -10,11 +15,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.pronoschallenge.R;
@@ -22,14 +29,53 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 
 
-public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> {
+public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> implements SectionIndexer {
 
+	HashMap<String, Integer> alphaIndexer;
+	String[] sections;
+	
     public AmisAjoutAdapter(Context context, int textViewResourceId,
                          List<AmisAjoutEntry> objects) {
         super(context, textViewResourceId, objects);
+        
+        alphaIndexer = new HashMap<String, Integer>(); 
+        
+        int size = objects.size();
+		for (int i = size - 1; i >= 0; i--) {			
+			AmisAjoutEntry mAmisAjout = objects.get(i);
+			alphaIndexer.put(mAmisAjout.getPseudo().toUpperCase().substring(0, 1), i); 
+		}
+		Set<String> keys = alphaIndexer.keySet();
+		Iterator<String> it = keys.iterator();
+		ArrayList<String> keyList = new ArrayList<String>();
+
+		while (it.hasNext()) {
+			String key = it.next();
+			keyList.add(key);
+		}
+
+		Collections.sort(keyList);
+
+		sections = new String[keyList.size()];
+		keyList.toArray(sections);
+        
     }
 
-    @Override
+	public int getPositionForSection(int section) {
+		String letter = sections[section];
+		return alphaIndexer.get(letter);
+	}
+
+	public int getSectionForPosition(int position) {
+		Log.v("getSectionForPosition", "called");
+		return 0;
+	}
+
+	public Object[] getSections() {
+		return sections; 
+	}
+
+
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
