@@ -43,6 +43,7 @@ public class ClassementActivity extends GDActivity {
 	private ListView classementListView;
     private TextView messageTextView;
     private boolean filtre;
+    private String mUser;
 
     private QuickActionWidget classementQuickActionGrid;
 
@@ -59,26 +60,16 @@ public class ClassementActivity extends GDActivity {
 		classementListView = (ListView) findViewById(R.id.classementList);
         messageTextView = (TextView) findViewById(R.id.classementMessage);
         filtre = false;
+        mUser = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
         
         classementListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 			    int position, long id) {
-					//on récupère la HashMap contenant les infos de notre item (pseudo)
 					ClassementEntry classementEntry = (ClassementEntry) classementListView.getItemAtPosition(position);
-					
-					//On crée un objet Bundle, c'est ce qui va nous permettre d'envoyer des données à l'autre Activity
 					Bundle objetbunble = new Bundle();
-		 
-					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", classementEntry.getPseudo());
-							
-					// On met en place le passage entre les deux activités sur ce Listener (activité départ, activité arrivée)
 					Intent intent = new Intent(ClassementActivity.this,	ProfilActivity.class);
-					
-					//On affecte à l'Intent le Bundle que l'on a créé
 					intent.putExtras(objetbunble);
-					
-					//On démarre la nouvelle Activity
 					startActivity(intent);
 			}
         });
@@ -236,7 +227,7 @@ public class ClassementActivity extends GDActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if(classementEntries.size() > 0) {
-                ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries);
+                ClassementAdapter adapter = new ClassementAdapter(activity,	R.layout.classement_item, classementEntries, mUser);
                 classementListView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 activity.messageTextView.setVisibility(View.GONE);

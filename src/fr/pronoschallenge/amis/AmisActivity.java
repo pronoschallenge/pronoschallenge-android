@@ -66,6 +66,7 @@ public class AmisActivity extends GDActivity {
     private List<AmisPalmaresEntry> amisPalmaresEntriesNonTriee;
     
     private AlertDialog dialog;
+    private String mUser;
 
     
 	/** Called when the activity is first created. */
@@ -79,6 +80,7 @@ public class AmisActivity extends GDActivity {
         if(userName == null || password == null) {
             startActivityForResult(new Intent(this, LoginActivity.class), 1);
         }
+        mUser = userName;
 
 		setActionBarContentView(R.layout.amis_liste);
     	
@@ -408,7 +410,7 @@ public class AmisActivity extends GDActivity {
             } else {
             	// Affichage de la liste
             	activity.amisPalmaresMessage.setVisibility(View.GONE);
-	            AmisAdapter adapter = new AmisAdapter(activity,	R.layout.amis_liste_item, amisPalmaresEntries);
+	            AmisAdapter adapter = new AmisAdapter(activity,	R.layout.amis_liste_item, amisPalmaresEntries, mUser);
 	            amisPalmaresListView.setAdapter(adapter);
 	            adapter.notifyDataSetChanged();	            
             }
