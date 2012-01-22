@@ -94,7 +94,7 @@ public class ClassementActivity extends GDActivity {
                 } else {
                 	classementActivity.setTitle(classementItems[position]);
                 }
-
+                classementType = classementTypes[position];
                 new ClassementTask(classementActivity).execute(classementTypes[position]);
             }
         });
@@ -118,7 +118,6 @@ public class ClassementActivity extends GDActivity {
 			} else {
 				setTitle(getString(R.string.title_classement) + " " + titre);	
 			}		
-
             new ClassementTask(this).execute(classementType);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
