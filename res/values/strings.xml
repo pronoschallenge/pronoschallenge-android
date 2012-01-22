@@ -15,6 +15,8 @@
     <string name="type_classement_general">Général</string>
     <string name="type_classement_hourra">Hourra</string>
     <string name="type_classement_mixte">Mixte</string>
+    <string name="type_classement_general_last">Dern. Jour - Général</string>
+    <string name="type_classement_hourra_last">Dern. Jour - Hourra</string>
     <string name="title_pronos">Pronos</string>
     <string name="title_gazouillis">Gazouillis</string>
     <string name="button_gazouillis_plus">Plus</string>

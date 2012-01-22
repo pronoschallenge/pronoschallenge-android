@@ -58,6 +58,8 @@ public class PronosChallengeActivity extends GDActivity {
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_hourra));
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_mixte));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general_last));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_hourra_last));
 
         classementQuickActionGrid.setOnQuickActionClickListener(mActionListener);		
 	}
@@ -175,8 +177,8 @@ public class PronosChallengeActivity extends GDActivity {
 
     private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
-    		final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte)};
-    		final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
+        	final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte), getString(R.string.type_classement_general_last), getString(R.string.type_classement_hourra_last)};
+            final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE, ClassementActivity.CLASSEMENT_TYPE_GENERAL_LAST, ClassementActivity.CLASSEMENT_TYPE_HOURRA_LAST};
             Intent classementIntent = new Intent();
 	    	classementIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.classement.ClassementActivity");
 	    	classementIntent.putExtra("fr.pronoschallenge.classement.ClassementType", classementTypes[position]);

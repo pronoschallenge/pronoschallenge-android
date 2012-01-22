@@ -38,6 +38,8 @@ public class ClassementActivity extends GDActivity {
 	public final static String CLASSEMENT_TYPE_GENERAL = "general";
 	public final static String CLASSEMENT_TYPE_HOURRA = "hourra";
 	public final static String CLASSEMENT_TYPE_MIXTE = "mixte";
+	public final static String CLASSEMENT_TYPE_GENERAL_LAST = "derniere_journee";
+	public final static String CLASSEMENT_TYPE_HOURRA_LAST = "hourra_derniere_journee";
 	
 	private String classementType;
 	private ListView classementListView;
@@ -79,13 +81,19 @@ public class ClassementActivity extends GDActivity {
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_hourra));
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_mixte));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general_last));
+        classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_hourra_last));
 
         classementQuickActionGrid.setOnQuickActionClickListener(new QuickActionWidget.OnQuickActionClickListener() {
             public void onQuickActionClicked(QuickActionWidget widget, int position) {
-                final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte)};
-                final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE};
+                final CharSequence[] classementItems = {getString(R.string.type_classement_general), getString(R.string.type_classement_hourra), getString(R.string.type_classement_mixte), getString(R.string.type_classement_general_last), getString(R.string.type_classement_hourra_last)};
+                final String[] classementTypes = {ClassementActivity.CLASSEMENT_TYPE_GENERAL, ClassementActivity.CLASSEMENT_TYPE_HOURRA, ClassementActivity.CLASSEMENT_TYPE_MIXTE, ClassementActivity.CLASSEMENT_TYPE_GENERAL_LAST, ClassementActivity.CLASSEMENT_TYPE_HOURRA_LAST};
                 ClassementActivity classementActivity = (ClassementActivity) classementQuickActionGrid.getContentView().getContext();
-                classementActivity.setTitle(getString(R.string.title_classement) + " " + classementItems[position]);
+                if (position <= 2) {
+                	classementActivity.setTitle(getString(R.string.title_classement) + " " + classementItems[position]);
+                } else {
+                	classementActivity.setTitle(classementItems[position]);
+                }
 
                 new ClassementTask(classementActivity).execute(classementTypes[position]);
             }
@@ -104,7 +112,12 @@ public class ClassementActivity extends GDActivity {
 		classementType = (String) this.getIntent().getExtras().get("fr.pronoschallenge.classement.ClassementType");
 
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-            setTitle(getString(R.string.title_classement) + " " + this.getIntent().getExtras().get("fr.pronoschallenge.classement.ClassementTitle"));
+            String titre = (String) this.getIntent().getExtras().get("fr.pronoschallenge.classement.ClassementTitle"); 
+			if (classementType.compareTo(CLASSEMENT_TYPE_GENERAL_LAST) == 0 || classementType.compareTo(CLASSEMENT_TYPE_HOURRA_LAST) == 0) {
+				setTitle(titre);	
+			} else {
+				setTitle(getString(R.string.title_classement) + " " + titre);	
+			}		
 
             new ClassementTask(this).execute(classementType);
         } else {
