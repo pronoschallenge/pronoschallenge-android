@@ -33,11 +33,12 @@ public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> implements Se
 
 	HashMap<String, Integer> alphaIndexer;
 	String[] sections;
+	AmisAjoutActivity context;
 	
     public AmisAjoutAdapter(Context context, int textViewResourceId,
                          List<AmisAjoutEntry> objects) {
         super(context, textViewResourceId, objects);
-        
+        this.context = (AmisAjoutActivity) context;
         alphaIndexer = new HashMap<String, Integer>(); 
         
         int size = objects.size();
@@ -94,6 +95,7 @@ public class AmisAjoutAdapter extends ArrayAdapter<AmisAjoutEntry> implements Se
             pseudoCheckBox.setTag(R.id.idAmi, amisAjoutEntry.getPseudo());
             pseudoCheckBox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View checkBoxView) {
+                	context.setModificationAmi(true);
             		String strAction;
             		String strChecked;
             		if (((CheckBox)checkBoxView).isChecked()) {

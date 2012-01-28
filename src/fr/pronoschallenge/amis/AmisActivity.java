@@ -48,6 +48,7 @@ public class AmisActivity extends GDActivity {
 	final static String TRI_GENERAL = "general";
 	final static String TRI_HOURRA = "hourra";
 	final static String TRI_MIXTE = "mixte";
+	public static final int CODE_RETOUR = 0;
 	
 	private String strProfilPseudo;
 	private String strTri;
@@ -166,7 +167,6 @@ public class AmisActivity extends GDActivity {
 					//On démarre la nouvelle Activity en indiquant qu'on pourra revenir à l'activity classement
 					int intRecharge = 0;
 					startActivityForResult(intent, intRecharge);
-					if (intRecharge == RESULT_OK) reStart();
 			}
         });        
 
@@ -206,14 +206,18 @@ public class AmisActivity extends GDActivity {
 			Bundle objetbunble = new Bundle();		 
 			objetbunble.putString("pseudo", strProfilPseudo);
 			Intent intent = new Intent(AmisActivity.this,AmisAjoutActivity.class);					
-			intent.putExtras(objetbunble);					
-			startActivityForResult(intent, 0);            
+			intent.putExtras(objetbunble);
+			startActivityForResult(intent, CODE_RETOUR);
         }
         return true;
     }
-
-    private void reStart() {
-    	this.onRestart();
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if(requestCode == CODE_RETOUR && resultCode == RESULT_OK) {
+	    		amisPalmaresEntriesNonTriee = null;
+		    	onRestart();
+	    }	
     }
     
     // fonction qui tri la liste des amis selon un param�tre (pseudo, classement g�n�ral ...)

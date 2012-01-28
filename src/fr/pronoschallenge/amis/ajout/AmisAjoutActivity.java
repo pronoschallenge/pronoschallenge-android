@@ -35,6 +35,7 @@ public class AmisAjoutActivity extends GDActivity {
     
 	private ListView amisAjoutListView;
     private TextView amisAjoutMessage;
+    private boolean modificationAmi = false; 
     
     private static final String SECTIONS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   
@@ -86,6 +87,16 @@ public class AmisAjoutActivity extends GDActivity {
 
 		super.onStart();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		if (modificationAmi) {
+			setResult(RESULT_OK);
+		} else {
+			setResult(RESULT_CANCELED);
+		}
+		super.onBackPressed();
+	}
 
 
 	private List<AmisAjoutEntry> getAmisAjoutListe(String userName) {
@@ -120,7 +131,17 @@ public class AmisAjoutActivity extends GDActivity {
 	}
 
 
-    private class AmisTask extends AsyncTask<String, Void, Boolean> {
+    public boolean isModificationAmi() {
+		return modificationAmi;
+	}
+
+
+	public void setModificationAmi(boolean modificationAmi) {
+		this.modificationAmi = modificationAmi;
+	}
+
+
+	private class AmisTask extends AsyncTask<String, Void, Boolean> {
 
         final private AmisAjoutActivity activity;
         private ProgressDialog dialog;
