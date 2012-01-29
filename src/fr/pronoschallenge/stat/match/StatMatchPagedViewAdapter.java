@@ -335,19 +335,19 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
         	int intLargeur = display.getWidth() - 10;        	
         	
         	statMatchConfrontationLayout.setVisibility(View.VISIBLE);
-        	statMatchConfrontation1TextView.setBackgroundColor(Color.GREEN);
+        	statMatchConfrontation1TextView.setBackgroundResource(R.drawable.tendance_vert);
         	statMatchConfrontation1TextView.setTextColor(Color.BLACK);
-        	statMatchConfrontationNTextView.setBackgroundColor(Color.YELLOW);
+        	statMatchConfrontationNTextView.setBackgroundResource(R.drawable.tendance_orange);
         	statMatchConfrontationNTextView.setTextColor(Color.BLACK);
-        	statMatchConfrontation2TextView.setBackgroundColor(Color.RED);
+        	statMatchConfrontation2TextView.setBackgroundResource(R.drawable.tendance_rouge);
         	statMatchConfrontation2TextView.setTextColor(Color.BLACK);
 
         	statMatchConfrontationDomLayout.setVisibility(View.VISIBLE);
-        	statMatchConfrontation1DomTextView.setBackgroundColor(Color.GREEN);
+        	statMatchConfrontation1DomTextView.setBackgroundResource(R.drawable.tendance_vert);
         	statMatchConfrontation1DomTextView.setTextColor(Color.BLACK);
-        	statMatchConfrontationNDomTextView.setBackgroundColor(Color.YELLOW);
+        	statMatchConfrontationNDomTextView.setBackgroundResource(R.drawable.tendance_orange);
         	statMatchConfrontationNDomTextView.setTextColor(Color.BLACK);
-        	statMatchConfrontation2DomTextView.setBackgroundColor(Color.RED);
+        	statMatchConfrontation2DomTextView.setBackgroundResource(R.drawable.tendance_rouge);
         	statMatchConfrontation2DomTextView.setTextColor(Color.BLACK);
         	
             if(nbMatchJoue > 0) {
@@ -435,17 +435,17 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
     	double intMatchJoue;
     	
     	statMatchFormeLayout.setVisibility(View.VISIBLE);
-    	statMatchFormeDom1TextView.setBackgroundColor(Color.GREEN);
+    	statMatchFormeDom1TextView.setBackgroundResource(R.drawable.tendance_vert);
     	statMatchFormeDom1TextView.setTextColor(Color.BLACK);
-    	statMatchFormeDomNTextView.setBackgroundColor(Color.YELLOW);
+    	statMatchFormeDomNTextView.setBackgroundResource(R.drawable.tendance_orange);
     	statMatchFormeDomNTextView.setTextColor(Color.BLACK);
-    	statMatchFormeDom2TextView.setBackgroundColor(Color.RED);
+    	statMatchFormeDom2TextView.setBackgroundResource(R.drawable.tendance_rouge);
     	statMatchFormeDom2TextView.setTextColor(Color.BLACK);
-    	statMatchFormeExt1TextView.setBackgroundColor(Color.GREEN);
+    	statMatchFormeExt1TextView.setBackgroundResource(R.drawable.tendance_vert);
     	statMatchFormeExt1TextView.setTextColor(Color.BLACK);
-    	statMatchFormeExtNTextView.setBackgroundColor(Color.YELLOW);
+    	statMatchFormeExtNTextView.setBackgroundResource(R.drawable.tendance_orange);
     	statMatchFormeExtNTextView.setTextColor(Color.BLACK);
-    	statMatchFormeExt2TextView.setBackgroundColor(Color.RED);
+    	statMatchFormeExt2TextView.setBackgroundResource(R.drawable.tendance_rouge);
     	statMatchFormeExt2TextView.setTextColor(Color.BLACK);
     	
     	intMatchJoue = infoClubEntryDom.getMatchGagneDom() + infoClubEntryDom.getMatchNulDom() + infoClubEntryDom.getMatchPerduDom();
@@ -553,6 +553,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
         	LinearLayout statMatchCoteLayout = (LinearLayout) convertView.findViewById(R.id.statMatchCoteLayout);
         	
         	int tabcote[] = new int [3];
+        	int sommeCote = 0; 
         	
 	        for(CoteMatchEntry coteMatchEntry : coteMatchEntries) {
 	        	if (coteMatchEntry.getTypeMatch().compareTo("1") == 0) {
@@ -565,32 +566,22 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
                 	statMatchCoteExtTextView.setText(String.valueOf(coteMatchEntry.getCote()));
                 	tabcote[2] = coteMatchEntry.getCote();
 	        	}
+	        	sommeCote += coteMatchEntry.getCote();
 	        }
 	        
-	        // Affectations des couleurs de fond pour les cotes
-	        if (tabcote[0] >= tabcote[1] && tabcote[0] >= tabcote[2]) {
-	        	statMatchCoteDomTextView.setBackgroundColor(Color.RED);
-	        }
-	        if (tabcote[1] >= tabcote[0] && tabcote[1] >= tabcote[2]) {
-	        	statMatchCoteNulTextView.setBackgroundColor(Color.RED);
-	        }
-	        if (tabcote[2] >= tabcote[0] && tabcote[2] >= tabcote[1]) {
-	        	statMatchCoteExtTextView.setBackgroundColor(Color.RED);
-	        }
-
-	        if (tabcote[0] <= tabcote[1] && tabcote[0] <= tabcote[2]) {
-	        	statMatchCoteDomTextView.setBackgroundColor(Color.GREEN);
-	        	statMatchCoteDomTextView.setTextColor(Color.BLACK);
-	        } 
-	        if (tabcote[1] <= tabcote[0] && tabcote[1] <= tabcote[2]) {
-	        	statMatchCoteNulTextView.setBackgroundColor(Color.GREEN);
-	        	statMatchCoteNulTextView.setTextColor(Color.BLACK);
-	        } 
-	        if (tabcote[2] <= tabcote[0] && tabcote[2] <= tabcote[1]) {
-	        	statMatchCoteExtTextView.setBackgroundColor(Color.GREEN);
-	        	statMatchCoteExtTextView.setTextColor(Color.BLACK);
-	        }
+	        statMatchCoteDomTextView.setBackgroundResource(R.drawable.tendance_vert);
+        	statMatchCoteDomTextView.setTextColor(Color.BLACK);
+        	statMatchCoteNulTextView.setBackgroundResource(R.drawable.tendance_orange);
+        	statMatchCoteNulTextView.setTextColor(Color.BLACK);
+        	statMatchCoteExtTextView.setBackgroundResource(R.drawable.tendance_rouge);
+        	statMatchCoteExtTextView.setTextColor(Color.BLACK);
 	        
+        	android.view.Display display = ((android.view.WindowManager)statMatchActivity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();    	
+        	int intLargeur = display.getWidth() - 10;
+        	statMatchCoteDomTextView.setWidth((int) (((double) tabcote[0] / sommeCote) * intLargeur));
+        	statMatchCoteNulTextView.setWidth((int) (((double) tabcote[1] / sommeCote) * intLargeur));
+        	statMatchCoteExtTextView.setWidth((int) (((double) tabcote[2] / sommeCote) * intLargeur));
+        	
 	        statMatchCoteLayout.setVisibility(View.VISIBLE);
             if (dialog.isShowing()) {
                 dialog.dismiss();

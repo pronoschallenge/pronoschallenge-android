@@ -46,7 +46,7 @@ public class PronosChallengeActivity extends GDActivity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new HomeMenuItemsAdapter());
-
+        
         icons.add(new HomeMenuItem(getString(R.string.button_pronos), BitmapFactory.decodeResource(getResources(), R.drawable.pronos)));
         icons.add(new HomeMenuItem(getString(R.string.button_classements), BitmapFactory.decodeResource(getResources(), R.drawable.classements)));
         icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));

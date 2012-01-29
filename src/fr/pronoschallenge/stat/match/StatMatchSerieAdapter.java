@@ -35,11 +35,14 @@ public class StatMatchSerieAdapter extends ArrayAdapter<StatMatchSerieEntry> {
             TextView statMatchSerieResultat = (TextView)view.findViewById(R.id.statMatchSerieResultat);
             statMatchSerieResultat.setText(statMatchSerieEntry.getNomClubDom() + " " + String.valueOf(statMatchSerieEntry.getButDom()) + "-" + String.valueOf(statMatchSerieEntry.getButExt()) + " " + statMatchSerieEntry.getNomClubExt());
             if (statMatchSerieEntry.getTypeResultat().compareTo("D") == 0) {
-            	statMatchSerieResultat.setTextColor(Color.RED);
+            	//statMatchSerieResultat.setTextColor(Color.RED);
+            	statMatchSerieResultat.setTextColor(Color.rgb(255, 64, 64));
             } else if (statMatchSerieEntry.getTypeResultat().compareTo("V") == 0) {
-            	statMatchSerieResultat.setTextColor(Color.GREEN);
+            	//statMatchSerieResultat.setTextColor(Color.GREEN);
+            	statMatchSerieResultat.setTextColor(Color.rgb(50, 205, 50));
             } else {
-            	statMatchSerieResultat.setTextColor(Color.YELLOW);
+            	//statMatchSerieResultat.setTextColor(Color.YELLOW);
+            	statMatchSerieResultat.setTextColor(Color.rgb(255, 185, 15));
             }
         }
         

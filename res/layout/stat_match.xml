@@ -85,23 +85,23 @@
 						    android:layout_height="wrap_content"
 						    android:gravity="center"
 						    android:textSize="16px"
-						    android:layout_weight="1"/>
+						    android:minWidth="15px"/>
 				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
 							android:id="@+id/statMatchCoteNul"
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
-						    android:layout_marginLeft="10px"
+						    android:layout_marginLeft="5px"
 						    android:gravity="center"
 						    android:textSize="16px"
-						    android:layout_weight="1"/>
+						    android:minWidth="15px"/>
 				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
 							android:id="@+id/statMatchCoteExt"
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
-						    android:layout_marginLeft="10px"
-						    android:gravity="center"
+						    android:layout_marginLeft="5px"
+						    android:gravity="center"				    
 						    android:textSize="16px"
-						    android:layout_weight="1"/>
+						    android:minWidth="15px"/>
 		</LinearLayout>
 	</LinearLayout>
 
@@ -134,6 +134,7 @@
 				    android:layout_height="fill_parent"
 			        android:gravity="center"
 			        android:textSize="12px"
+			        android:minWidth="15px"
 			        android:layout_weight="1"/>
 		</LinearLayout>
 		<LinearLayout android:layout_width="fill_parent"
@@ -147,7 +148,7 @@
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
 						    android:gravity="center"
-						    android:text="1" 
+						    android:text="V" 
 						    android:textSize="12px"
 						    android:minWidth="15px"/>
 				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -165,7 +166,7 @@
 						    android:layout_height="wrap_content"
 						    android:layout_marginLeft="5px"
 						    android:gravity="center"
-						    android:text="2"
+						    android:text="D"
 						    android:textSize="12px"
 						    android:minWidth="15px"/>
 			</LinearLayout>
@@ -180,7 +181,7 @@
 						    android:layout_width="wrap_content"
 						    android:layout_height="wrap_content"
 						    android:gravity="center"
-						    android:text="1"
+						    android:text="V"
 						    android:textSize="12px"
 						    android:minWidth="15px"/>
 				<TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -198,7 +199,7 @@
 						    android:layout_height="wrap_content"
 						    android:layout_marginLeft="5px"
 						    android:gravity="center"
-						    android:text="2"
+						    android:text="D"
 						    android:textSize="12px"
 						    android:minWidth="15px"/>
 			</LinearLayout>
@@ -235,7 +236,7 @@
 			android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
 	        android:gravity="center"
-	        android:textSize="20px"
+	        android:textSize="10px"
 	        android:visibility="gone"/>		    
 	</LinearLayout>
 
@@ -286,7 +287,7 @@
 			android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
 	        android:gravity="center"
-	        android:textSize="16px"
+	        android:textSize="10px"
 	        android:visibility="gone"/>												
 	</LinearLayout>    
 
@@ -337,7 +338,7 @@
 			android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
 	        android:gravity="center"
-	        android:textSize="16px"
+	        android:textSize="10px"
 	        android:visibility="gone"/>												
 	</LinearLayout>    
 				    	    
