@@ -2,7 +2,7 @@ package fr.pronoschallenge.classement;
 
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.auth.LoginActivity;
-import fr.pronoschallenge.profil.ProfilActivity;
+import fr.pronoschallenge.profil.ProfilPagedViewActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
@@ -70,7 +70,7 @@ public class ClassementActivity extends GDActivity {
 					ClassementEntry classementEntry = (ClassementEntry) classementListView.getItemAtPosition(position);
 					Bundle objetbunble = new Bundle();
 					objetbunble.putString("pseudo", classementEntry.getPseudo());
-					Intent intent = new Intent(ClassementActivity.this,	ProfilActivity.class);
+					Intent intent = new Intent(ClassementActivity.this,	ProfilPagedViewActivity.class);
 					intent.putExtras(objetbunble);
 					startActivity(intent);
 			}

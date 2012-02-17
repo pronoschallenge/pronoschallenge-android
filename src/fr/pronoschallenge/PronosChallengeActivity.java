@@ -50,8 +50,7 @@ public class PronosChallengeActivity extends GDActivity {
         icons.add(new HomeMenuItem(getString(R.string.button_pronos), BitmapFactory.decodeResource(getResources(), R.drawable.pronos)));
         icons.add(new HomeMenuItem(getString(R.string.button_classements), BitmapFactory.decodeResource(getResources(), R.drawable.classements)));
         icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));
-        icons.add(new HomeMenuItem(getString(R.string.button_options), BitmapFactory.decodeResource(getResources(), R.drawable.options)));
-        icons.add(new HomeMenuItem(getString(R.string.button_mes_amis), BitmapFactory.decodeResource(getResources(), R.drawable.mes_amis)));
+        icons.add(new HomeMenuItem(getString(R.string.button_mon_profil), BitmapFactory.decodeResource(getResources(), R.drawable.mon_profil)));
         icons.add(new HomeMenuItem(getString(R.string.button_classement_club), BitmapFactory.decodeResource(getResources(), R.drawable.ligue_1)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
@@ -120,23 +119,16 @@ public class PronosChallengeActivity extends GDActivity {
                             startActivity(gazouillisIntent);
                         }
                     });
-            } else if(homeMenuItem.getName().equals(getString(R.string.button_options))) {
-                menuItemView.setOnClickListener(
-                    new View.OnClickListener() {
-                        public void onClick(View v) {
-                            Intent optionsIntent = new Intent();
-                            optionsIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.options.OptionsActivity");
-                            startActivity(optionsIntent);
-                        }
-                    });
-                
-            } else if(homeMenuItem.getName().equals(getString(R.string.button_mes_amis))) {
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_mon_profil))) {
                 menuItemView.setOnClickListener(
                         new View.OnClickListener() {
                             public void onClick(View v) {
-                                Intent amisIntent = new Intent();
-                                amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.amis.AmisActivity");
-                                startActivity(amisIntent);
+                            	Bundle objetbunble = new Bundle();
+                    			objetbunble.putString("mode", "2");
+                                Intent profilIntent = new Intent();
+                                profilIntent.putExtras(objetbunble);                                
+                                profilIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.profil.ProfilPagedViewActivity");
+                                startActivity(profilIntent);
                             }
                         }); 
             } else if(homeMenuItem.getName().equals(getString(R.string.button_classement_club))) {
@@ -186,4 +178,8 @@ public class PronosChallengeActivity extends GDActivity {
 	        startActivity(classementIntent);
         }
     };
+    
+    private void AfficherProfil() {
+    	
+    }
 }

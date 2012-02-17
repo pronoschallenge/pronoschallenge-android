@@ -4,7 +4,7 @@ import fr.pronoschallenge.R;
 import fr.pronoschallenge.amis.ajout.AmisAjoutActivity;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.classement.ClassementQuickAction;
-import fr.pronoschallenge.profil.ProfilActivity;
+import fr.pronoschallenge.profil.ProfilPagedViewActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
@@ -161,7 +161,7 @@ public class AmisActivity extends GDActivity {
 					//Cela fonctionne plus ou moins comme une HashMap, on entre une clef et sa valeur en face
 					objetbunble.putString("pseudo", amisPalmaresEntry.getPseudo());							
 					// On met en place le passage entre les deux activités sur ce Listener (activité départ, activité arrivée)
-					Intent intent = new Intent(AmisActivity.this, ProfilActivity.class);					
+					Intent intent = new Intent(AmisActivity.this, ProfilPagedViewActivity.class);					
 					//On affecte à l'Intent le Bundle que l'on a créé
 					intent.putExtras(objetbunble);					
 					//On démarre la nouvelle Activity en indiquant qu'on pourra revenir à l'activity classement

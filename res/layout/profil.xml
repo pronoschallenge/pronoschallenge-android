@@ -3,8 +3,7 @@
 	android:id="@+id/profilLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:visibility="gone" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -15,8 +14,7 @@
 	        android:layout_height="100px"
 	        android:layout_width="100px"
 	        android:layout_margin="5px"
-            android:src="@drawable/no_avatar"
-            android:visibility="gone" />
+            android:src="@drawable/no_avatar"/>
 
 	    <LinearLayout
 	        android:layout_width="fill_parent"
@@ -29,26 +27,22 @@
 	            android:textColorHighlight="#656565"
             	android:textStyle="bold"
             	android:textSize="25sp"
-            	android:gravity="center"
-	            android:visibility="gone" />	        
+            	android:gravity="center"/>	        
 	        <TextView
 	            android:id="@+id/profilNomPrenom"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:visibility="gone" />	
+	            android:gravity="center"/>	
 	        <TextView
 	            android:id="@+id/profilAdresse"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:visibility="gone" />	
+	            android:gravity="center" />	
 	        <ImageView
 	            android:id="@+id/profilLogo"
 		        android:layout_height="30px"
 		        android:layout_width="30px"
-		        android:gravity="center"
-	            android:visibility="gone" />	
+		        android:gravity="center" />	
 	        <TextView
 	            android:id="@+id/profilMessage"
 	            android:layout_width="fill_parent"
@@ -63,7 +57,8 @@
     <LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"	    
-        android:layout_marginTop="15px">
+        android:layout_marginTop="15px"
+        android:id="@+id/profilPalmaresEnteteLayout">
 	    	<TextView
 	            android:text="Saison"
 	            android:layout_width="175px"
@@ -89,7 +84,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >        
+        android:orientation="vertical" 
+        android:id="@+id/profilPalmaresListLayout">        
 	    <ListView android:id="@+id/palmaresList"
 			android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
@@ -104,4 +100,72 @@
 			 android:visibility="gone" />	        
 	</LinearLayout>
 
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="15px"
+        android:id="@+id/profilStatEnteteLayout1">
+	    	<TextView
+	            android:text="Classement"
+	            android:layout_width="100px"
+            	android:textStyle="bold"
+            	android:textSize="16sp"	   
+            	android:gravity="center"         
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="1"/>
+	        <TextView
+	            android:text=" Dernière journée"
+            	android:textStyle="bold"
+            	android:textSize="16sp"	            
+	            android:layout_width="100px"
+	            android:gravity="center"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"/>
+	</LinearLayout>
+
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="5px"
+        android:id="@+id/profilStatEnteteLayout2">
+		    <TextView
+		       	android:layout_width="30px"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"/>        	        
+	    	<TextView
+	            android:text="Place"
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="2"
+	            android:gravity="right"/>
+	        <TextView
+	            android:text=" Pts"
+	            android:layout_width="30px"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="right"/>
+	        <TextView
+	            android:layout_width="10px"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"/>
+	        <TextView
+	            android:text=" Evol."
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"	            
+	            android:layout_weight="1"
+	            android:gravity="center"/>
+	</LinearLayout>
+    
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:id="@+id/profilStatListLayout">        
+	    <ListView android:id="@+id/profilStatList"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"/>	
+	</LinearLayout>
+		
 </LinearLayout>

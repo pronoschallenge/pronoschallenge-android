@@ -12,12 +12,12 @@
         <activity android:name=".gazouillis.GazouillisActivity"/>
         <activity android:name=".gazouillis.GazouilliComposerActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".auth.LoginActivity"/>
-        <activity android:name=".profil.ProfilActivity"/>
+        <activity android:name=".profil.ProfilPagedViewActivity"/>
         <activity android:name=".options.OptionsActivity"/>
         <activity android:name=".amis.AmisActivity"/>
         <activity android:name=".amis.ajout.AmisAjoutActivity"/>
         <activity android:name=".classement.club.ClassementClubActivity"/>
-        <activity android:name=".stat.match.StatMatchPagedViewActivity"/>
+        <activity android:name=".stat.match.StatMatchPagedViewActivity"/>        
     </application>
 	<uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
