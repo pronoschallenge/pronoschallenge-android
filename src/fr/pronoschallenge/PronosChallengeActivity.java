@@ -52,6 +52,7 @@ public class PronosChallengeActivity extends GDActivity {
         icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));
         icons.add(new HomeMenuItem(getString(R.string.button_mon_profil), BitmapFactory.decodeResource(getResources(), R.drawable.mon_profil)));
         icons.add(new HomeMenuItem(getString(R.string.button_classement_club), BitmapFactory.decodeResource(getResources(), R.drawable.ligue_1)));
+        icons.add(new HomeMenuItem(getString(R.string.button_top_flop), BitmapFactory.decodeResource(getResources(), R.drawable.top_flop)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
@@ -137,6 +138,15 @@ public class PronosChallengeActivity extends GDActivity {
                             public void onClick(View v) {
                                 Intent amisIntent = new Intent();
                                 amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.classement.club.ClassementClubActivity");
+                                startActivity(amisIntent);
+                            }
+                        }); 
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_top_flop))) {
+                menuItemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent amisIntent = new Intent();
+                                amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.topflop.TopFlopActivity");
                                 startActivity(amisIntent);
                             }
                         }); 

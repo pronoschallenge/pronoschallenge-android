@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+              
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/topFlopItemEvolution"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:gravity="right"
+	    android:padding="7dp"
+	    android:textSize="12sp" >
+	</TextView>
+	
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/topFlopItemPseudo"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:gravity="left"
+	    android:padding="7dp"
+	    android:textSize="12sp" >
+	</TextView>
+		
+</LinearLayout>

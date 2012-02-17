@@ -34,6 +34,8 @@
     <string name="button_classement_club">Ligue 1</string>      
     <string name="button_stat">Stats</string>
     <string name="title_stat">Statistiques match</string>
-    <string name="button_mon_profil">Mon profil</string>    
+    <string name="button_mon_profil">Mon profil</string>
+    <string name="button_top_flop">Top/Flop</string>    
+    <string name="title_top_flop">Les Top et les Flop</string>
         
 </resources>
