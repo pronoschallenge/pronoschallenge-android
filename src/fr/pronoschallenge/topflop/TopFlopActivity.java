@@ -26,6 +26,8 @@ public class TopFlopActivity extends GDActivity {
 	private final static String CLASSEMENT_MIXTE = "mixte";
 	private final static String CLASSEMENT_GENERAL = "general";
 	private final static String CLASSEMENT_HOURRA = "hourra";
+	private final static String EVOLUTION_TOP = "0";
+	private final static String EVOLUTION_FLOP = "1";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class TopFlopActivity extends GDActivity {
 	private List<TopFlopEntry> getTopFlop(String typeChamp, String typeFlop) {
 		List<TopFlopEntry> topFlopEntries = new ArrayList<TopFlopEntry>();
 
-		String strTopFlop = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/topFlop/" + typeChamp + "/?typeEvol=" + typeFlop + "/?nbUser=3").getUri());
+		String strTopFlop = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/topFlop/" + typeChamp + "/?typeEvol=" + typeFlop + "&nbUser=3").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -71,8 +73,12 @@ public class TopFlopActivity extends GDActivity {
 	        for(int i = 0; i < topFlopArray.length(); i++) {
 	        	JSONObject jsonTopFlopEntry = topFlopArray.getJSONObject(i);
 
-	        	TopFlopEntry topFlopEntry = new TopFlopEntry();	        	
-	        	topFlopEntry.setEvolution(jsonTopFlopEntry.getString("evol"));
+	        	TopFlopEntry topFlopEntry = new TopFlopEntry();
+	        	if (Integer.parseInt(jsonTopFlopEntry.getString("evol")) > 0) {
+	        		topFlopEntry.setEvolution("+" + jsonTopFlopEntry.getString("evol"));
+	        	} else {
+	        		topFlopEntry.setEvolution(jsonTopFlopEntry.getString("evol"));	
+	        	}	        	
 	        	topFlopEntry.setPseudo(jsonTopFlopEntry.getString("pseudo"));
 	        	
 	        	topFlopEntries.add(topFlopEntry);
@@ -110,8 +116,8 @@ public class TopFlopActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-        	evolutionEntriesTop = getTopFlop(typeChamp, "0");
-        	evolutionEntriesFlop = getTopFlop(typeChamp, "1");
+        	evolutionEntriesTop = getTopFlop(typeChamp, EVOLUTION_TOP);
+        	evolutionEntriesFlop = getTopFlop(typeChamp, EVOLUTION_FLOP);
 
             return true;
         }
