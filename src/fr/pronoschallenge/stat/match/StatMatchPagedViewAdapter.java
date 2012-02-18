@@ -66,7 +66,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
 	}
 	
 	
-	// Série en cours d'un club
+	// Sï¿½rie en cours d'un club
 	private List<StatMatchSerieEntry> getMatchSerie(String nomClub) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
@@ -116,7 +116,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
 	}
 	
 	
-	// Série en cours d'un club
+	// Sï¿½rie en cours d'un club
 	private List<StatMatchSerieEntry> getConfrontation(String nomClubDom, String nomClubExt) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
@@ -220,7 +220,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
 	}
 	
 	
-	// Derniers matchs effectués par les 2 clubs
+	// Derniers matchs effectuÃ©s par les 2 clubs
     private class StatMatchTask extends AsyncTask<String, Void, Boolean> {
 
         private List<StatMatchSerieEntry> statMatchSerieEntriesDom;
@@ -276,7 +276,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
             if(statMatchSerieEntriesDom.size() == 0 && statMatchSerieEntriesExt.size() == 0) {
                 statMatchSerieListViewDom.setVisibility(View.GONE);
                 statMatchSerieListViewExt.setVisibility(View.GONE);
-                messageStatMatchSerieTextView.setText("Série non disponible");
+                messageStatMatchSerieTextView.setText("Sï¿½rie non disponible");
                 messageStatMatchSerieTextView.setVisibility(View.VISIBLE);
             }
             if (dialog.isShowing()) {
@@ -287,7 +287,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
     }	
 	
 	
-	// Derniers matchs effectués par les 2 clubs
+	// Derniers matchs effectuÃ©s par les 2 clubs
     private class ConfrontationTask extends AsyncTask<String, Void, Boolean> {
 
         private List<StatMatchSerieEntry> statMatchSerieEntries;
@@ -391,7 +391,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
 	            	} else {
 	            		titreCompl = ")";
 	            	}
-	            	statMatchConfrontationTitreDomTextView.setText("Confrontation à " + statMatchActivity.getNomClubDomicile() + " (" + String.valueOf((int) nbMatchJoueDom) + " match" + titreCompl);
+	            	statMatchConfrontationTitreDomTextView.setText("Confrontation Ã  " + statMatchActivity.getNomClubDomicile() + " (" + String.valueOf((int) nbMatchJoueDom) + " match" + titreCompl);
             	}
             } else { 
             	statMatchConfrontation1TextView.setVisibility(View.GONE);
@@ -405,7 +405,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
             	statMatchConfrontation1DomTextView.setVisibility(View.GONE);
             	statMatchConfrontationNDomTextView.setVisibility(View.GONE);
             	statMatchConfrontation2DomTextView.setVisibility(View.GONE);
-            	statMatchConfrontationTitreDomTextView.setText("Confrontation à " + statMatchActivity.getNomClubDomicile());
+            	statMatchConfrontationTitreDomTextView.setText("Confrontation Ã  " + statMatchActivity.getNomClubDomicile());
                 statMatchConfrontationMessageDomTextView.setText("Historique non disponible");
                 statMatchConfrontationMessageDomTextView.setVisibility(View.VISIBLE);            	
             }
@@ -418,7 +418,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
     }	
 	
 	
-	// affiche la forme domicile/extérieur sur la saison pour les 2 clubs
+	// affiche la forme domicile/extÃ©rieur sur la saison pour les 2 clubs
     private void afficherForme(View convertView, ClassementClubEntry infoClubEntryDom, ClassementClubEntry infoClubEntryExt) {
 
     	TextView statMatchFormeDom1TextView = (TextView) convertView.findViewById(R.id.statMatchFormeDom1);
@@ -430,7 +430,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
     	LinearLayout statMatchFormeLayout = (LinearLayout) convertView.findViewById(R.id.statMatchFormeLayout);
     	
     	android.view.Display display = ((android.view.WindowManager)statMatchActivity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();    	
-    	// Moitié de la largeur de l'écran - 2x(largeur min d'une valeur forme) 
+    	// MoitiÃ© de la largeur de l'Ã©cran - 2x(largeur min d'une valeur forme) 
     	int intLargeur = (display.getWidth() / 2) - 10;
     	double intMatchJoue;
     	
@@ -460,7 +460,7 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
     }	
 	
 	
-	// affiche le classement détaillé des 2 clubs
+	// affiche le classement dÃ©taillÃ© des 2 clubs
     private void afficherClassementDetail(View convertView, ClassementClubEntry infoClubEntryDom, ClassementClubEntry infoClubEntryExt) {
         List<StatMatchClassementEntry> StatMatchClassementEntries = new ArrayList<StatMatchClassementEntry>();
         StatMatchClassementEntry statMatchClassementEntry;
