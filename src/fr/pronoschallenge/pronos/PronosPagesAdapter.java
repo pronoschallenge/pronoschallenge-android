@@ -72,7 +72,7 @@ public class PronosPagesAdapter extends PagedAdapter {
     	pronoPageHourra = (TextView) view.findViewById(R.id.pronoPageHourra);        
         if (calculHourra) {
         	pronoPageHourra.setVisibility(View.VISIBLE);
-        	pronoPageHourra.setText("Nb pts Hourra = " + String.valueOf(nbPointsHourra));
+        	pronoPageHourra.setText(String.valueOf(nbPointsHourra) + " points Hourra potentiels");
         	pronoPageHourra.setTag(R.id.valueHourra, nbPointsHourra);
         }
         

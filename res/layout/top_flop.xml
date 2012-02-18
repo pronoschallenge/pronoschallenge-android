@@ -12,21 +12,30 @@
 		        android:layout_marginTop="15px">	        
 	    <TextView
 	        	android:text="Mixte" 
+	        	android:textStyle="bold"
 				android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 		        android:gravity="center"
-		        android:textSize="14px"/>        
+		        android:textSize="16px"/>        
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		              android:layout_width="fill_parent"
-		              android:layout_height="fill_parent">	    
+		              android:layout_height="fill_parent">
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/top"/>		    		              	    
 		    <ListView android:id="@+id/evolutionMixteListTop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
 		    <ListView android:id="@+id/evolutionMixteListFlop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/flop"/>		    		    
 		</LinearLayout>		 
 	</LinearLayout>
     		    
@@ -40,18 +49,27 @@
 				android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 		        android:gravity="center"
-		        android:textSize="14px"/>        
+		        android:textStyle="bold"
+		        android:textSize="16px"/>        
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		              android:layout_width="fill_parent"
-		              android:layout_height="fill_parent">	    
+		              android:layout_height="fill_parent">
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/top"/>		    		                
 		    <ListView android:id="@+id/evolutionGeneralListTop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
 		    <ListView android:id="@+id/evolutionGeneralListFlop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/flop"/>		    		    
 		</LinearLayout>		 
 	</LinearLayout>
     		    
@@ -65,18 +83,27 @@
 				android:layout_width="fill_parent"
 			    android:layout_height="fill_parent"
 		        android:gravity="center"
-		        android:textSize="14px"/>        
+		        android:textStyle="bold"
+		        android:textSize="16px"/>        
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		              android:layout_width="fill_parent"
-		              android:layout_height="fill_parent">	    
+		              android:layout_height="fill_parent">
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/top"/>		    		               
 		    <ListView android:id="@+id/evolutionHourraListTop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
 		    <ListView android:id="@+id/evolutionHourraListFlop" 
 					android:layout_width="wrap_content"
-				    android:layout_height="fill_parent"
+				    android:layout_height="wrap_content"
 				    android:layout_weight="1"/>
+	        <ImageView
+		        android:layout_height="90px"
+		        android:layout_width="40px"
+	            android:src="@drawable/flop"/>		    		    
 		</LinearLayout>		 
 	</LinearLayout>
 	    		        
