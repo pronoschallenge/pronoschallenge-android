@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:greendroid="http://schemas.android.com/apk/res/com.cyrilmottier.android.gdcatalog">
+
+	<greendroid.widget.PagedView
+		android:id="@+id/club_paged_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" />
+
+	<greendroid.widget.PageIndicator
+		android:id="@+id/club_page_indicator_other"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="top|center_horizontal"
+		android:paddingTop="10dp" />
+
+</merge>

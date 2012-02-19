@@ -33,28 +33,39 @@ public class ClassementClubAdapter extends ArrayAdapter<ClassementClubEntry> {
         ClassementClubEntry classementClubEntry = getItem(position);
         if (classementClubEntry != null)
         {
-            TextView classementClubEntryPlace = (TextView)view.findViewById(R.id.classementClubEntryPlace);
-            if (classementClubEntry.getPlace() == intPlacePrecedent) {
-            	classementClubEntryPlace.setText("");
-            } else {
-            	intPlacePrecedent = classementClubEntry.getPlace();
-            	classementClubEntryPlace.setText(String.valueOf(classementClubEntry.getPlace()));
-            }
-
-            AsyncImageView classementClubEntryLogo = (AsyncImageView)view.findViewById(R.id.classementClubEntryLogo);
-            classementClubEntryLogo.setUrl(classementClubEntry.getUrlLogo());
             
             TextView classementClubEntryClub = (TextView)view.findViewById(R.id.classementClubEntryClub);  
             classementClubEntryClub.setText(classementClubEntry.getClub());
 
-            TextView classementClubEntryPoints = (TextView)view.findViewById(R.id.classementClubEntryPoints);  
-            classementClubEntryPoints.setText(String.valueOf(classementClubEntry.getPoints()));
-
-            TextView classementClubEntryJoue = (TextView)view.findViewById(R.id.classementClubEntryJoue);  
-            classementClubEntryJoue.setText(String.valueOf(classementClubEntry.getMatchJoue()));
-
-            TextView classementClubEntryDiff = (TextView)view.findViewById(R.id.classementClubEntryDiff);  
-            classementClubEntryDiff.setText(String.valueOf(classementClubEntry.getDiff()));
+        	if (classementClubEntry.getClub().compareTo("...") != 0) {
+        	
+        		if (position == 0) {
+        			intPlacePrecedent = 0;
+        		} else {
+        			ClassementClubEntry classementClubEntryPrec = getItem(position - 1);
+        			intPlacePrecedent = classementClubEntryPrec.getPlace();
+        		}        		
+        		
+	            TextView classementClubEntryPlace = (TextView)view.findViewById(R.id.classementClubEntryPlace);
+	            if (classementClubEntry.getPlace() == intPlacePrecedent) {
+	            	classementClubEntryPlace.setText("");
+	            } else {
+	            	classementClubEntryPlace.setText(String.valueOf(classementClubEntry.getPlace()));
+	            }
+	
+	            AsyncImageView classementClubEntryLogo = (AsyncImageView)view.findViewById(R.id.classementClubEntryLogo);
+	            classementClubEntryLogo.setUrl(classementClubEntry.getUrlLogo());
+	
+	            TextView classementClubEntryPoints = (TextView)view.findViewById(R.id.classementClubEntryPoints);  
+	            classementClubEntryPoints.setText(String.valueOf(classementClubEntry.getPoints()));
+	
+	            TextView classementClubEntryJoue = (TextView)view.findViewById(R.id.classementClubEntryJoue);  
+	            classementClubEntryJoue.setText(String.valueOf(classementClubEntry.getMatchJoue()));
+	
+	            TextView classementClubEntryDiff = (TextView)view.findViewById(R.id.classementClubEntryDiff);  
+	            classementClubEntryDiff.setText(String.valueOf(classementClubEntry.getDiff()));
+        		
+        	}
 
         }
         
