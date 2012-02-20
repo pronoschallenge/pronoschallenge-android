@@ -32,12 +32,14 @@ import fr.pronoschallenge.stat.match.StatMatchPagedViewActivity;
 public class PronosAdapter extends ArrayAdapter<PronoEntry> {
 
     private Context context;
+    private List<PronoEntry> pronos;
 
     public PronosAdapter(Context context, int textViewResourceId,
-                         List<PronoEntry> objects) {
-        super(context, textViewResourceId, objects);
+                         List<PronoEntry> pronos) {
+        super(context, textViewResourceId, pronos);
 
         this.context = context;
+        this.pronos = pronos;
     }
 
     @Override
@@ -185,29 +187,42 @@ public class PronosAdapter extends ArrayAdapter<PronoEntry> {
             // lancement de la tâche de mise à jour de pronos
             new PronosTask(activity, button, othersButtons).execute(valueProno);
             
-            // R�cup�ration de l'objet prono
-            PronoEntry pronoEntry = (PronoEntry) button.getTag(R.id.objetProno);
-
-            // Recherche du nb de points Hourra avant le nouveau prono
-            TextView pronoPageHourra = (TextView) activity.findViewById(R.id.pronoPageHourra); 
-            int nbPointsHourra = (Integer) pronoPageHourra.getTag(R.id.valueHourra);
-            nbPointsHourra -= pronoEntry.getCote();
+            // Mise à jour du nb de points total
+            int nbPointsHourra = 0;
+            boolean calculHourra = false;
+            for(PronoEntry pronoEntry : pronos) {
+            	if(pronoEntry.getId() == ((Integer) button.getTag(R.id.idProno)).intValue()) {
+            		pronoEntry.setProno(valueProno);
+            	}
+            	
+            	if  (pronoEntry.getButsDom() == null && pronoEntry.getButsExt() == null) {
+            		calculHourra = true;
+                	if(pronoEntry.getProno().equals("1")) {
+                		nbPointsHourra += pronoEntry.getCote1();
+                	} else if(pronoEntry.getProno().equals("N")) {
+                		nbPointsHourra += pronoEntry.getCoteN();
+                	} else if(pronoEntry.getProno().equals("2")) {
+                		nbPointsHourra += pronoEntry.getCote2();
+                	}
+            	}
+            }
             
-            // Recherche de la nouvelle cote
-            CoteMatchEntry coteMatchEntry = getCoteMatch((Integer) button.getTag(R.id.idProno), valueProno, activity);
-            
-            // Mise � jour du nb de points total
-            nbPointsHourra += coteMatchEntry.getCote();
-        	pronoPageHourra.setText("Nb pts Hourra = " + String.valueOf(nbPointsHourra));
-        	pronoPageHourra.setTag(R.id.valueHourra, nbPointsHourra);   
-            
-            // mise à jour de la valeur de l'objet PronoEntry pour que les boutons
-            // reprennent un état correct si il disparraissent de l'écran puis réapparraissent
-            pronoEntry.setProno(valueProno);
-            pronoEntry.setCote(coteMatchEntry.getCote());
+            TextView pronoPageHourra = (TextView) activity.findViewById(R.id.pronoPageHourra);        
+            if (calculHourra) {
+            	pronoPageHourra.setText(String.valueOf(nbPointsHourra) + " points Hourra potentiels");
+            	pronoPageHourra.setTag(R.id.valueHourra, nbPointsHourra);
+            	pronoPageHourra.setVisibility(View.VISIBLE);
+            } else {
+            	pronoPageHourra.setVisibility(View.GONE);
+            }
         }
     }
     
+    /**
+     * Tache de mise à jour d'un prono
+     * @author thomas
+     *
+     */
     class PronosTask extends AsyncTask<String, Void, Boolean> {
 
         private Activity activity;

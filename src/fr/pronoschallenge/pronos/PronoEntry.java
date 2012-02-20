@@ -10,7 +10,9 @@ public class PronoEntry {
     private String prono;
     private Integer butsDom;
     private Integer butsExt;
-    private Integer cote;
+    private Integer cote1;
+    private Integer coteN;
+    private Integer cote2;
 
     public int getId() {
         return id;
@@ -68,11 +70,31 @@ public class PronoEntry {
         this.butsExt = butsExt;
     }
 
-	public Integer getCote() {
-		return cote;
+	public Integer getCote1() {
+		return cote1;
 	}
 
-	public void setCote(Integer cote) {
-		this.cote = cote;
+	public void setCote1(Integer cote1) {
+		this.cote1 = cote1;
+	}
+
+	public Integer getCoteN() {
+		return coteN;
+	}
+
+	public void setCoteN(Integer coteN) {
+		this.coteN = coteN;
+	}
+
+	public Integer getCote2() {
+		return cote2;
+	}
+
+	public void setCote2(Integer cote2) {
+		this.cote2 = cote2;
+	}
+
+	public void setButsDom(Integer butsDom) {
+		this.butsDom = butsDom;
 	}
 }

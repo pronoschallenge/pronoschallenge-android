@@ -61,11 +61,17 @@ public class PronosPagesAdapter extends PagedAdapter {
         PronosAdapter adapter = new PronosAdapter(context, R.layout.pronos_item, pronos.get(position));
         pronoPageListView.setAdapter(adapter);
         
-        // Recherche du nombre de points Hourra pour une journée non jouée
+        // Recherche du nombre de points Hourra pour une journÃ©e non jouÃ©e
         for (PronoEntry pronoEntry : pronos.get(position)) {
         	if  (pronoEntry.getButsDom() == null && pronoEntry.getButsExt() == null) {
         		calculHourra = true;
-        		nbPointsHourra += pronoEntry.getCote();
+            	if(pronoEntry.getProno().equals("1")) {
+            		nbPointsHourra += pronoEntry.getCote1();
+            	} else if(pronoEntry.getProno().equals("N")) {
+            		nbPointsHourra += pronoEntry.getCoteN();
+            	} else if(pronoEntry.getProno().equals("2")) {
+            		nbPointsHourra += pronoEntry.getCote2();
+            	}
         	}
         }
         
