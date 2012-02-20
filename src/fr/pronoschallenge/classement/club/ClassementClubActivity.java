@@ -1,6 +1,7 @@
 package fr.pronoschallenge.classement.club;
 
 import fr.pronoschallenge.R;
+import fr.pronoschallenge.club.ClubPagedViewActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
@@ -15,11 +16,15 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,7 +43,19 @@ public class ClassementClubActivity extends GDActivity {
 		// Obtain handles to UI objects
 		classementClubListView = (ListView) findViewById(R.id.classementClubList);
         messageClubTextView = (TextView) findViewById(R.id.classementClubMessage);
-
+        
+        classementClubListView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+			    int position, long id) {
+				ClassementClubEntry classementClubEntry = (ClassementClubEntry) classementClubListView.getItemAtPosition(position);
+					Bundle objetbunble = new Bundle();
+					objetbunble.putString("club", classementClubEntry.getClub());
+					Intent intent = new Intent(ClassementClubActivity.this,	ClubPagedViewActivity.class);
+					intent.putExtras(objetbunble);
+					startActivity(intent);
+			}
+        });
+        
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
             setTitle(getString(R.string.title_classement_club));
         } else {
@@ -57,10 +74,12 @@ public class ClassementClubActivity extends GDActivity {
 		new ClassementClubTask(this).execute("");
 	}
 
-	private List<ClassementClubEntry> getclassementClub() {
+
+    // Classement limité au : 1er / dernier / club en cours / clubs immédiatement au dessus et au dessous
+	public static List<ClassementClubEntry> getclassementClub(String nomClub, Context context) {
 		List<ClassementClubEntry> classementClubEntries = new ArrayList<ClassementClubEntry>();
 
-		String strClassement = RestClient.get(new QueryBuilder(this.getAssets(), "/rest/classementL1/").getUri());
+		String strClassement = RestClient.get(new QueryBuilder(context.getAssets(), "/rest/classementL1/").getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -69,8 +88,8 @@ public class ClassementClubActivity extends GDActivity {
 	        // A Simple JSONObject Parsing
 	        JSONArray classementArray = json.getJSONArray("classementL1");
 	        int intPlace = 0;        
-	        int intPtsPrecedent = 0;
-	        int intDiffPrecedent = 0;
+	        ClassementClubEntry classementClubEntryPrec = new ClassementClubEntry();
+	        boolean bolAfficheNull = false;
 	        for(int i=0;i<classementArray.length();i++)
 	        {
 	        	JSONObject jsonClassementEntry = classementArray.getJSONObject(i);
@@ -82,15 +101,34 @@ public class ClassementClubActivity extends GDActivity {
 	        	classementClubEntry.setMatchJoue(jsonClassementEntry.getInt("joues"));
 	        	classementClubEntry.setUrlLogo(jsonClassementEntry.getString("url_logo"));
 	        	
-	        	if (classementClubEntry.getPoints() != intPtsPrecedent || classementClubEntry.getDiff() != intDiffPrecedent) {
+	        	if (classementClubEntry.getPoints() != classementClubEntryPrec.getPoints() 
+	        			|| classementClubEntry.getDiff() != classementClubEntryPrec.getDiff()) {
 	        		intPlace = i+1;	        		
-	        	} 
+	        	}
 	        	classementClubEntry.setPlace(intPlace);
 	        	
-	        	classementClubEntries.add(classementClubEntry);
-	        	
-	        	intPtsPrecedent = classementClubEntry.getPoints();
-	        	intDiffPrecedent = classementClubEntry.getDiff();
+	        	if (nomClub.compareTo("") == 0) {
+	        		classementClubEntries.add(classementClubEntry);
+	        	}
+	        	else {
+		        	if (i == 0 || i == classementArray.length() - 1 || classementClubEntryPrec.getClub().compareTo(nomClub) == 0) {
+		        		classementClubEntries.add(classementClubEntry);
+		        		bolAfficheNull = true;
+		        	} else if (classementClubEntry.getClub().compareTo(nomClub) == 0) {
+		        		if (i != 1) {
+		        			classementClubEntries.add(classementClubEntryPrec);
+		        		}
+		        		classementClubEntries.add(classementClubEntry);
+		        		bolAfficheNull = true;
+		        	} else if (bolAfficheNull) {
+		        		ClassementClubEntry classementClubEntryNull = new ClassementClubEntry();
+		        		classementClubEntryNull.setClub("...");
+		        		classementClubEntries.add(classementClubEntryNull);
+		        		bolAfficheNull = false;
+		        	}	        		
+	        	}
+	        	classementClubEntryPrec = classementClubEntry;
+
 	        }
 
 		} catch (JSONException e) {
@@ -99,6 +137,7 @@ public class ClassementClubActivity extends GDActivity {
 
 		return classementClubEntries;
 	}
+
 
     private class ClassementClubTask extends AsyncTask<String, Void, Boolean> {
 
@@ -119,7 +158,7 @@ public class ClassementClubActivity extends GDActivity {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            classementClubEntries = activity.getclassementClub();
+            classementClubEntries = ClassementClubActivity.getclassementClub("", activity);
 
             return true;
         }

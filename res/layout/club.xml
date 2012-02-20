@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:orientation="vertical"		    
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		        android:orientation="horizontal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1">
+		<greendroid.widget.AsyncImageView xmlns:android="http://schemas.android.com/apk/res/android"
+					android:id="@+id/clubLogo"
+				    android:layout_height="80px"
+				    android:layout_width="80px"
+				    android:scaleType="fitXY"
+				    android:layout_gravity="center_horizontal"/>
+		<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+					android:id="@+id/clubNom"
+				    android:layout_width="fill_parent"
+				    android:layout_height="80px"
+				    android:textStyle="bold"
+				    android:gravity="center"
+				    android:textSize="30px"/>
+	</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/clubClassementEnteteLayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="10px">
+	    	<TextView
+	            android:text="Pl."
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"	
+	            android:gravity="center_horizontal"	                        
+	            android:layout_weight="1"/>
+	        <TextView
+	            android:text=""
+	            android:layout_width="20px"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"
+	            android:layout_weight="1"/>
+	        <TextView
+	            android:text="Equipe"
+	            android:layout_width="160px"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"	            
+	            android:layout_weight="2"/>
+	        <TextView
+	            android:text="Pts"
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"	            
+	            android:layout_weight="1"/>	        	        
+	        <TextView
+	            android:text=" J."
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"	            
+	            android:layout_weight="1"/>	        	        
+	        <TextView
+	            android:text="+/-"
+	            android:layout_width="40px"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"	            
+	            android:layout_weight="1"/>	        	        
+	</LinearLayout>
+	
+	<ListView android:id="@+id/clubClassementList" 
+		android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/clubEvolutionEnteteLayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="10px">
+	</LinearLayout>
+
+    <LinearLayout
+        		android:id="@+id/clubResultatLayout"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_marginTop="15px">
+	    <TextView
+	        	android:text="Calendrier" 
+				android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+		        android:gravity="left"
+		        android:textStyle="bold"
+		        android:textSize="14px"/>
+	    <ListView android:id="@+id/clubResultatList" 
+				android:layout_width="wrap_content"
+			    android:layout_height="fill_parent"
+			    android:layout_weight="1"/>
+	</LinearLayout>
+    				    
+</LinearLayout>

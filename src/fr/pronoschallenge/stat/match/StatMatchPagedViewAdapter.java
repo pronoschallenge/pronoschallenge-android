@@ -2,6 +2,7 @@ package fr.pronoschallenge.stat.match;
 
 import fr.pronoschallenge.R;
 import fr.pronoschallenge.classement.club.ClassementClubEntry;
+import fr.pronoschallenge.club.ClubPagedViewActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import greendroid.widget.AsyncImageView;
@@ -16,8 +17,10 @@ import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -67,10 +70,10 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
 	
 	
 	// S�rie en cours d'un club
-	private List<StatMatchSerieEntry> getMatchSerie(String nomClub) {
+	private List<StatMatchSerieEntry> getMatchSerie(String nomClub, String nbMatch) {
 		List<StatMatchSerieEntry> statMatchSerieEntries = new ArrayList<StatMatchSerieEntry>();
 
-		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=5").getUri());
+		String strMatchSerie = RestClient.get(new QueryBuilder(statMatchActivity.getAssets(), "/rest/serieClub/" + nomClub + "/?nbMatch=" + nbMatch).getUri());
 
 		try {
 			// A Simple JSONObject Creation
@@ -241,8 +244,8 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
         @Override
         protected Boolean doInBackground(final String... args) {
 
-            statMatchSerieEntriesDom = getMatchSerie(statMatchActivity.getNomClubDomicile());
-            statMatchSerieEntriesExt = getMatchSerie(statMatchActivity.getNomClubExterieur());
+            statMatchSerieEntriesDom = getMatchSerie(statMatchActivity.getNomClubDomicile(), "5");
+            statMatchSerieEntriesExt = getMatchSerie(statMatchActivity.getNomClubExterieur(), "5");
 
             return true;
         }
@@ -632,10 +635,12 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
         	
         	statMatchLogoDomAsyncImageView.setUrl(infoClubEntryDom.getUrlLogo());
         	statMatchEquipeDomTextView.setText(infoClubEntryDom.getClub());
+        	statMatchEquipeDomTextView.setOnClickListener(new clubOnClickListener(infoClubEntryDom));
         	statMatchPlaceDomTextView.setText("(" + String.valueOf(infoClubEntryDom.getPlace()) + ")");
-            
+        	
         	statMatchLogoExtAsyncImageView.setUrl(infoClubEntryExt.getUrlLogo());
         	statMatchEquipeExtTextView.setText(infoClubEntryExt.getClub());
+        	statMatchEquipeExtTextView.setOnClickListener(new clubOnClickListener(infoClubEntryExt));
         	statMatchPlaceExtTextView.setText("(" + String.valueOf(infoClubEntryExt.getPlace()) + ")");       	
 
         	if (currentPage == NUM_PAGE_COTE) {
@@ -651,6 +656,24 @@ public class StatMatchPagedViewAdapter extends PagedAdapter {
         }
     }
 
+	
+	// Clic sur un club
+    class clubOnClickListener implements View.OnClickListener {
+
+    	ClassementClubEntry classementClubEntry;
+
+        clubOnClickListener(ClassementClubEntry classementClubEntry) {
+            this.classementClubEntry = classementClubEntry;
+        }
+
+        public void onClick(View button) {
+			Bundle objetbunble = new Bundle();
+			objetbunble.putString("club", classementClubEntry.getClub());
+			Intent intent = new Intent(statMatchActivity,	ClubPagedViewActivity.class);
+			intent.putExtras(objetbunble);
+			statMatchActivity.startActivity(intent);
+        }
+    }    
 
 	@Override
 	public int getCount() {
