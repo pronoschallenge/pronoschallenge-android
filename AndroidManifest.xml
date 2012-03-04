@@ -20,6 +20,7 @@
         <activity android:name=".stat.match.StatMatchPagedViewActivity"/>
         <activity android:name=".topflop.TopFlopActivity"/>
         <activity android:name=".club.ClubPagedViewActivity"/>
+        <activity android:name=".afreechart.AFreeChartAnnotationActivity"/>
     </application>
 	<uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

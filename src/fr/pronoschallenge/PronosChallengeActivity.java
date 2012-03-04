@@ -150,7 +150,7 @@ public class PronosChallengeActivity extends GDActivity {
                                 startActivity(amisIntent);
                             }
                         }); 
-            }
+            } 
             return menuItemView;
         }
     }
