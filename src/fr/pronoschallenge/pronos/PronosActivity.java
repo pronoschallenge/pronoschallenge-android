@@ -5,6 +5,7 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.PageIndicator;
 import greendroid.widget.PagedView;
 
 import java.text.ParseException;
@@ -44,6 +45,8 @@ public class PronosActivity extends GDActivity {
     private List<List<PronoEntry>> pagedPronoEntries;
 
     private int currentPage = 0;
+    private static final int PAGE_COUNT = 3;
+    private PageIndicator mPageIndicatorOther;
     private boolean nextPronosLoaded = false;
     private boolean previousPronosLoaded = false;
 	
@@ -66,7 +69,11 @@ public class PronosActivity extends GDActivity {
         }
 
 		setActionBarContentView(R.layout.pronos);
-		
+
+        mPageIndicatorOther = (PageIndicator) findViewById(R.id.prono_page_indicator_other);
+        mPageIndicatorOther.setDotCount(PAGE_COUNT);   
+        setActivePage(1);
+
 		// Obtain handles to UI objects
 		pronosListView = (PagedView) findViewById(R.id.pronoList);
         pronosListView.setOnPageChangeListener(mOnPagedViewChangedListener);
@@ -107,9 +114,13 @@ public class PronosActivity extends GDActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
+        
 	}
-
+	
+	private void setActivePage(int page) {
+        mPageIndicatorOther.setActiveDot(page);
+    }
+	
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1) {
             userName = PreferenceManager.getDefaultSharedPreferences(this).getString("username", null);
@@ -146,9 +157,16 @@ public class PronosActivity extends GDActivity {
         }
 
         public void onPageChanged(PagedView pagedView, int previousPage, int newPage) {
+            setActivePage(1);
             if((newPage == 0 && !previousPronosLoaded)
                         || (newPage == PronosActivity.this.pagedPronoEntries.size()-1 && !nextPronosLoaded)) {
                 new PronosTask(PronosActivity.this).execute(userName);
+            } else {
+            	if (newPage == 0) {
+                    setActivePage(0);
+            	} else if (newPage == PronosActivity.this.pagedPronoEntries.size()-1) {
+                    setActivePage(2);
+            	}
             }
         }
     };
