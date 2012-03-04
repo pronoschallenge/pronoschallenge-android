@@ -121,19 +121,19 @@ public class AmisActivity extends GDActivity {
                 case 0:
                 	strVue = VUE_PLACE;
                 	amisPalmaresEntriesNonTriee = null;
-                    getActionBar().getItem(0).setDrawable(R.drawable.coupe);;
+                    getActionBar().getItem(0).setDrawable(R.drawable.classements_32);;
                 	new AmisTask(amisActivity).execute(strProfilPseudo);
                     break;
                 case 1:
                 	strVue = VUE_POINT;
                 	amisPalmaresEntriesNonTriee = null;
-                	getActionBar().getItem(0).setDrawable(R.drawable.classement);
+                	getActionBar().getItem(0).setDrawable(R.drawable.point);
                 	new AmisTask(amisActivity).execute(strProfilPseudo);
                 	break;            	
                 case 2:
                 	strVue = VUE_EVOLUTION;
                 	amisPalmaresEntriesNonTriee = null;
-                	getActionBar().getItem(0).setDrawable(R.drawable.top_flop);
+                	getActionBar().getItem(0).setDrawable(R.drawable.top_flop_32);
                 	new AmisTask(amisActivity).execute(strProfilPseudo);
                 	break;            	
                 }
@@ -142,7 +142,7 @@ public class AmisActivity extends GDActivity {
 
         // Ajout de l'item dans la barre de menu pour afficher la vue des amis (classement, points, top flop)
         ActionBarItem itemVue = getActionBar().newActionBarItem(NormalActionBarItem.class);
-        itemVue.setDrawable(R.drawable.coupe);
+        itemVue.setDrawable(R.drawable.classements_32);
         getActionBar().addItem(itemVue);
         
         // Ajout de l'item dans la barre de menu pour ajouter un ami
