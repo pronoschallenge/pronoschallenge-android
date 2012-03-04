@@ -27,7 +27,7 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
 
 	static int PAGE_COUNT = 2;
 	static int NUM_PAGE_STAT = 0;
-	static int NUM_PAGE_HISTO = 1;	
+	static int NUM_PAGE_HISTO = 1;
 	
 	private ProfilPagedViewActivity profilActivity;
     private int currentPage;
@@ -58,7 +58,7 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
 			new StatistiqueTask(convertView).execute(profilActivity.getProfilPseudo());
 		} else if (currentPage == NUM_PAGE_HISTO) {
 			new PalmaresTask(convertView).execute(profilActivity.getProfilPseudo());
-		}
+		} 
 	}
 
 	// Informations générales du profil
@@ -201,11 +201,12 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
             	// Chargement des donnÃ©es de l'activity
             	TextView pseudoTextView = (TextView) convertView.findViewById(R.id.profilPseudo);
                 pseudoTextView.setText(profilEntry.getPseudo());
+            	ImageView avatarImageView = (ImageView) convertView.findViewById(R.id.profilAvatar);
                 Bitmap bitmapAvatar = AppUtil.downloadImage(profilEntry.getUrl_avatar());
                 if (bitmapAvatar != null) {
-                	ImageView avatarImageView = (ImageView) convertView.findViewById(R.id.profilAvatar);
                 	avatarImageView.setImageBitmap(bitmapAvatar);	
                 }
+                avatarImageView.setVisibility(View.VISIBLE);
                 TextView nomPrenomTextView = (TextView) convertView.findViewById(R.id.profilNomPrenom);
                 nomPrenomTextView.setText((String) (profilEntry.getNom() + " " + profilEntry.getPrenom()).trim());
                 TextView adresseTextView = (TextView) convertView.findViewById(R.id.profilAdresse);

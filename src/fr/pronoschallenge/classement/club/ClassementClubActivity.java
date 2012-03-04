@@ -1,11 +1,17 @@
 package fr.pronoschallenge.classement.club;
 
 import fr.pronoschallenge.R;
+import fr.pronoschallenge.afreechart.AFreeChartAnnotationActivity;
+import fr.pronoschallenge.amis.AmisActivity;
 import fr.pronoschallenge.club.ClubPagedViewActivity;
+import fr.pronoschallenge.options.OptionsActivity;
+import fr.pronoschallenge.profil.ProfilPagedViewActivity;
 import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +79,6 @@ public class ClassementClubActivity extends GDActivity {
 		
 		new ClassementClubTask(this).execute("");
 	}
-
 
     // Classement limité au : 1er / dernier / club en cours / clubs immédiatement au dessus et au dessous
 	public static List<ClassementClubEntry> getclassementClub(String nomClub, Context context) {

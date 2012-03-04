@@ -16,13 +16,20 @@
 package fr.pronoschallenge.club;
 
 import fr.pronoschallenge.R;
+import fr.pronoschallenge.afreechart.AFreeChartAnnotationActivity;
+import fr.pronoschallenge.amis.AmisActivity;
+import fr.pronoschallenge.options.OptionsActivity;
+import fr.pronoschallenge.profil.ProfilPagedViewActivity;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import greendroid.widget.PageIndicator;
 import greendroid.widget.PagedView;
 import greendroid.widget.PagedView.OnPagedViewChangeListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -58,6 +65,11 @@ public class ClubPagedViewActivity extends GDActivity {
             dialog.show();
         }
 
+		// Evolution du classement
+        ActionBarItem itemEvolution = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        itemEvolution.setDrawable(R.drawable.evolution);
+        getActionBar().addItem(itemEvolution);
+		
         final PagedView pagedView = (PagedView) findViewById(R.id.club_paged_view);
         pagedView.setOnPageChangeListener(mOnPagedViewChangedListener);
         pagedView.setAdapter(new ClubPagedViewAdapter(this));
@@ -67,6 +79,24 @@ public class ClubPagedViewActivity extends GDActivity {
         
         setActivePage(pagedView.getCurrentPage());
     }
+
+
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+        switch (position) {
+        // Evolution
+        case 0:
+			Intent evolutionIntent = new Intent(ClubPagedViewActivity.this, AFreeChartAnnotationActivity.class);		
+        	Bundle objetbunble = new Bundle();
+			objetbunble.putString("item", getNomClub());
+			objetbunble.putInt("mode", 1);
+			evolutionIntent.putExtras(objetbunble);			
+			startActivity(evolutionIntent);
+			break;
+        }
+        return true;
+    }	
+    
     
     private void setActivePage(int page) {
         mPageIndicatorOther.setActiveDot(page);

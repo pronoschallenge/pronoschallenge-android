@@ -14,6 +14,7 @@
 	        android:layout_height="100px"
 	        android:layout_width="100px"
 	        android:layout_margin="5px"
+	        android:visibility="gone"
             android:src="@drawable/no_avatar"/>
 
 	    <LinearLayout
@@ -27,7 +28,8 @@
 	            android:textColorHighlight="#656565"
             	android:textStyle="bold"
             	android:textSize="25sp"
-            	android:gravity="center"/>	        
+            	android:gravity="center"
+            	android:layout_marginTop="10px"/>	        
 	        <TextView
 	            android:id="@+id/profilNomPrenom"
 	            android:layout_width="fill_parent"

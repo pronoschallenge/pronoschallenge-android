@@ -1,6 +1,7 @@
 package fr.pronoschallenge.profil;
 
 import fr.pronoschallenge.R;
+import fr.pronoschallenge.afreechart.AFreeChartAnnotationActivity;
 import fr.pronoschallenge.amis.AmisActivity;
 import fr.pronoschallenge.auth.LoginActivity;
 import fr.pronoschallenge.options.OptionsActivity;
@@ -53,6 +54,10 @@ public class ProfilPagedViewActivity extends GDActivity {
         	modeAffichage = MODE_VISU;
         }
 
+        ActionBarItem itemEvolution = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        itemEvolution.setDrawable(R.drawable.evolution);
+        getActionBar().addItem(itemEvolution);
+        
         // En mode gestion, on rend visible la barre d'outil
         if (modeAffichage.compareTo(MODE_GESTION) == 0) {            
 
@@ -95,13 +100,22 @@ public class ProfilPagedViewActivity extends GDActivity {
     @Override
     public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
         switch (position) {
-        // Mes amis
+        // Evolution
         case 0:
+			Intent evolutionIntent = new Intent(ProfilPagedViewActivity.this, AFreeChartAnnotationActivity.class);		
+        	Bundle objetbunble = new Bundle();
+			objetbunble.putString("item", profilPseudo);
+			objetbunble.putInt("mode", 0);
+			evolutionIntent.putExtras(objetbunble);			
+			startActivity(evolutionIntent);
+			break;
+        // Mes amis
+        case 1:
 			Intent amiIntent = new Intent(ProfilPagedViewActivity.this, AmisActivity.class);					
 			startActivity(amiIntent);
 			break;
         // Options
-        case 1:
+        case 2:
 			Intent optionIntent = new Intent(ProfilPagedViewActivity.this, OptionsActivity.class);					
 			startActivity(optionIntent);
 			break;
