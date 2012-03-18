@@ -61,7 +61,7 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
 		} 
 	}
 
-	// Informations générales du profil
+	// Informations gÃ©nÃ©rales du profil
 	private ProfilEntry getProfil(String userName) {
 		ProfilEntry profilEntry = new ProfilEntry();
 
@@ -94,7 +94,7 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
 	}
 
 	
-	// Palmarès (historique)
+	// PalmarÃ¨s (historique)
 	private List<PalmaresEntry> getPalmares(String userName) {
 		List<PalmaresEntry> palmaresEntries = new ArrayList<PalmaresEntry>();
 
@@ -140,7 +140,7 @@ public class ProfilPagedViewAdapter extends PagedAdapter {
 	}
 
 	
-	// Statistique (classement, dernière journée, évolution)
+	// Statistique (classement, derniÃ¨re journÃ©e, Ã©volution)
 	private List<ProfilStatEntry> getStatistique(String userName) {
 		List<ProfilStatEntry> statEntries = new ArrayList<ProfilStatEntry>();
 

@@ -58,7 +58,7 @@ public class TopFlopActivity extends GDActivity {
 	}
 	
 	
-	// Top ou flop pour un championnat (3 users en résultat)
+	// Top ou flop pour un championnat (3 users en rÃ©sultat)
 	private List<TopFlopEntry> getTopFlop(String typeChamp, String typeFlop) {
 		List<TopFlopEntry> topFlopEntries = new ArrayList<TopFlopEntry>();
 
@@ -93,7 +93,7 @@ public class TopFlopActivity extends GDActivity {
 
 	
 	
-	// Derniers matchs effectués par les 2 clubs
+	// Derniers matchs effectuÃ©s par les 2 clubs
     private class TopFlopTask extends AsyncTask<String, Void, Boolean> {
 
         private List<TopFlopEntry> evolutionEntriesTop;
