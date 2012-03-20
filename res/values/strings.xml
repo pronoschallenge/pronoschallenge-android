@@ -39,5 +39,6 @@
     <string name="title_top_flop">Les Top et les Flop</string>
     <string name="title_club">Information club</string>
     <string name="title_evolution">Evolution du classement</string>
+    <string name="title_stat_saison">Stats</string>
             
 </resources>

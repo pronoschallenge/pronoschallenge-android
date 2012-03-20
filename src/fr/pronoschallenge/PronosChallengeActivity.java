@@ -52,7 +52,7 @@ public class PronosChallengeActivity extends GDActivity {
         icons.add(new HomeMenuItem(getString(R.string.button_gazouillis), BitmapFactory.decodeResource(getResources(), R.drawable.gazouillis)));
         icons.add(new HomeMenuItem(getString(R.string.button_mon_profil), BitmapFactory.decodeResource(getResources(), R.drawable.mon_profil)));
         icons.add(new HomeMenuItem(getString(R.string.button_classement_club), BitmapFactory.decodeResource(getResources(), R.drawable.ligue_1)));
-        icons.add(new HomeMenuItem(getString(R.string.button_top_flop), BitmapFactory.decodeResource(getResources(), R.drawable.top_flop)));
+        icons.add(new HomeMenuItem(getString(R.string.button_stat), BitmapFactory.decodeResource(getResources(), R.drawable.stat)));
 		
         classementQuickActionGrid = new QuickActionGrid(this);
         classementQuickActionGrid.addQuickAction(new ClassementQuickAction(this, null, R.string.type_classement_general));
@@ -141,12 +141,13 @@ public class PronosChallengeActivity extends GDActivity {
                                 startActivity(amisIntent);
                             }
                         }); 
-            } else if(homeMenuItem.getName().equals(getString(R.string.button_top_flop))) {
+            } else if(homeMenuItem.getName().equals(getString(R.string.button_stat))) {
                 menuItemView.setOnClickListener(
                         new View.OnClickListener() {
                             public void onClick(View v) {
                                 Intent amisIntent = new Intent();
-                                amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.topflop.TopFlopActivity");
+                                //amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.topflop.TopFlopActivity");
+                                amisIntent.setClassName("fr.pronoschallenge", "fr.pronoschallenge.stat.saison.StatSaisonActivity");
                                 startActivity(amisIntent);
                             }
                         }); 
