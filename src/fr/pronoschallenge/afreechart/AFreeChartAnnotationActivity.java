@@ -107,7 +107,7 @@ public class AFreeChartAnnotationActivity extends GDActivity {
 
 	        	EvolutionClassementEntry evolutionEntry = new EvolutionClassementEntry();
 	        	evolutionEntry.setTypeChamp(jsonPalmaresEntry.getString("type"));
-	        	// Recherche des journées du championnat adéquat
+	        	// Recherche des journÃ©es du championnat adÃ©quat
 	        	while (jsonPalmaresEntry.getString("type").equals(evolutionEntry.getTypeChamp()) && i < evolutionArray.length()) {
 	        		EvolutionClassementDetailEntry evolutionDetail = new EvolutionClassementDetailEntry();
         			evolutionDetail.setNumPlace(Integer.valueOf(jsonPalmaresEntry.getString("place")));
@@ -118,7 +118,7 @@ public class AFreeChartAnnotationActivity extends GDActivity {
                     	jsonPalmaresEntry = evolutionArray.getJSONObject(i);
                     }
 	        	}
-	        	// Repositionnement sur l'entité JSON adéquate
+	        	// Repositionnement sur l'entitÃ© JSON adÃ©quate
 	        	if (i < evolutionArray.length()) {
 	        		i--;
 	        	}

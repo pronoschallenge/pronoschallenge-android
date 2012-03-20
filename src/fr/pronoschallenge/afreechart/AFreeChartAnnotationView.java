@@ -110,7 +110,7 @@ public class AFreeChartAnnotationView extends AFreeChartView {
         
         AFreeChart chart = ChartFactory.createXYLineChart(
         		profilPseudo, 			   // chart title
-                "Journée",                 // domain axis label
+                "JournÃ©e",                 // domain axis label
                 "Place",                   // range axis label
                 dataset,                   // data
                 PlotOrientation.VERTICAL,  // orientation
