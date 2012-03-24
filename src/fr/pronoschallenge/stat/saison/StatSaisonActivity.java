@@ -75,7 +75,7 @@ public class StatSaisonActivity extends GDActivity {
 			String title;
 			title = getString(R.string.title_stat_saison) + " - ";
 			if (typeStat.compareTo(TYPE_DERN_JOUR) == 0) {
-				title += "Dern. Journée";
+				title += "Dern. JournÃ©e";
 			} else {
 				title += "Saison";
 			}				
@@ -98,7 +98,7 @@ public class StatSaisonActivity extends GDActivity {
 	}
 
 	
-	// Afficher la répartition des pronostiques et des résultats
+	// Afficher la rÃ©partition des pronostiques et des rÃ©sultats
 	private void afficheRepartition(StatSaisonEntry statSaisonPronos, StatSaisonEntry statSaisonResultats) {
     	double nbMatchJoue;
     	double nbMatchG, nbMatchN, nbMatchP;
@@ -118,7 +118,7 @@ public class StatSaisonActivity extends GDActivity {
     	int intLargeur = display.getWidth() - 10;        	
     	
     	
-    	// Répartition des résultats
+    	// RÃ©partition des rÃ©sultats
     	nbMatchG = 0;
     	nbMatchN = 0;
     	nbMatchP = 0;
@@ -139,11 +139,11 @@ public class StatSaisonActivity extends GDActivity {
         	statSaisonResultDom.setWidth((int) ((nbMatchG / nbMatchJoue) * intLargeur));
         	statSaisonResultNul.setWidth((int) ((nbMatchN / nbMatchJoue) * intLargeur));
         	statSaisonResultExt.setWidth((int) ((nbMatchP / nbMatchJoue) * intLargeur));
-        	statSaisonRepartTitre.setText("Pronos / Résultats (" + String.valueOf((int) nbMatchJoue) + " m)");
+        	statSaisonRepartTitre.setText("Pronos / RÃ©sultats (" + String.valueOf((int) nbMatchJoue) + " m)");
         }
 
     	
-    	// Répartition des pronostics
+    	// RÃ©partition des pronostics
     	nbMatchG = 0;
     	nbMatchN = 0;
     	nbMatchP = 0;
