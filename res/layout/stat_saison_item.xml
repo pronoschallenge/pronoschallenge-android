@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/statsListeItemLayout2"
+	 android:layout_width="fill_parent"
+	 android:layout_height="fill_parent">
+	
+	    <TextView
+	        android:id="@+id/statSaisonClassement"
+	        android:padding="7dp"
+	        android:textStyle="bold"
+	       	android:layout_width="35px"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:visibility="gone"/>
+	    	    
+	    <TextView
+	        android:id="@+id/statSaisonPseudo"
+		    android:padding="7dp"
+		    android:textSize="12sp"		    
+	       	android:layout_width="80px"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="right"/>
+	
+	    <TextView
+	        android:id="@+id/statSaisonEquipe"
+		    android:padding="7dp"
+		    android:textSize="12sp"		    
+	       	android:layout_width="80px"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:visibility="gone"/>
+	    	    
+	    <TextView
+	        android:id="@+id/statSaisonResultat"
+		    android:padding="7dp"
+	       	android:layout_width="40px"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:visibility="gone"/>
+	
+	    <TextView
+	        android:id="@+id/statSaisonJournee"
+		    android:padding="7dp"
+	       	android:layout_width="40px"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="right"
+	        android:visibility="gone"/>
+	    
+</LinearLayout>

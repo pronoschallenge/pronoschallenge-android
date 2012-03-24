@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+<!-- TOP/FLOP "Evolution"     -->    
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="10px">
+    	<TextView
+            android:text=" "
+            android:layout_height="wrap_content"
+            android:layout_width="40px"/>        
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"	    
+	        android:layout_weight="1"
+	        android:gravity="right">        
+	        <ImageView
+		        android:layout_height="20px"
+		        android:layout_width="20px"	            
+	            android:src="@drawable/fleche_haut"/>
+		</LinearLayout>
+    	<TextView
+            android:text="Evolution"
+            android:layout_height="wrap_content"
+            android:layout_width="60px"
+            android:textStyle="bold"
+            android:textSize="16sp"		
+            android:layout_weight="1"
+            android:gravity="center"/>	    		
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"	    
+	        android:layout_weight="1"
+	        android:gravity="left">	    			        
+	        <ImageView
+		        android:layout_height="20px"
+		        android:layout_width="20px"	            
+	            android:src="@drawable/fleche_bas"/>
+		</LinearLayout>	        	        	        		    		              	    
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">        
+	    <ListView android:id="@+id/statEvolTopList"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="3"/>
+	    <ListView android:id="@+id/statEvolFlopList"
+	        android:layout_marginLeft="5px" 
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="4"/>    	    	
+	</LinearLayout>
+
+<!-- TOP/FLOP "Nombre de point"     -->
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+        android:layout_marginTop="21px">
+    	<TextView
+            android:text=" "
+            android:layout_height="wrap_content"
+            android:layout_width="40px"/>        
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"	    
+	        android:layout_weight="1"
+	        android:gravity="right">        
+	        <ImageView
+		        android:layout_height="20px"
+		        android:layout_width="20px"	            
+	            android:src="@drawable/fleche_haut"/>
+		</LinearLayout>
+    	<TextView
+            android:text="Points"
+            android:layout_height="wrap_content"
+            android:layout_width="60px"
+            android:textStyle="bold"
+            android:textSize="16sp"		
+            android:layout_weight="1"
+            android:gravity="center"/>	    		
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"	    
+	        android:layout_weight="1"
+	        android:gravity="left">	    			        
+	        <ImageView
+		        android:layout_height="20px"
+		        android:layout_width="20px"	            
+	            android:src="@drawable/fleche_bas"/>
+		</LinearLayout>	        	        	        		    		              	    
+	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">        
+	    <ListView android:id="@+id/statPointTopList"
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="3"/>
+	    <ListView android:id="@+id/statPointFlopList"
+	        android:layout_marginLeft="5px" 
+			android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="4"/>    	    	
+	</LinearLayout>
+
+    
+<!-- REPARTITION pronostics/résultats     -->
+    
+    <LinearLayout android:id="@+id/statSaisonRepartLayout"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_marginTop="20px"
+		        android:visibility="gone">	  	
+	    <TextView android:id="@+id/statSaisonRepartTitre"
+				android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+	            android:textStyle="bold"
+	            android:textSize="16sp"			    
+		        android:gravity="center"/>		    	    
+		<LinearLayout 
+		    		  android:layout_width="fill_parent"
+		              android:layout_height="wrap_content"
+		              android:layout_marginTop="5px">		    	    
+				<TextView 	android:id="@+id/statSaisonPronoDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="1"
+					    android:background="@drawable/tendance_vert"
+					    android:textColor="@android:color/black"
+					    android:gravity="center"
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+				<TextView   android:id="@+id/statSaisonPronoNul"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="N"
+					    android:background="@drawable/tendance_orange"
+					    android:textColor="@android:color/black"
+					    android:layout_marginLeft="5px"
+					    android:gravity="center"
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+				<TextView   android:id="@+id/statSaisonPronoExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="2"
+					    android:background="@drawable/tendance_rouge"
+					    android:textColor="@android:color/black"
+					    android:layout_marginLeft="5px"
+					    android:gravity="center"				    
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+		</LinearLayout>
+		<LinearLayout android:layout_width="fill_parent"
+		              android:layout_height="wrap_content"
+		              android:layout_marginTop="5px">		    	    
+				<TextView 	android:id="@+id/statSaisonResultDom"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="1"
+					    android:background="@drawable/tendance_vert"
+					    android:textColor="@android:color/black"
+					    android:gravity="center"
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+				<TextView   android:id="@+id/statSaisonResultNul"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="N"
+					    android:background="@drawable/tendance_orange"
+					    android:textColor="@android:color/black"
+					    android:layout_marginLeft="5px"
+					    android:gravity="center"
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+				<TextView   android:id="@+id/statSaisonResultExt"
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:text="2"
+					    android:background="@drawable/tendance_rouge"
+					    android:textColor="@android:color/black"
+					    android:layout_marginLeft="5px"
+					    android:gravity="center"				    
+					    android:textSize="16px"
+					    android:minWidth="15px"/>
+		</LinearLayout>				
+	</LinearLayout>
+    
+
+<!-- SERIE de pronostics     -->
+   	<TextView
+           android:text="Série"
+           android:layout_height="wrap_content"
+           android:layout_width="fill_parent"
+           android:textStyle="bold"
+           android:textSize="16sp"		
+	       android:layout_marginTop="21px"
+           android:gravity="center"/>	    		
+
+    <ListView android:id="@+id/statSerieList"
+		android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+    
+    
+</LinearLayout>
