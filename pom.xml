@@ -47,6 +47,16 @@
 			<type>jar</type>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+    		<repository>
+      			<id>cloudbees-public-release-repository</id>
+      			<name>Cloudbees Repository</name>
+      			<url>https://repository-tdelhomenie.forge.cloudbees.com/release</url>
+      			<layout>default</layout>
+    		</repository>
+  	</repositories>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -126,6 +136,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.2.1</version>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>downloads-maven-plugin</artifactId>
@@ -144,7 +155,10 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 		</plugins>
 		<sourceDirectory>src</sourceDirectory>
 	</build>
+
+
 </project>
