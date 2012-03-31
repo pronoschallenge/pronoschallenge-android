@@ -22,6 +22,8 @@
 	</properties>
 
 	<scm>
+		<connection>scm:git:git@github.com:pronoschallenge/pronoschallenge-android.git</connection>
+		<url>scm:git:git@github.com:pronoschallenge/pronoschallenge-android.git</url>
 		<developerConnection>scm:git:http://github.com/pronoschallenge/pronoschallenge-android</developerConnection>
 	</scm>
 
@@ -136,7 +138,6 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.2.1</version>
 			</plugin>
-			<!--
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>downloads-maven-plugin</artifactId>
@@ -144,7 +145,7 @@
 				<configuration>
 					<description>${project.name} ${project.version}</description>
 					<override>true</override>
-					<includeAttached>true</includeAttached>
+					<includeAttached>false</includeAttached>
 				</configuration>
 				<executions>
 					<execution>
@@ -155,7 +156,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
 		</plugins>
 		<sourceDirectory>src</sourceDirectory>
 	</build>
