@@ -282,7 +282,11 @@ public class AmisActivity extends GDActivity {
 
         public void onClick(View button) {
             // Actualisation du tri de la liste des amis
-        	bolTriAscendant = !bolTriAscendant;
+        	if(activity.strTri.equals(strTri)) {
+        		bolTriAscendant = !bolTriAscendant;
+        	} else {
+        		bolTriAscendant = false;
+        	}
         	activity.strTri = strTri;
             new AmisTask(activity).execute(activity.strProfilPseudo);
         }
