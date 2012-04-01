@@ -33,9 +33,11 @@
 					    android:gravity="center_horizontal"
 					    android:textSize="16px"/>
 		</LinearLayout>
-	    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-				    android:layout_width="100px"
-				    android:layout_height="wrap_content"/>    		        
+		<ImageView 		android:layout_width="48px"
+					    android:layout_height="48px"
+					    android:gravity="center_horizontal"
+					    android:src="@drawable/versus"
+					    android:layout_marginTop="50px"/>
     	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			      android:orientation="vertical"
 			      android:layout_width="wrap_content"
