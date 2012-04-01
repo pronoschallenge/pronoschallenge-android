@@ -6,6 +6,8 @@ import fr.pronoschallenge.rest.QueryBuilder;
 import fr.pronoschallenge.rest.RestClient;
 import fr.pronoschallenge.util.NetworkUtil;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,10 @@ public class StatSaisonActivity extends GDActivity {
 	
 	public static final String TYPE_HISTO = "0";
 	public static final String TYPE_DERN_JOUR = "1";
+	
+	final int TYPE_EVOL = 0;
+	final int TYPE_POINT = 1;
+	final int TYPE_SERIE = 2;	
 	
 	private ListView statEvolTopListView;
 	private ListView statEvolFlopListView;
@@ -66,21 +72,13 @@ public class StatSaisonActivity extends GDActivity {
         statPointFlopListView = (ListView) findViewById(R.id.statPointFlopList);
         statSerieListView = (ListView) findViewById(R.id.statSerieList);
 
-	}
-	
-	
-	@Override
-	protected void onStart() {
+        // Ajout de l'item dans la barre de menu pour changer de stat
+        ActionBarItem item = getActionBar().newActionBarItem(NormalActionBarItem.class);
+        item.setDrawable(R.drawable.gd_action_bar_list);
+        getActionBar().addItem(item);
+
 		if(NetworkUtil.isConnected(this.getApplicationContext())) {
-			String title;
-			title = getString(R.string.title_stat_saison) + " - ";
-			if (typeStat.compareTo(TYPE_DERN_JOUR) == 0) {
-				title += "Dern. Journ√©e";
-			} else {
-				title += "Saison";
-			}				
-			setTitle(title);
-            new StatTask(this).execute(typeStat);
+			afficherPage();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Connexion Internet indisponible")
@@ -92,12 +90,46 @@ public class StatSaisonActivity extends GDActivity {
                                    });
             dialog = builder.create();
             dialog.show();
-        }
-
+        }        
+        
+	}
+	
+	
+	@Override
+	protected void onStart() {
 		super.onStart();
 	}
 
+	private void afficherPage() {
+		String title;
+		title = getString(R.string.title_stat_saison) + " - ";
+		if (typeStat.compareTo(TYPE_DERN_JOUR) == 0) {
+			title += "Dern. JournÈe";
+		} else {
+			title += "Saison";
+		}				
+		setTitle(title);
+        new StatTask(this).execute(typeStat);		
+	}
 	
+
+    @Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+        switch (position) {
+            case 0:
+            	if (typeStat.compareTo(TYPE_DERN_JOUR) == 0) {
+            		typeStat = TYPE_HISTO;
+            	} else {
+            		typeStat = TYPE_DERN_JOUR;
+            	}
+    			afficherPage();
+            	break;            	
+        }
+
+        return true;
+    }
+
+    
 	// Afficher la r√©partition des pronostiques et des r√©sultats
 	private void afficheRepartition(StatSaisonEntry statSaisonPronos, StatSaisonEntry statSaisonResultats) {
     	double nbMatchJoue;
@@ -118,7 +150,7 @@ public class StatSaisonActivity extends GDActivity {
     	int intLargeur = display.getWidth() - 10;        	
     	
     	
-    	// R√©partition des r√©sultats
+    	// RÈpartition des rÈsultats
     	nbMatchG = 0;
     	nbMatchN = 0;
     	nbMatchP = 0;
@@ -139,7 +171,7 @@ public class StatSaisonActivity extends GDActivity {
         	statSaisonResultDom.setWidth((int) ((nbMatchG / nbMatchJoue) * intLargeur));
         	statSaisonResultNul.setWidth((int) ((nbMatchN / nbMatchJoue) * intLargeur));
         	statSaisonResultExt.setWidth((int) ((nbMatchP / nbMatchJoue) * intLargeur));
-        	statSaisonRepartTitre.setText("Pronos / R√©sultats (" + String.valueOf((int) nbMatchJoue) + " m)");
+        	statSaisonRepartTitre.setText("Pronos / RÈsultats (" + String.valueOf((int) nbMatchJoue) + " m)");
         }
 
     	
@@ -208,7 +240,7 @@ public class StatSaisonActivity extends GDActivity {
                     	jsonStatEntry = statArray.getJSONObject(i);
                     }
 	        	}
-	        	// Repositionnement sur l'entit√© JSON ad√©quate
+	        	// Repositionnement sur l'entitÈ JSON adÈquate
 	        	if (i < statArray.length()) {
 	        		i--;
 	        	}
@@ -265,19 +297,19 @@ public class StatSaisonActivity extends GDActivity {
         protected void onPostExecute(final Boolean success) {
         	// Message liste vide
             if (! statEvolTop.getStatDetail().isEmpty()) {
-	            StatSaisonAdapter adapterEvolTop = new StatSaisonAdapter(activity,	R.layout.stat_saison_item, statEvolTop.getStatDetail(), true, false, false);
+	            StatSaisonAdapter adapterEvolTop = new StatSaisonAdapter(activity,	R.layout.stat_saison_item, statEvolTop.getStatDetail(), true, false, TYPE_EVOL);
 	            statEvolTopListView.setAdapter(adapterEvolTop);
 	            adapterEvolTop.notifyDataSetChanged();	            
-	            StatSaisonAdapter adapterEvolFlop = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statEvolFlop.getStatDetail(), false, false, false);
+	            StatSaisonAdapter adapterEvolFlop = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statEvolFlop.getStatDetail(), false, false, TYPE_EVOL);
 	            statEvolFlopListView.setAdapter(adapterEvolFlop);
 	            adapterEvolFlop.notifyDataSetChanged();	            
-	            StatSaisonAdapter adapterPointTop = new StatSaisonAdapter(activity,	R.layout.stat_saison_item, statPointTop.getStatDetail(), true, false, false);
+	            StatSaisonAdapter adapterPointTop = new StatSaisonAdapter(activity,	R.layout.stat_saison_item, statPointTop.getStatDetail(), true, false, TYPE_POINT);
 	            statPointTopListView.setAdapter(adapterPointTop);
 	            adapterPointTop.notifyDataSetChanged();	            
-	            StatSaisonAdapter adapterPointFlop = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statPointFlop.getStatDetail(), false, false, false);
+	            StatSaisonAdapter adapterPointFlop = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statPointFlop.getStatDetail(), false, false, TYPE_POINT);
 	            statPointFlopListView.setAdapter(adapterPointFlop);
 	            adapterPointFlop.notifyDataSetChanged();	            
-	            StatSaisonAdapter adapterSerie = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statSerie.getStatDetail(), false, false, true);
+	            StatSaisonAdapter adapterSerie = new StatSaisonAdapter(activity, R.layout.stat_saison_item, statSerie.getStatDetail(), false, false, TYPE_SERIE);
 	            statSerieListView.setAdapter(adapterSerie);
 	            adapterSerie.notifyDataSetChanged();
 	            afficheRepartition(statRepartPronos, statRepartResultats);
