@@ -2,6 +2,7 @@ package fr.pronoschallenge.classement;
 
 public class ClassementEntry {
 	private int place;
+	private int placePrec;
 	private String pseudo;
 	private double points;
 	public int getPlace() {
@@ -21,5 +22,11 @@ public class ClassementEntry {
 	}
 	public void setPoints(double points) {
 		this.points = points;
+	}
+	public int getPlacePrec() {
+		return placePrec;
+	}
+	public void setPlacePrec(int placePrec) {
+		this.placePrec = placePrec;
 	}
 }

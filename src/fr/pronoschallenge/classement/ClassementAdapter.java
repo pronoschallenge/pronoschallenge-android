@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import fr.pronoschallenge.R;
@@ -41,6 +42,23 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
         if (classementEntry != null) {
             TextView classementEntryPseudo = (TextView)view.findViewById(R.id.classementEntryPseudo);  
             classementEntryPseudo.setText(classementEntry.getPseudo());
+            
+            ImageView classementEntryEtoile = (ImageView)view.findViewById(R.id.classementEntryEtoile);
+            classementEntryEtoile.setVisibility(View.VISIBLE);
+            switch (classementEntry.getPlacePrec()) {
+			case 1:
+				classementEntryEtoile.setImageResource(R.drawable.etoile_1);
+				break;
+			case 2:
+				classementEntryEtoile.setImageResource(R.drawable.etoile_2);
+				break;
+			case 3:
+				classementEntryEtoile.setImageResource(R.drawable.etoile_3);
+				break;
+			default:
+				classementEntryEtoile.setVisibility(View.GONE);
+				break;
+			}
 
             int place = classementEntry.getPlace();
             String placeAffichee = "";

@@ -163,6 +163,7 @@ public class ClassementActivity extends GDActivity {
 
 	        	ClassementEntry classementEntry = new ClassementEntry();
 	        	classementEntry.setPlace(jsonClassementEntry.getInt("place"));
+	        	classementEntry.setPlacePrec(jsonClassementEntry.getInt("placePrec"));
 	        	classementEntry.setPseudo(jsonClassementEntry.getString("pseudo"));
 	        	classementEntry.setPoints(jsonClassementEntry.getDouble("points"));
 	        	classementEntries.add(classementEntry);
