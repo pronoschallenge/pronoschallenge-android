@@ -16,8 +16,6 @@ import fr.pronoschallenge.R;
 
 public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
 
-    public int pointsPrecedents;
-    public double pointsMixtePrecedents;
     String mUser;
 
 	public ClassementAdapter(Context context, int textViewResourceId,
@@ -25,8 +23,6 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
 		super(context, textViewResourceId, objects);
 
 		this.mUser = mUser;
-        pointsPrecedents = 0;
-        pointsMixtePrecedents = 0;
 	}
 
 	@Override
@@ -60,17 +56,9 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
 				break;
 			}
 
-            int place = classementEntry.getPlace();
-            String placeAffichee = "";
-
             TextView classementEntryPoints = (TextView)view.findViewById(R.id.classementEntryPoints);  
             String pointsAffiches;
-
             double points = classementEntry.getPoints();
-            if(points != pointsMixtePrecedents) {
-                placeAffichee = String.valueOf(place);
-                pointsMixtePrecedents = points;
-            }
 
             if(((ClassementActivity)this.getContext()).getClassementType().equals("mixte")) {
                 pointsAffiches = String.valueOf(new DecimalFormat("0.00").format(points));
@@ -80,7 +68,11 @@ public class ClassementAdapter extends ArrayAdapter<ClassementEntry> {
             classementEntryPoints.setText(pointsAffiches);
 
             TextView classementEntryPlace = (TextView)view.findViewById(R.id.classementEntryPlace);
-            classementEntryPlace.setText(placeAffichee);
+            if (classementEntry.isExAequo()) {
+            	classementEntryPlace.setText("");	
+            } else {
+            	classementEntryPlace.setText(String.valueOf(classementEntry.getPlace()));
+            }
             
             RelativeLayout classementLayout = (RelativeLayout)view.findViewById(R.id.classementRelativeLayout);
             if (classementEntry.getPseudo().toUpperCase().compareTo(mUser.toUpperCase()) == 0) {            	

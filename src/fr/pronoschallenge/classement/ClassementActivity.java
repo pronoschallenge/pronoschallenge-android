@@ -156,17 +156,20 @@ public class ClassementActivity extends GDActivity {
 	        JSONObject json = new JSONObject(strClassement);
 
 	        // A Simple JSONObject Parsing
+	        int placePrecedente = 0;
 	        JSONArray classementArray = json.getJSONArray("classement");
 	        for(int i=0;i<classementArray.length();i++)
 	        {
 	        	JSONObject jsonClassementEntry = classementArray.getJSONObject(i);
 
-	        	ClassementEntry classementEntry = new ClassementEntry();
+	        	ClassementEntry classementEntry = new ClassementEntry();	        	
 	        	classementEntry.setPlace(jsonClassementEntry.getInt("place"));
 	        	classementEntry.setPlacePrec(jsonClassementEntry.getInt("placePrec"));
 	        	classementEntry.setPseudo(jsonClassementEntry.getString("pseudo"));
 	        	classementEntry.setPoints(jsonClassementEntry.getDouble("points"));
+	        	classementEntry.setExAequo(classementEntry.getPlace() == placePrecedente);
 	        	classementEntries.add(classementEntry);
+	        	placePrecedente = classementEntry.getPlace();
 	        }
 
 		} catch (JSONException e) {

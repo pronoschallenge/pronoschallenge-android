@@ -5,6 +5,7 @@ public class ClassementEntry {
 	private int placePrec;
 	private String pseudo;
 	private double points;
+	private boolean exAequo;
 	public int getPlace() {
 		return place;
 	}
@@ -28,5 +29,11 @@ public class ClassementEntry {
 	}
 	public void setPlacePrec(int placePrec) {
 		this.placePrec = placePrec;
+	}
+	public boolean isExAequo() {
+		return exAequo;
+	}
+	public void setExAequo(boolean exAequo) {
+		this.exAequo = exAequo;
 	}
 }
